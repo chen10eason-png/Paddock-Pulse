@@ -1,4 +1,4 @@
-const CACHE_NAME = 'paddock-pulse-v1-1-0';
+const CACHE_NAME = 'paddock-pulse-v1-2-0';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon.svg'];
 
 self.addEventListener('install', event => {

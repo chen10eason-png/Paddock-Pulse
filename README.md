@@ -1,12 +1,13 @@
-# Paddock Pulse V1.1.0
+# Paddock Pulse V1.2.0
 
 獨立非官方 F1 資訊 PWA，適合 iPhone / iPad 及 GitHub Pages。
 
 ## 這版更新
-- 新增「車隊收藏 / 最喜歡的車隊」
-- 重新設計「My favorites」頁面，改成更清楚的摘要 + 分區管理
+- 重新設計「My favorites」頁面，改成更高級的收藏展示風格
+- 車手與車隊收藏改成大卡片式 showcase，不再只是名字加分數清單
+- 保留車隊收藏功能，並持續支援車手 / 車隊收藏管理
 - 補強車手姓名與車隊名稱讀取邏輯，避免只出現分數不出現名字
-- 新增 manifest、service worker 與 icon.svg，PWA 結構更完整
+- 保留 manifest、service worker 與 icon.svg，PWA 結構更完整
 
 ## 功能
 - 深色賽事首頁、下一站倒數（依裝置當地時間）

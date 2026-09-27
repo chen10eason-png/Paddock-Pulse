@@ -96,13 +96,52 @@
     .summary-card .label{font-size:11px;color:#95a0b2;letter-spacing:1px;font-weight:800;text-transform:uppercase}
     .summary-card .value{display:block;font-size:30px;font-weight:950;letter-spacing:-1px;margin-top:9px}
     .summary-card .hint{display:block;font-size:11px;color:#8f99aa;margin-top:4px;line-height:1.4}
+    .favorite-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1d2430 0%,#141923 45%,#271923 100%);border:1px solid #2c3442;border-radius:24px;padding:20px;margin:20px 0 16px}
+    .favorite-hero:before{content:'';position:absolute;right:-55px;top:-55px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at center,rgba(255,93,102,.22),rgba(255,93,102,0));pointer-events:none}
+    .favorite-hero:after{content:'♥';position:absolute;right:20px;bottom:6px;font-size:96px;font-weight:900;color:#ffffff08;pointer-events:none}
+    .favorite-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;z-index:1}
+    .favorite-hero-top h3{margin:10px 0 6px;font-size:26px;letter-spacing:-1px}
+    .favorite-hero-top p{margin:0;color:#a7b0bf;font-size:13px;line-height:1.6;max-width:420px}
+    .hero-pill{display:inline-flex;align-items:center;gap:6px;background:#ff4c531e;color:#ffc5c9;border:1px solid #f54b583f;padding:7px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+    .hero-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;position:relative;z-index:1}
+    .hero-kpi{background:#ffffff08;border:1px solid #ffffff14;border-radius:18px;padding:14px}
+    .hero-kpi strong{display:block;font-size:26px;letter-spacing:-1px}
+    .hero-kpi span{display:block;font-size:11px;color:#a4afc0;margin-top:5px}
+    .favorite-spotlight{margin-top:18px;position:relative;z-index:1;background:#0f131a9e;border:1px solid #252c39;border-radius:20px;padding:16px}
+    .favorite-spotlight .label{display:block;font-size:10px;color:#ffafb5;letter-spacing:1.2px;font-weight:900;text-transform:uppercase}
+    .favorite-spotlight h4{margin:8px 0 3px;font-size:20px;letter-spacing:-.5px}
+    .favorite-spotlight p{margin:0;color:#96a3b6;font-size:12px;line-height:1.6}
+    .favorite-spotlight .spot-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
     .favorite-shell{background:linear-gradient(180deg,#171c26,#12161f);border:1px solid #262d39;border-radius:22px;padding:18px}
     .favorite-shell + .favorite-shell{margin-top:14px}
-    .favorite-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+    .favorite-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
     .favorite-head h3{margin:0;font-size:17px;letter-spacing:-.3px}
     .favorite-head p{margin:5px 0 0;color:#95a0b2;font-size:12px;line-height:1.5}
     .tag-mini{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);color:#ffb7bc;border:1px solid #f54b583f;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.7px;white-space:nowrap}
-    .favorite-empty{padding:24px 10px 8px;color:#aab2c2;text-align:center;font-size:13px;line-height:1.7}
+    .favorite-empty{padding:26px 10px 8px;color:#aab2c2;text-align:center;font-size:13px;line-height:1.7}
+    .favorite-empty-stage{background:linear-gradient(180deg,#151a22,#11151d);border:1px dashed #303847;border-radius:18px;padding:18px;margin-top:4px}
+    .ghost-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .ghost-card{height:124px;border-radius:18px;background:linear-gradient(180deg,#1b212d,#141922);border:1px solid #272f3b;position:relative;overflow:hidden}
+    .ghost-card:before{content:'';position:absolute;left:14px;top:14px;width:46px;height:10px;border-radius:99px;background:#ffffff12}
+    .ghost-card:after{content:'';position:absolute;left:14px;bottom:20px;width:60%;height:12px;border-radius:99px;background:#ffffff0d}
+    .favorite-grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .favorite-card{position:relative;overflow:hidden;border-radius:22px;border:1px solid #283140;background:linear-gradient(180deg,#1a202a,#121822);padding:18px}
+    .favorite-card:before{content:'';position:absolute;inset:0 0 auto 0;height:4px;background:var(--card-accent,#ff5a60)}
+    .favorite-card:after{content:'';position:absolute;right:-28px;top:-36px;width:122px;height:122px;border-radius:50%;background:radial-gradient(circle at center,var(--card-glow,rgba(255,90,96,.18)),rgba(255,90,96,0));pointer-events:none}
+    .favorite-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;z-index:1}
+    .favorite-card-rank{display:flex;flex-direction:column;gap:7px}
+    .rank-pill{display:inline-flex;align-items:center;justify-content:center;background:#0f131a;border:1px solid #2f3744;color:#f6f7f9;font-size:11px;font-weight:900;border-radius:999px;padding:7px 10px;min-width:60px}
+    .fav-type{display:inline-flex;align-items:center;gap:6px;background:#ffffff0a;border:1px solid #ffffff12;color:#b6bfcd;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border-radius:999px;padding:6px 10px}
+    .favorite-card h4{margin:14px 0 4px;font-size:22px;letter-spacing:-.8px;line-height:1.1;position:relative;z-index:1}
+    .favorite-subtitle{color:#a9b2c0;font-size:13px;line-height:1.55;position:relative;z-index:1}
+    .favorite-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+    .mini-chip{display:inline-flex;align-items:center;gap:6px;background:#ffffff0a;border:1px solid #ffffff14;border-radius:999px;padding:7px 10px;font-size:11px;color:#dfe4ea}
+    .favorite-card-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:18px;position:relative;z-index:1}
+    .points-block{display:flex;flex-direction:column;gap:4px}
+    .points-block span{font-size:10px;color:#9aa5b7;letter-spacing:1px;text-transform:uppercase}
+    .points-block strong{font-size:28px;font-weight:950;letter-spacing:-1px}
+    .card-actions{display:flex;gap:8px;align-items:center}
+    .card-remove{background:#241820;border:1px solid #5f3643;color:#ffc1c6;border-radius:12px;padding:10px 12px;font-weight:800}
     .favorite-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
     .soft-btn{background:#1d2430;border:1px solid #313849;color:#e4e9ef;border-radius:12px;padding:10px 13px;font-weight:750}
     .danger-btn{background:#341c23;border:1px solid #65333f;color:#ffc6ca;border-radius:12px;padding:10px 13px;font-weight:750}
@@ -116,9 +155,11 @@
       .hero{min-height:310px}
       .hero h2{font-size:42px}
       .two-col{grid-template-columns:1fr 1fr}
+      .favorite-grid{grid-template-columns:1fr 1fr}
+      .favorite-hero-top{align-items:center}
     }
     @media(max-width:560px){
-      .summary-grid{grid-template-columns:1fr}
+      .summary-grid,.hero-kpis,.ghost-cards{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -199,13 +240,9 @@
     <section id="favorites" class="view hidden">
       <div class="eyebrow">MY PADDOCK</div>
       <h1 class="page-title">My favorites<span style="color:#ff535b">.</span></h1>
-      <p class="muted">現在可同時收藏喜愛車手與車隊，並用更清楚的方式管理。</p>
+      <p class="muted">不是把排名再秀一次，而是把你的最愛做成更有質感的收藏專區。</p>
 
-      <div class="summary-grid" id="favoriteSummary">
-        <div class="summary-card"><span class="label">Favorite drivers</span><strong class="value">0</strong><span class="hint">收藏的車手數量</span></div>
-        <div class="summary-card"><span class="label">Favorite teams</span><strong class="value">0</strong><span class="hint">收藏的車隊數量</span></div>
-        <div class="summary-card"><span class="label">Total favorites</span><strong class="value">0</strong><span class="hint">你的專屬 Paddock 清單</span></div>
-      </div>
+      <div id="favoriteHero"></div>
 
       <div class="chipbar" id="favoriteTabs">
         <button class="chip active" data-favtab="all">全部</button>
@@ -231,7 +268,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.1.0 · 獨立製作的非官方 F1 觀賽 PWA。此版新增車隊收藏、重新設計「我的收藏」畫面、補強車手與車隊名稱顯示、支援加入 iPhone/iPad 主畫面與基礎離線快取。此版尚未提供真正的即時賽道計時、iOS 原生 Widget、鎖定畫面 Live Activities 或背景推播。</div>
+      <div class="panel info">Paddock Pulse V1.2.0 · 獨立製作的非官方 F1 觀賽 PWA。此版將「My favorites」改成更高級的收藏展示畫面，加入車手 / 車隊 Spotlight 卡片與更強的視覺層次，並保留車隊收藏功能、名稱顯示修正、iPhone/iPad 主畫面安裝與基礎離線快取。此版尚未提供真正的即時賽道計時、iOS 原生 Widget、鎖定畫面 Live Activities 或背景推播。</div>
     </section>
   </main>
 
@@ -245,7 +282,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.1.0';
+    const APP_VERSION = '1.2.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -369,11 +406,42 @@
         + '</div>';
     }
 
-    function favoriteRows(items, type) {
-      if (!items.length) {
-        return '<div class="favorite-empty">尚未收藏' + (type === 'drivers' ? '車手' : '車隊') + '。<br>到積分榜點一下 ♡ 或 ♥ 即可加入這裡。</div>';
-      }
-      return items.map((item, index) => rankingRow(item, index, type, true)).join('');
+    function positionOf(item) { return item?.position || item?.Position || '—'; }
+    function pointsOf(item) { return item?.points ?? item?.Points ?? '0'; }
+
+    function miniChip(label, value) {
+      return '<span class="mini-chip"><strong style="font-size:10px;opacity:.72;font-weight:800">' + safe(label) + '</strong> ' + safe(value) + '</span>';
+    }
+
+    function favoriteCard(item, type) {
+      const isDriver = type === 'drivers';
+      const id = isDriver ? driverIdOf(item) : constructorIdOf(item);
+      const name = isDriver ? driverNameOf(item) : constructorNameOf(item);
+      const team = isDriver ? driverTeamOf(item) : constructorNationOf(item);
+      const accentKey = isDriver ? driverTeamOf(item) : name;
+      const accent = teamColor(accentKey);
+      const glow = accent + '55';
+      const meta = isDriver
+        ? [miniChip('TEAM', team || '—'), miniChip('NAT', driverNationalityOf(item) || '—')]
+        : [miniChip('COUNTRY', constructorNationOf(item) || '—'), miniChip('STANDING', '#' + positionOf(item))];
+      return '<article class="favorite-card" style="--card-accent:' + safe(accent) + ';--card-glow:' + safe(glow) + '">'
+        + '<div class="favorite-card-top">'
+        + '<div class="favorite-card-rank"><span class="rank-pill">P' + safe(positionOf(item)) + '</span><span class="fav-type">' + (isDriver ? 'Driver pick' : 'Team pick') + '</span></div>'
+        + '<div class="card-actions">' + favoriteButton(isDriver ? 'driver' : 'team', id, name) + '</div>'
+        + '</div>'
+        + '<h4>' + safe(name) + '</h4>'
+        + '<div class="favorite-subtitle">' + safe(isDriver ? (team || 'No team info') : ('Constructor · ' + (team || 'No country info'))) + '</div>'
+        + '<div class="favorite-meta">' + meta.join('') + '</div>'
+        + '<div class="favorite-card-footer">'
+        + '<div class="points-block"><span>Total points</span><strong>' + safe(pointsOf(item)) + '</strong></div>'
+        + '<button class="card-remove" data-favtype="' + (isDriver ? 'driver' : 'team') + '" data-favid="' + safe(id) + '">Remove</button>'
+        + '</div>'
+        + '</article>';
+    }
+
+    function emptyFavoriteStage(type) {
+      const label = type === 'drivers' ? '車手' : '車隊';
+      return '<div class="favorite-empty-stage"><div class="favorite-empty">你還沒有收藏' + label + '。<br>到積分榜點一下 ♡ 或 ♥，這裡就會變成你的專屬 showcase。</div><div class="ghost-cards"><div class="ghost-card"></div><div class="ghost-card"></div></div></div>';
     }
 
     function renderHero() {
@@ -418,44 +486,55 @@
       return state.favoriteTeams.map(id => state.constructors.find(item => constructorIdOf(item) === id)).filter(Boolean);
     }
 
-    function renderFavoriteSummary(driverItems, teamItems) {
+    function renderFavoriteHero(driverItems, teamItems) {
       const total = driverItems.length + teamItems.length;
-      $('favoriteSummary').innerHTML = [
-        ['Favorite drivers', driverItems.length, '收藏的車手數量'],
-        ['Favorite teams', teamItems.length, '收藏的車隊數量'],
-        ['Total favorites', total, total ? '你的專屬 Paddock 清單' : '先收藏一些最愛吧']
-      ].map(([label, value, hint]) => {
-        return '<div class="summary-card"><span class="label">' + safe(label) + '</span><strong class="value">' + safe(value) + '</strong><span class="hint">' + safe(hint) + '</span></div>';
-      }).join('');
+      const spotlightDriver = driverItems[0];
+      const spotlightTeam = teamItems[0];
+      let spotlight = '';
+      if (spotlightDriver) {
+        spotlight = '<div class="favorite-spotlight"><span class="label">Driver spotlight</span><h4>' + safe(driverNameOf(spotlightDriver)) + '</h4><p>' + safe((driverTeamOf(spotlightDriver) || 'Favorite driver') + ' · currently P' + positionOf(spotlightDriver) + ' with ' + pointsOf(spotlightDriver) + ' points.') + '</p><div class="spot-meta">' + miniChip('TEAM', driverTeamOf(spotlightDriver) || '—') + miniChip('POINTS', pointsOf(spotlightDriver)) + '</div></div>';
+      } else if (spotlightTeam) {
+        spotlight = '<div class="favorite-spotlight"><span class="label">Team spotlight</span><h4>' + safe(constructorNameOf(spotlightTeam)) + '</h4><p>' + safe('Constructor favorite · currently P' + positionOf(spotlightTeam) + ' with ' + pointsOf(spotlightTeam) + ' points.') + '</p><div class="spot-meta">' + miniChip('COUNTRY', constructorNationOf(spotlightTeam) || '—') + miniChip('POINTS', pointsOf(spotlightTeam)) + '</div></div>';
+      } else {
+        spotlight = '<div class="favorite-spotlight"><span class="label">Build your garage</span><h4>Start curating your own grid.</h4><p>收藏車手或車隊後，這裡會變成更像 App 首頁 showcase 的區塊，而不是只有一串清單。</p></div>';
+      }
+
+      $('favoriteHero').innerHTML = '<section class="favorite-hero">'
+        + '<div class="favorite-hero-top"><div><span class="hero-pill">Premium favorites view</span><h3>Your personal paddock.</h3><p>把最愛的車手與車隊集中成一個更有層次、更像真正 F1 App 的收藏頁。</p></div></div>'
+        + '<div class="hero-kpis">'
+        + '<div class="hero-kpi"><strong>' + safe(driverItems.length) + '</strong><span>Favorite drivers</span></div>'
+        + '<div class="hero-kpi"><strong>' + safe(teamItems.length) + '</strong><span>Favorite teams</span></div>'
+        + '<div class="hero-kpi"><strong>' + safe(total) + '</strong><span>Total picks</span></div>'
+        + '</div>'
+        + spotlight
+        + '</section>';
     }
 
     function renderFavoriteHub() {
       const driverItems = getFavoriteDriverItems();
       const teamItems = getFavoriteTeamItems();
-      renderFavoriteSummary(driverItems, teamItems);
+      renderFavoriteHero(driverItems, teamItems);
 
       let html = '';
       if (state.favoriteTab === 'all' || state.favoriteTab === 'drivers') {
         html += '<section class="favorite-shell">'
-          + '<div class="favorite-head"><div><h3>Favorite drivers</h3><p>快速查看你支持的車手與目前積分。</p></div><span class="tag-mini">DRIVERS · ' + safe(driverItems.length) + '</span></div>'
-          + favoriteRows(driverItems, 'drivers')
+          + '<div class="favorite-head"><div><h3>Driver collection</h3><p>比一般排名清單更精緻的車手收藏卡片。</p></div><span class="tag-mini">DRIVERS · ' + safe(driverItems.length) + '</span></div>'
+          + (driverItems.length ? '<div class="favorite-grid">' + driverItems.map(item => favoriteCard(item, 'drivers')).join('') + '</div>' : emptyFavoriteStage('drivers'))
           + '</section>';
       }
       if (state.favoriteTab === 'all' || state.favoriteTab === 'teams') {
         html += '<section class="favorite-shell">'
-          + '<div class="favorite-head"><div><h3>Favorite teams</h3><p>收藏最喜歡的車隊，集中追蹤排名與積分。</p></div><span class="tag-mini">TEAMS · ' + safe(teamItems.length) + '</span></div>'
-          + favoriteRows(teamItems, 'constructors')
+          + '<div class="favorite-head"><div><h3>Team garage</h3><p>用更完整的車隊卡片來追蹤你支持的 constructor。</p></div><span class="tag-mini">TEAMS · ' + safe(teamItems.length) + '</span></div>'
+          + (teamItems.length ? '<div class="favorite-grid">' + teamItems.map(item => favoriteCard(item, 'constructors')).join('') + '</div>' : emptyFavoriteStage('teams'))
           + '</section>';
       }
-      if (!html) {
-        html = '<div class="favorite-shell"><div class="favorite-empty">這裡還沒有內容。</div></div>';
-      }
-      $('favoriteHub').innerHTML = html;
+      $('favoriteHub').innerHTML = html || '<div class="favorite-shell"><div class="favorite-empty">這裡還沒有內容。</div></div>';
       $('tz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || '裝置本地時區';
       $('lastUpdated').textContent = state.updated ? new Date(state.updated).toLocaleString('zh-TW') : '尚未成功同步';
     }
 
     function renderStandings() {
+
       const boardList = state[state.board] || [];
       $('standingsList').innerHTML = boardList.length
         ? boardList.map((item, index) => rankingRow(item, index, state.board, true)).join('')
