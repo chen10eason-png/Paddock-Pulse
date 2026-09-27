@@ -1,5 +1,609 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080b12"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Paddock Pulse"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon-192.png"><title>Paddock Pulse · F1 Companion</title><style>
-:root{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f6f7f9;background:#080b12;font-synthesis:none}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#2a1e2b 0%,transparent 42%),#080b12;min-height:100svh}button,select{font:inherit}button{cursor:pointer}.app{width:min(100%,960px);margin:auto;min-height:100svh;padding:calc(env(safe-area-inset-top) + 20px) 19px calc(100px + env(safe-area-inset-bottom))}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.brand{font-weight:950;font-size:21px;letter-spacing:-.9px;font-style:italic}.brand em{color:#ff454b;font-style:normal}.tiny{font-size:11px;color:#9ba1ae;letter-spacing:1.5px;font-weight:800}.avatar{border:1px solid #373946;background:#181b25;color:#ff777a;width:42px;height:42px;border-radius:14px;font-size:20px}.eyebrow{font-size:11px;font-weight:850;color:#ff595e;letter-spacing:2.5px}.page-title{font-size:36px;letter-spacing:-1.7px;line-height:1.1;margin:8px 0 8px}.muted{color:#a1a8b8;font-size:13px}.section-head{display:flex;justify-content:space-between;align-items:baseline;margin:25px 0 13px}.section-head h2{margin:0;font-size:19px;letter-spacing:-.5px}.section-head button{background:none;border:0;color:#ff6b70;font-weight:750;font-size:12px}.hero{position:relative;isolation:isolate;overflow:hidden;min-height:264px;border:1px solid #4b303d;background:linear-gradient(116deg,#632c3a,#261925 59%,#151923);border-radius:24px;padding:22px;margin:25px 0}.hero:after{content:'01';position:absolute;font-size:215px;line-height:1;font-weight:1000;letter-spacing:-28px;right:-18px;bottom:-46px;color:#ffffff09;z-index:-1;font-style:italic}.hero .tag{display:inline-block;background:#ff4b54;color:white;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:900;letter-spacing:1px}.hero h2{font-size:31px;line-height:1.08;letter-spacing:-1.4px;max-width:290px;margin:16px 0 8px}.hero small{color:#e9bcc3;font-weight:650}.countdown{display:flex;gap:7px;margin-top:24px;align-items:flex-end}.count-unit{border:1px solid #ffffff25;background:#ffffff13;border-radius:12px;padding:10px 12px;min-width:57px;text-align:center}.count-unit strong{display:block;font-size:24px;font-variant-numeric:tabular-nums}.count-unit span{font-size:9px;color:#edb9bf;letter-spacing:1px;font-weight:800}.hero-foot{margin-top:16px;font-size:12px;color:#ffdadb}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile,.panel{background:#141821;border:1px solid #252a35;border-radius:19px;padding:17px}.tile{min-height:126px}.tile .tile-icon{font-size:22px}.tile h3{font-size:13px;margin:12px 0 5px}.tile p{font-size:11px;color:#8f98aa;margin:0}.accent-line{width:35px;height:3px;background:#ff4b54;margin:15px 0}.pill{display:inline-block;color:#ffb1b4;background:#ff4c531e;border:1px solid #f54b583f;padding:6px 9px;font-size:10px;border-radius:99px;font-weight:800}.rowitem{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid #252a34}.rowitem:last-child{border-bottom:0}.round{font-size:11px;font-weight:900;color:#ff6972;background:#40232e;padding:10px;border-radius:11px;min-width:44px;text-align:center}.grow{flex:1;min-width:0}.mainline{font-weight:800;font-size:14px;margin:0 0 5px}.subline{font-size:11px;color:#9ca5b4}.datebox{text-align:right;font-size:12px;font-weight:800}.datebox small{display:block;color:#8892a5;font-weight:500;margin-top:6px}.ranking{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #252a34}.ranking:last-child{border:none}.position{font-size:14px;color:#969fb0;font-weight:900;width:17px}.stripe{width:4px;height:37px;border-radius:5px}.rank-name{font-weight:800;font-size:13px}.rank-team{color:#96a0b1;font-size:11px;margin-top:4px}.points{margin-left:auto;text-align:right;font-weight:900;font-size:19px}.points span{font-size:10px;color:#9fa8ba;font-weight:500}.bottom{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:center;z-index:20;background:#10131aee;border-top:1px solid #313543;padding:13px max(10px,calc((100vw - 920px)/2)) calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.nav{background:transparent;border:0;color:#818a9b;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;font-weight:750;min-width:58px}.nav i{font-style:normal;font-size:21px}.nav.active{color:#ff5b61}.hidden{display:none!important}.chipbar{display:flex;gap:7px;overflow-x:auto;margin:19px 0 15px}.chip{border:1px solid #2c303c;color:#a5abba;background:#171a24;border-radius:99px;padding:9px 15px;font-size:12px;white-space:nowrap}.chip.active{color:white;background:#d73845;border-color:#e23f4d}.refresh{background:#212530;color:#dfe3e9;border:1px solid #393e49;padding:9px 12px;border-radius:10px;font-size:12px}.notice{padding:11px 13px;background:#30301d;border:1px solid #635a32;color:#f4d88d;font-size:11px;border-radius:12px;line-height:1.5;margin:10px 0}.favbtn{border:1px solid #593743;background:#39252f;color:#ff8589;border-radius:10px;padding:8px 10px;font-weight:800}.statbox{background:#1b202b;border-radius:13px;padding:13px;min-width:0}.statbox strong{display:block;font-size:22px;margin-top:5px}.statbox small{font-size:10px;color:#8f99aa}.info{font-size:12px;line-height:1.75;color:#aeb5c4}.outline{background:transparent;border:1px solid #464b56;color:white;border-radius:10px;padding:10px 13px;font-weight:750}.empty{padding:40px 15px;text-align:center;color:#aeb4bf;font-size:13px;line-height:1.7}.loader{display:inline-block;width:13px;height:13px;border:2px solid #aaa;border-top-color:#ff5b62;border-radius:100%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(min-width:650px){.app{padding-left:33px;padding-right:33px}.home-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:17px}.home-grid .section-head{margin-top:8px}.hero{min-height:310px}.hero h2{font-size:42px}.desktop-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}}
-</style></head><body><main class="app"><header class="top"><div><div class="tiny">YOUR RACE WEEKEND</div><div class="brand">PADDOCK <em>PULSE.</em></div></div><button class="avatar" id="refresh" aria-label="更新資料">↻</button></header><div id="status" role="status"></div><section id="home" class="view"><div class="eyebrow">THE GRID IS CALLING</div><h1 class="page-title">Race central<span style="color:#ff535b">.</span></h1><p class="muted">為每一場比賽，做好準備。</p><div class="hero" id="hero"><span class="tag">NEXT GRAND PRIX</span><h2>正在載入<br>2026 賽程…</h2><p class="muted">連線中</p></div><div class="home-grid"><div><div class="section-head"><h2>探索賽事</h2></div><div class="grid2"><button class="tile" data-go="schedule" style="text-align:left;color:inherit"><div class="tile-icon">🏁</div><h3>完整賽程 →</h3><p>日期・時間・賽道</p><div class="accent-line"></div></button><button class="tile" data-go="standings" style="text-align:left;color:inherit"><div class="tile-icon">🏆</div><h3>積分榜 →</h3><p>車手・車隊排行榜</p><div class="accent-line"></div></button></div></div><div><div class="section-head"><h2>即將登場</h2><button data-go="schedule">查看全部 →</button></div><div class="panel" id="upcoming"><div class="empty">正在載入賽事</div></div></div></div><div class="section-head"><h2>冠軍爭奪戰</h2><button data-go="standings">完整排名 →</button></div><div class="panel" id="toprank"><div class="empty">正在載入積分</div></div></section><section id="schedule" class="view hidden"><div class="eyebrow">2026 SEASON</div><h1 class="page-title">Race calendar<span style="color:#ff535b">.</span></h1><p class="muted">比賽時間將依你的裝置時區顯示</p><div class="chipbar" id="scheduleFilters"><button class="chip active" data-filter="all">全部賽事</button><button class="chip" data-filter="upcoming">即將登場</button><button class="chip" data-filter="past">已結束</button></div><div id="raceList" class="panel"><div class="empty">正在載入</div></div></section><section id="standings" class="view hidden"><div class="eyebrow">WORLD CHAMPIONSHIP</div><h1 class="page-title">The standings<span style="color:#ff535b">.</span></h1><p class="muted">最新可取得的官方系列賽成績</p><div class="chipbar"><button class="chip active" data-board="drivers">車手排名</button><button class="chip" data-board="constructors">車隊排名</button></div><div class="panel" id="standingsList"></div><p class="info" style="margin-top:13px">來源：Jolpica-F1（Ergast 相容 API）；非官方即時轉播。比賽結束後資料可能延遲更新。</p></section><section id="favorites" class="view hidden"><div class="eyebrow">MY PADDOCK</div><h1 class="page-title">My favorites<span style="color:#ff535b">.</span></h1><p class="muted">收藏喜愛車手，打造你的專屬賽車首頁。</p><div class="panel"><h2 style="margin:0 0 8px;font-size:16px">❤️ 已收藏車手</h2><div id="favoriteList" class="empty">尚未收藏車手。請到積分榜點選 ♡。</div></div><div class="section-head"><h2>偏好設定</h2></div><div class="panel"><div class="mainline">賽季</div><p class="info">2026 Formula 1 World Championship</p><div class="mainline">時區</div><p class="info" id="tz"></p><div class="mainline">資料更新</div><p class="info" id="lastUpdated">尚未成功同步</p><button class="outline" id="resetFav">清除收藏</button></div><div class="section-head"><h2>關於這個版本</h2></div><div class="panel info">Paddock Pulse V1.0.1 · 獨立製作的非官方 F1 觀賽 PWA。支援加入 iPhone/iPad 主畫面和基礎離線快取；網路可用時取得公開賽程與積分。此版尚未提供真正的即時賽道計時、iOS 原生 Widget、鎖定畫面 Live Activities 或背景推播。</div></section></main><nav class="bottom" aria-label="主要導覽"><button class="nav active" data-go="home"><i>⌂</i>首頁</button><button class="nav" data-go="schedule"><i>▦</i>賽程</button><button class="nav" data-go="standings"><i>▥</i>排名</button><button class="nav" data-go="favorites"><i>♡</i>我的</button></nav><script>
-'use strict';const API='https://api.jolpi.ca/ergast/f1/2026';const $=id=>document.getElementById(id),safe=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const saved=(key,fallback)=>{try{return JSON.parse(localStorage.getItem('pp_'+key))??fallback}catch{return fallback}};const store=(key,v)=>{try{localStorage.setItem('pp_'+key,JSON.stringify(v))}catch{}};const state={races:saved('races',[]),drivers:saved('drivers',[]),constructors:saved('constructors',[]),favorites:saved('favorites',[]),filter:'all',board:'drivers',updated:saved('updated',null),online:false};const colors={'McLaren':'#ff9a3b','Mercedes':'#44d6c1','Red Bull':'#357bfa','Ferrari':'#ff555e','Williams':'#66b8ff','Haas F1 Team':'#bfc8d7','RB F1 Team':'#6698f2','Alpine F1 Team':'#fd80bd','Aston Martin':'#45c49b','Sauber':'#70d78e','Audi':'#d84747','Cadillac':'#d1d1d1','Racing Bulls':'#86b0fa'};const teamColor=t=>colors[t]||'#dc7788';const timeFormat=iso=>new Intl.DateTimeFormat('zh-TW',{month:'short',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso));const shortDate=iso=>new Intl.DateTimeFormat('en-GB',{month:'short',day:'numeric'}).format(new Date(iso));const raceDate=r=>new Date(r.date+'T'+(r.time||'00:00:00Z'));const sessionDate=s=>s?new Date(s.date+'T'+(s.time||'00:00:00Z')):null;const nextRace=()=>state.races.find(r=>raceDate(r)>new Date());const isPast=r=>raceDate(r)<new Date();function announce(m,error=false){$('status').innerHTML=m?'<div class="'+(error?'notice':'muted')+'" style="margin-bottom:13px">'+safe(m)+'</div>':''}function rowRace(r){const d=raceDate(r),done=isPast(r),session=[['FP1',r.FirstPractice],['FP2',r.SecondPractice],['FP3',r.ThirdPractice],['衝刺排位',r.SprintQualifying],['衝刺賽',r.Sprint],['排位賽',r.Qualifying],['正賽',{date:r.date,time:r.time}]].filter(x=>x[1]).map(([name,v])=>'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #262c37"><span>'+name+'</span><span>'+timeFormat(sessionDate(v))+'</span></div>').join('');return '<details class="rowitem" style="display:block"><summary style="display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none"><span class="round">R'+safe(r.round)+'</span><span class="grow"><span class="mainline" style="display:block">'+safe(r.raceName)+'</span><span class="subline">'+safe(r.Circuit?.circuitName||r.Circuit?.Location?.country||'')+'</span></span><span class="datebox">'+shortDate(d)+'<small>'+(done?'已結束':'查看場次 ▾')+'</small></span></summary><div class="info" style="padding:13px 0 0 56px">'+session+'</div></details>'}function renderHero(){const r=nextRace(),node=$('hero');if(!state.races.length){node.innerHTML='<span class="tag">2026 SEASON</span><h2>本季賽程尚未載入</h2><p class="muted">請連上網路並按右上角更新。</p>';return}if(!r){node.innerHTML='<span class="tag">SEASON COMPLETE</span><h2>2026 賽季賽程已全部結束</h2><p>期待下一次發車！</p>';return}const d=raceDate(r),ms=Math.max(0,d-Date.now()),days=Math.floor(ms/864e5),hours=Math.floor(ms/36e5)%24,mins=Math.floor(ms/6e4)%60,sec=Math.floor(ms/1e3)%60;node.innerHTML='<span class="tag">NEXT GRAND PRIX · ROUND '+safe(r.round)+'</span><h2>'+safe(r.raceName)+'</h2><small>📍 '+safe(r.Circuit?.Location?.locality||r.Circuit?.Location?.country||'')+' · '+shortDate(d)+'</small><div class="countdown">'+[[days,'DAYS'],[hours,'HOURS'],[mins,'MINS'],[sec,'SECS']].map(([v,u])=>'<div class="count-unit"><strong>'+String(v).padStart(2,'0')+'</strong><span>'+u+'</span></div>').join('')+'</div><div class="hero-foot">🏁 正賽 '+timeFormat(d)+'（本地時間）</div>'}function renderRaces(){let arr=state.races;if(state.filter==='upcoming')arr=arr.filter(r=>!isPast(r));if(state.filter==='past')arr=arr.filter(isPast);$('raceList').innerHTML=arr.length?arr.map(rowRace).join(''):'<div class="empty">目前沒有符合條件的賽事。</div>';$('upcoming').innerHTML=state.races.filter(r=>!isPast(r)).slice(0,3).map(rowRace).join('')||'<div class="empty">沒有即將登場的賽事。</div>'}function rankRow(o,i,type){const isDriver=type==='drivers',driver=o.Driver||o,constructor=o.Constructor||o,name=isDriver?[driver.givenName,driver.familyName].filter(Boolean).join(' ')||driver.code||driver.driverId||'未知車手':constructor.name||constructor.constructorId||'未知車隊',team=isDriver?o.Constructors?.map(c=>c.name).filter(Boolean).join(' / ')||driver.nationality||'':constructor.nationality||'',id=isDriver?driver.driverId:null,liked=id&&state.favorites.includes(id),color=teamColor(isDriver?team:name);return '<div class="ranking"><div class="position">'+safe(o.position||i+1)+'</div><div class="stripe" style="background:'+color+'"></div><div class="grow"><div class="rank-name">'+safe(name)+'</div><div class="rank-team">'+safe(team)+'</div></div>'+(id?'<button class="favbtn" data-fav="'+safe(id)+'" aria-label="收藏 '+safe(name)+'">'+(liked?'♥':'♡')+'</button>':'')+'<div class="points">'+safe(o.points)+'<span> PTS</span></div></div>'}function renderStandings(){const data=state[state.board],n=$('standingsList');n.innerHTML=data.length?data.map((o,i)=>rankRow(o,i,state.board)).join(''):'<div class="empty">暫無排名資料。請連上網路並更新。</div>';$('toprank').innerHTML=state.drivers.length?state.drivers.slice(0,3).map((x,i)=>rankRow(x,i,'drivers')).join(''):'<div class="empty">暫無車手排名資料。</div>';$('favoriteList').innerHTML=state.favorites.length?state.favorites.map(id=>{const item=state.drivers.find(x=>(x.Driver||x).driverId===id);return item?rankRow(item,state.drivers.indexOf(item),'drivers'):'<div class="rowitem">'+safe(id)+' <button class="favbtn" data-fav="'+safe(id)+'">取消收藏</button></div>'}).join(''):'<div class="empty">尚未收藏車手。請到積分榜點選 ♡。</div>';$('tz').textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||'裝置本地時區';$('lastUpdated').textContent=state.updated?new Date(state.updated).toLocaleString('zh-TW'):'尚未成功同步'}function render(){renderHero();renderRaces();renderStandings()}function go(page){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('hidden',x.id!==page));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.go===page));window.scrollTo(0,0)}document.addEventListener('click',e=>{const nav=e.target.closest('[data-go]');if(nav){go(nav.dataset.go);return}const fav=e.target.closest('[data-fav]');if(fav){const id=fav.dataset.fav;state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[...state.favorites,id];store('favorites',state.favorites);renderStandings();return}const fl=e.target.closest('[data-filter]');if(fl){state.filter=fl.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===fl));renderRaces();return}const bd=e.target.closest('[data-board]');if(bd){state.board=bd.dataset.board;document.querySelectorAll('[data-board]').forEach(x=>x.classList.toggle('active',x===bd));renderStandings()}});$('resetFav').onclick=()=>{state.favorites=[];store('favorites',[]);renderStandings()};async function fetchJSON(url){const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);try{const r=await fetch(url,{signal:ctrl.signal,cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(timer)}}async function sync(){const btn=$('refresh');btn.textContent='⟳';btn.disabled=true;announce('同步公開賽事資料中…');let successes=0;const jobs=[['races','races',j=>j.MRData?.RaceTable?.Races||[]],['driverStandings','drivers',j=>j.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings||[]],['constructorStandings','constructors',j=>j.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings||[]]];const results=await Promise.allSettled(jobs.map(async([path,key,parse])=>{const j=await fetchJSON(API+'/'+path+'.json?limit=100');const list=parse(j);if(!Array.isArray(list))throw Error('格式不符');state[key]=list;store(key,list);successes++}));btn.textContent='↻';btn.disabled=false;if(successes){state.updated=new Date().toISOString();store('updated',state.updated)}state.online=successes===3;const errors=results.filter(x=>x.status==='rejected');announce(errors.length?'部分資料更新失敗，保留可用的本機快取。':'資料同步完成。',errors.length>0);render()}$('refresh').onclick=sync;render();sync();setInterval(renderHero,1000);if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-</script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Paddock Pulse">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Paddock Pulse · F1 Companion</title>
+  <style>
+    :root{
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      color:#f6f7f9;
+      background:#080b12;
+      font-synthesis:none;
+      --bg:#080b12;
+      --panel:#141821;
+      --panel-soft:#171c26;
+      --line:#252a35;
+      --text-soft:#a1a8b8;
+      --accent:#ff4b54;
+      --accent-soft:#ff6a71;
+      --accent-bg:#ff4c531e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at 20% -10%,#2a1e2b 0%,transparent 42%),#080b12;min-height:100svh}
+    button,select{font:inherit}
+    button{cursor:pointer}
+    .app{width:min(100%,960px);margin:auto;min-height:100svh;padding:calc(env(safe-area-inset-top) + 20px) 19px calc(100px + env(safe-area-inset-bottom))}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}
+    .brand{font-weight:950;font-size:21px;letter-spacing:-.9px;font-style:italic}
+    .brand em{color:var(--accent);font-style:normal}
+    .tiny{font-size:11px;color:#9ba1ae;letter-spacing:1.5px;font-weight:800}
+    .avatar{border:1px solid #373946;background:#181b25;color:#ff777a;width:42px;height:42px;border-radius:14px;font-size:20px}
+    .eyebrow{font-size:11px;font-weight:850;color:#ff595e;letter-spacing:2.5px}
+    .page-title{font-size:36px;letter-spacing:-1.7px;line-height:1.08;margin:8px 0 8px}
+    .muted{color:var(--text-soft);font-size:13px}
+    .section-head{display:flex;justify-content:space-between;align-items:baseline;margin:25px 0 13px;gap:12px}
+    .section-head h2{margin:0;font-size:19px;letter-spacing:-.5px}
+    .section-head button{background:none;border:0;color:#ff6b70;font-weight:750;font-size:12px}
+    .hero{position:relative;isolation:isolate;overflow:hidden;min-height:264px;border:1px solid #4b303d;background:linear-gradient(116deg,#632c3a,#261925 59%,#151923);border-radius:24px;padding:22px;margin:25px 0}
+    .hero:after{content:'01';position:absolute;font-size:215px;line-height:1;font-weight:1000;letter-spacing:-28px;right:-18px;bottom:-46px;color:#ffffff09;z-index:-1;font-style:italic}
+    .hero .tag{display:inline-block;background:var(--accent);color:white;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:900;letter-spacing:1px}
+    .hero h2{font-size:31px;line-height:1.08;letter-spacing:-1.4px;max-width:290px;margin:16px 0 8px}
+    .hero small{color:#e9bcc3;font-weight:650}
+    .countdown{display:flex;gap:7px;margin-top:24px;align-items:flex-end;flex-wrap:wrap}
+    .count-unit{border:1px solid #ffffff25;background:#ffffff13;border-radius:12px;padding:10px 12px;min-width:57px;text-align:center}
+    .count-unit strong{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+    .count-unit span{font-size:9px;color:#edb9bf;letter-spacing:1px;font-weight:800}
+    .hero-foot{margin-top:16px;font-size:12px;color:#ffdadb}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    .tile,.panel{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:17px}
+    .tile{min-height:126px}
+    .tile .tile-icon{font-size:22px}
+    .tile h3{font-size:13px;margin:12px 0 5px}
+    .tile p{font-size:11px;color:#8f98aa;margin:0}
+    .accent-line{width:35px;height:3px;background:var(--accent);margin:15px 0}
+    .rowitem{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid #252a34}
+    .rowitem:last-child{border-bottom:0}
+    .round{font-size:11px;font-weight:900;color:#ff6972;background:#40232e;padding:10px;border-radius:11px;min-width:44px;text-align:center}
+    .grow{flex:1;min-width:0}
+    .mainline{font-weight:800;font-size:14px;margin:0 0 5px}
+    .subline{font-size:11px;color:#9ca5b4}
+    .datebox{text-align:right;font-size:12px;font-weight:800}
+    .datebox small{display:block;color:#8892a5;font-weight:500;margin-top:6px}
+    .ranking{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #252a34}
+    .ranking:last-child{border:none}
+    .position{font-size:14px;color:#969fb0;font-weight:900;width:22px;flex:0 0 22px}
+    .stripe{width:4px;height:37px;border-radius:5px;flex:0 0 4px}
+    .rank-name{font-weight:800;font-size:13px}
+    .rank-team{color:#96a0b1;font-size:11px;margin-top:4px}
+    .points{margin-left:auto;text-align:right;font-weight:900;font-size:19px;line-height:1.05;min-width:62px}
+    .points span{font-size:10px;color:#9fa8ba;font-weight:500}
+    .rank-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+    .bottom{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;align-items:center;z-index:20;background:#10131aee;border-top:1px solid #313543;padding:13px max(10px,calc((100vw - 920px)/2)) calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+    .nav{background:transparent;border:0;color:#818a9b;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;font-weight:750;min-width:58px}
+    .nav i{font-style:normal;font-size:21px}
+    .nav.active{color:#ff5b61}
+    .hidden{display:none!important}
+    .chipbar{display:flex;gap:7px;overflow-x:auto;margin:19px 0 15px;padding-bottom:2px}
+    .chip{border:1px solid #2c303c;color:#a5abba;background:#171a24;border-radius:99px;padding:9px 15px;font-size:12px;white-space:nowrap}
+    .chip.active{color:white;background:#d73845;border-color:#e23f4d}
+    .notice{padding:11px 13px;background:#30301d;border:1px solid #635a32;color:#f4d88d;font-size:11px;border-radius:12px;line-height:1.5;margin:10px 0}
+    .favbtn{border:1px solid #593743;background:#39252f;color:#ff8589;border-radius:10px;padding:8px 10px;font-weight:800;min-width:42px}
+    .favbtn.active{background:#5c2633;color:#fff0f1;border-color:#c34f69}
+    .info{font-size:12px;line-height:1.75;color:#aeb5c4}
+    .outline{background:transparent;border:1px solid #464b56;color:white;border-radius:10px;padding:10px 13px;font-weight:750}
+    .empty{padding:40px 15px;text-align:center;color:#aeb4bf;font-size:13px;line-height:1.7}
+    .loader{display:inline-block;width:13px;height:13px;border:2px solid #aaa;border-top-color:#ff5b62;border-radius:100%;animation:spin 1s linear infinite}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px 0 16px}
+    .summary-card{background:linear-gradient(180deg,#1b202b,#151922);border:1px solid #2b303d;border-radius:18px;padding:16px}
+    .summary-card .label{font-size:11px;color:#95a0b2;letter-spacing:1px;font-weight:800;text-transform:uppercase}
+    .summary-card .value{display:block;font-size:30px;font-weight:950;letter-spacing:-1px;margin-top:9px}
+    .summary-card .hint{display:block;font-size:11px;color:#8f99aa;margin-top:4px;line-height:1.4}
+    .favorite-shell{background:linear-gradient(180deg,#171c26,#12161f);border:1px solid #262d39;border-radius:22px;padding:18px}
+    .favorite-shell + .favorite-shell{margin-top:14px}
+    .favorite-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+    .favorite-head h3{margin:0;font-size:17px;letter-spacing:-.3px}
+    .favorite-head p{margin:5px 0 0;color:#95a0b2;font-size:12px;line-height:1.5}
+    .tag-mini{display:inline-flex;align-items:center;gap:6px;background:var(--accent-bg);color:#ffb7bc;border:1px solid #f54b583f;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.7px;white-space:nowrap}
+    .favorite-empty{padding:24px 10px 8px;color:#aab2c2;text-align:center;font-size:13px;line-height:1.7}
+    .favorite-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .soft-btn{background:#1d2430;border:1px solid #313849;color:#e4e9ef;border-radius:12px;padding:10px 13px;font-weight:750}
+    .danger-btn{background:#341c23;border:1px solid #65333f;color:#ffc6ca;border-radius:12px;padding:10px 13px;font-weight:750}
+    .two-col{display:grid;grid-template-columns:1fr;gap:14px}
+    details summary::-webkit-details-marker{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(min-width:650px){
+      .app{padding-left:33px;padding-right:33px}
+      .home-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:17px}
+      .home-grid .section-head{margin-top:8px}
+      .hero{min-height:310px}
+      .hero h2{font-size:42px}
+      .two-col{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){
+      .summary-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <div class="tiny">YOUR RACE WEEKEND</div>
+        <div class="brand">PADDOCK <em>PULSE.</em></div>
+      </div>
+      <button class="avatar" id="refresh" aria-label="更新資料">↻</button>
+    </header>
+
+    <div id="status" role="status"></div>
+
+    <section id="home" class="view">
+      <div class="eyebrow">THE GRID IS CALLING</div>
+      <h1 class="page-title">Race central<span style="color:#ff535b">.</span></h1>
+      <p class="muted">為每一場比賽，做好準備。</p>
+      <div class="hero" id="hero">
+        <span class="tag">NEXT GRAND PRIX</span>
+        <h2>正在載入<br>2026 賽程…</h2>
+        <p class="muted">連線中</p>
+      </div>
+
+      <div class="home-grid">
+        <div>
+          <div class="section-head"><h2>探索賽事</h2></div>
+          <div class="grid2">
+            <button class="tile" data-go="schedule" style="text-align:left;color:inherit">
+              <div class="tile-icon">🏁</div>
+              <h3>完整賽程 →</h3>
+              <p>日期・時間・賽道</p>
+              <div class="accent-line"></div>
+            </button>
+            <button class="tile" data-go="standings" style="text-align:left;color:inherit">
+              <div class="tile-icon">🏆</div>
+              <h3>積分榜 →</h3>
+              <p>車手・車隊排行榜</p>
+              <div class="accent-line"></div>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="section-head"><h2>即將登場</h2><button data-go="schedule">查看全部 →</button></div>
+          <div class="panel" id="upcoming"><div class="empty">正在載入賽事</div></div>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>冠軍爭奪戰</h2><button data-go="standings">完整排名 →</button></div>
+      <div class="panel" id="toprank"><div class="empty">正在載入積分</div></div>
+    </section>
+
+    <section id="schedule" class="view hidden">
+      <div class="eyebrow">2026 SEASON</div>
+      <h1 class="page-title">Race calendar<span style="color:#ff535b">.</span></h1>
+      <p class="muted">比賽時間將依你的裝置時區顯示</p>
+      <div class="chipbar" id="scheduleFilters">
+        <button class="chip active" data-filter="all">全部賽事</button>
+        <button class="chip" data-filter="upcoming">即將登場</button>
+        <button class="chip" data-filter="past">已結束</button>
+      </div>
+      <div id="raceList" class="panel"><div class="empty">正在載入</div></div>
+    </section>
+
+    <section id="standings" class="view hidden">
+      <div class="eyebrow">WORLD CHAMPIONSHIP</div>
+      <h1 class="page-title">The standings<span style="color:#ff535b">.</span></h1>
+      <p class="muted">最新可取得的官方系列賽成績</p>
+      <div class="chipbar">
+        <button class="chip active" data-board="drivers">車手排名</button>
+        <button class="chip" data-board="constructors">車隊排名</button>
+      </div>
+      <div class="panel" id="standingsList"></div>
+      <p class="info" style="margin-top:13px">來源：Jolpica-F1（Ergast 相容 API）；非官方即時轉播。比賽結束後資料可能延遲更新。</p>
+    </section>
+
+    <section id="favorites" class="view hidden">
+      <div class="eyebrow">MY PADDOCK</div>
+      <h1 class="page-title">My favorites<span style="color:#ff535b">.</span></h1>
+      <p class="muted">現在可同時收藏喜愛車手與車隊，並用更清楚的方式管理。</p>
+
+      <div class="summary-grid" id="favoriteSummary">
+        <div class="summary-card"><span class="label">Favorite drivers</span><strong class="value">0</strong><span class="hint">收藏的車手數量</span></div>
+        <div class="summary-card"><span class="label">Favorite teams</span><strong class="value">0</strong><span class="hint">收藏的車隊數量</span></div>
+        <div class="summary-card"><span class="label">Total favorites</span><strong class="value">0</strong><span class="hint">你的專屬 Paddock 清單</span></div>
+      </div>
+
+      <div class="chipbar" id="favoriteTabs">
+        <button class="chip active" data-favtab="all">全部</button>
+        <button class="chip" data-favtab="drivers">車手</button>
+        <button class="chip" data-favtab="teams">車隊</button>
+      </div>
+
+      <div id="favoriteHub"></div>
+
+      <div class="section-head"><h2>偏好設定</h2></div>
+      <div class="panel">
+        <div class="mainline">賽季</div>
+        <p class="info">2026 Formula 1 World Championship</p>
+        <div class="mainline">時區</div>
+        <p class="info" id="tz"></p>
+        <div class="mainline">資料更新</div>
+        <p class="info" id="lastUpdated">尚未成功同步</p>
+        <div class="favorite-actions">
+          <button class="soft-btn" id="resetDriverFav">清除車手收藏</button>
+          <button class="soft-btn" id="resetTeamFav">清除車隊收藏</button>
+          <button class="danger-btn" id="resetAllFav">全部清除</button>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>關於這個版本</h2></div>
+      <div class="panel info">Paddock Pulse V1.1.0 · 獨立製作的非官方 F1 觀賽 PWA。此版新增車隊收藏、重新設計「我的收藏」畫面、補強車手與車隊名稱顯示、支援加入 iPhone/iPad 主畫面與基礎離線快取。此版尚未提供真正的即時賽道計時、iOS 原生 Widget、鎖定畫面 Live Activities 或背景推播。</div>
+    </section>
+  </main>
+
+  <nav class="bottom" aria-label="主要導覽">
+    <button class="nav active" data-go="home"><i>⌂</i>首頁</button>
+    <button class="nav" data-go="schedule"><i>▦</i>賽程</button>
+    <button class="nav" data-go="standings"><i>▥</i>排名</button>
+    <button class="nav" data-go="favorites"><i>♡</i>我的</button>
+  </nav>
+
+  <script>
+    'use strict';
+
+    const APP_VERSION = '1.1.0';
+    const API = 'https://api.jolpi.ca/ergast/f1/2026';
+    const $ = id => document.getElementById(id);
+    const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    const saved = (key, fallback) => {
+      try {
+        const value = JSON.parse(localStorage.getItem('pp_' + key));
+        return value ?? fallback;
+      } catch {
+        return fallback;
+      }
+    };
+
+    const store = (key, value) => {
+      try { localStorage.setItem('pp_' + key, JSON.stringify(value)); } catch {}
+    };
+
+    const legacyDriverFavs = saved('favorites', []);
+    const state = {
+      races: saved('races', []),
+      drivers: saved('drivers', []),
+      constructors: saved('constructors', []),
+      favoriteDrivers: saved('favoriteDrivers', legacyDriverFavs),
+      favoriteTeams: saved('favoriteTeams', []),
+      filter: 'all',
+      board: 'drivers',
+      favoriteTab: 'all',
+      updated: saved('updated', null)
+    };
+
+    store('favoriteDrivers', state.favoriteDrivers);
+
+    const colors = {
+      'McLaren':'#ff9a3b',
+      'Mercedes':'#44d6c1',
+      'Red Bull':'#357bfa',
+      'Red Bull Racing':'#357bfa',
+      'Ferrari':'#ff555e',
+      'Williams':'#66b8ff',
+      'Haas F1 Team':'#bfc8d7',
+      'RB F1 Team':'#6698f2',
+      'Racing Bulls':'#86b0fa',
+      'Alpine F1 Team':'#fd80bd',
+      'Aston Martin':'#45c49b',
+      'Sauber':'#70d78e',
+      'Audi':'#d84747',
+      'Cadillac':'#d1d1d1'
+    };
+
+    const teamColor = team => colors[team] || '#dc7788';
+    const timeFormat = date => new Intl.DateTimeFormat('zh-TW',{month:'short',day:'numeric',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(date));
+    const shortDate = date => new Intl.DateTimeFormat('en-GB',{month:'short',day:'numeric'}).format(new Date(date));
+    const raceDate = race => new Date(race.date + 'T' + (race.time || '00:00:00Z'));
+    const sessionDate = session => session ? new Date(session.date + 'T' + (session.time || '00:00:00Z')) : null;
+    const nextRace = () => state.races.find(r => raceDate(r) > new Date());
+    const isPast = race => raceDate(race) < new Date();
+
+    function announce(message, error = false) {
+      $('status').innerHTML = message ? '<div class="' + (error ? 'notice' : 'muted') + '" style="margin-bottom:13px">' + safe(message) + '</div>' : '';
+    }
+
+    function driverIdOf(item) { return item?.Driver?.driverId || item?.driverId || null; }
+    function driverNameOf(item) {
+      return [item?.Driver?.givenName || item?.givenName, item?.Driver?.familyName || item?.familyName]
+        .filter(Boolean)
+        .join(' ') || item?.fullName || item?.driverId || 'Unknown Driver';
+    }
+    function driverTeamOf(item) { return item?.Constructors?.[0]?.name || item?.teamName || ''; }
+    function driverNationalityOf(item) { return item?.Driver?.nationality || item?.nationality || ''; }
+
+    function constructorIdOf(item) { return item?.Constructor?.constructorId || item?.constructorId || null; }
+    function constructorNameOf(item) { return item?.Constructor?.name || item?.name || item?.constructorName || 'Unknown Team'; }
+    function constructorNationOf(item) { return item?.Constructor?.nationality || item?.nationality || ''; }
+
+    function rowRace(race) {
+      const date = raceDate(race);
+      const done = isPast(race);
+      const sessionRows = [
+        ['FP1', race.FirstPractice],
+        ['FP2', race.SecondPractice],
+        ['FP3', race.ThirdPractice],
+        ['衝刺排位', race.SprintQualifying],
+        ['衝刺賽', race.Sprint],
+        ['排位賽', race.Qualifying],
+        ['正賽', {date: race.date, time: race.time}]
+      ].filter(row => row[1]).map(([name, value]) => {
+        return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #262c37"><span>' + name + '</span><span>' + safe(timeFormat(sessionDate(value))) + '</span></div>';
+      }).join('');
+
+      return '<details class="rowitem" style="display:block">'
+        + '<summary style="display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none">'
+        + '<span class="round">R' + safe(race.round) + '</span>'
+        + '<span class="grow"><span class="mainline" style="display:block">' + safe(race.raceName) + '</span><span class="subline">' + safe(race.Circuit?.circuitName || race.Circuit?.Location?.country || '') + '</span></span>'
+        + '<span class="datebox">' + safe(shortDate(date)) + '<small>' + (done ? '已結束' : '查看場次 ▾') + '</small></span>'
+        + '</summary>'
+        + '<div class="info" style="padding:13px 0 0 56px">' + sessionRows + '</div>'
+        + '</details>';
+    }
+
+    function favoriteButton(type, id, name) {
+      const active = type === 'driver' ? state.favoriteDrivers.includes(id) : state.favoriteTeams.includes(id);
+      const label = active ? '♥' : '♡';
+      const title = active ? '取消收藏 ' : '收藏 ';
+      return '<button class="favbtn ' + (active ? 'active' : '') + '" data-favtype="' + safe(type) + '" data-favid="' + safe(id) + '" aria-label="' + safe(title + name) + '">' + label + '</button>';
+    }
+
+    function rankingRow(item, index, type, includeFavorite = true) {
+      const isDriver = type === 'drivers';
+      const id = isDriver ? driverIdOf(item) : constructorIdOf(item);
+      const name = isDriver ? driverNameOf(item) : constructorNameOf(item);
+      const teamLine = isDriver ? driverTeamOf(item) : constructorNationOf(item);
+      const accent = teamColor(isDriver ? driverTeamOf(item) : name);
+      const points = item?.points ?? item?.Points ?? '0';
+      const favorite = includeFavorite && id ? favoriteButton(isDriver ? 'driver' : 'team', id, name) : '';
+
+      return '<div class="ranking">'
+        + '<div class="position">' + safe(item?.position || index + 1) + '</div>'
+        + '<div class="stripe" style="background:' + safe(accent) + '"></div>'
+        + '<div class="grow"><div class="rank-name">' + safe(name) + '</div><div class="rank-team">' + safe(teamLine) + '</div></div>'
+        + '<div class="rank-actions">' + favorite + '<div class="points">' + safe(points) + '<span> PTS</span></div></div>'
+        + '</div>';
+    }
+
+    function favoriteRows(items, type) {
+      if (!items.length) {
+        return '<div class="favorite-empty">尚未收藏' + (type === 'drivers' ? '車手' : '車隊') + '。<br>到積分榜點一下 ♡ 或 ♥ 即可加入這裡。</div>';
+      }
+      return items.map((item, index) => rankingRow(item, index, type, true)).join('');
+    }
+
+    function renderHero() {
+      const race = nextRace();
+      const node = $('hero');
+      if (!state.races.length) {
+        node.innerHTML = '<span class="tag">2026 SEASON</span><h2>本季賽程尚未載入</h2><p class="muted">請連上網路並按右上角更新。</p>';
+        return;
+      }
+      if (!race) {
+        node.innerHTML = '<span class="tag">SEASON COMPLETE</span><h2>2026 賽季賽程已全部結束</h2><p>期待下一次發車！</p>';
+        return;
+      }
+      const date = raceDate(race);
+      const ms = Math.max(0, date - Date.now());
+      const days = Math.floor(ms / 86400000);
+      const hours = Math.floor(ms / 3600000) % 24;
+      const mins = Math.floor(ms / 60000) % 60;
+      const secs = Math.floor(ms / 1000) % 60;
+      node.innerHTML = '<span class="tag">NEXT GRAND PRIX · ROUND ' + safe(race.round) + '</span>'
+        + '<h2>' + safe(race.raceName) + '</h2>'
+        + '<small>📍 ' + safe(race.Circuit?.Location?.locality || race.Circuit?.Location?.country || '') + ' · ' + safe(shortDate(date)) + '</small>'
+        + '<div class="countdown">'
+        + [[days,'DAYS'], [hours,'HOURS'], [mins,'MINS'], [secs,'SECS']].map(([value, unit]) => '<div class="count-unit"><strong>' + String(value).padStart(2,'0') + '</strong><span>' + unit + '</span></div>').join('')
+        + '</div>'
+        + '<div class="hero-foot">🏁 正賽 ' + safe(timeFormat(date)) + '（本地時間）</div>';
+    }
+
+    function renderRaces() {
+      let list = state.races.slice();
+      if (state.filter === 'upcoming') list = list.filter(r => !isPast(r));
+      if (state.filter === 'past') list = list.filter(isPast);
+      $('raceList').innerHTML = list.length ? list.map(rowRace).join('') : '<div class="empty">目前沒有符合條件的賽事。</div>';
+      $('upcoming').innerHTML = state.races.filter(r => !isPast(r)).slice(0,3).map(rowRace).join('') || '<div class="empty">沒有即將登場的賽事。</div>';
+    }
+
+    function getFavoriteDriverItems() {
+      return state.favoriteDrivers.map(id => state.drivers.find(item => driverIdOf(item) === id)).filter(Boolean);
+    }
+
+    function getFavoriteTeamItems() {
+      return state.favoriteTeams.map(id => state.constructors.find(item => constructorIdOf(item) === id)).filter(Boolean);
+    }
+
+    function renderFavoriteSummary(driverItems, teamItems) {
+      const total = driverItems.length + teamItems.length;
+      $('favoriteSummary').innerHTML = [
+        ['Favorite drivers', driverItems.length, '收藏的車手數量'],
+        ['Favorite teams', teamItems.length, '收藏的車隊數量'],
+        ['Total favorites', total, total ? '你的專屬 Paddock 清單' : '先收藏一些最愛吧']
+      ].map(([label, value, hint]) => {
+        return '<div class="summary-card"><span class="label">' + safe(label) + '</span><strong class="value">' + safe(value) + '</strong><span class="hint">' + safe(hint) + '</span></div>';
+      }).join('');
+    }
+
+    function renderFavoriteHub() {
+      const driverItems = getFavoriteDriverItems();
+      const teamItems = getFavoriteTeamItems();
+      renderFavoriteSummary(driverItems, teamItems);
+
+      let html = '';
+      if (state.favoriteTab === 'all' || state.favoriteTab === 'drivers') {
+        html += '<section class="favorite-shell">'
+          + '<div class="favorite-head"><div><h3>Favorite drivers</h3><p>快速查看你支持的車手與目前積分。</p></div><span class="tag-mini">DRIVERS · ' + safe(driverItems.length) + '</span></div>'
+          + favoriteRows(driverItems, 'drivers')
+          + '</section>';
+      }
+      if (state.favoriteTab === 'all' || state.favoriteTab === 'teams') {
+        html += '<section class="favorite-shell">'
+          + '<div class="favorite-head"><div><h3>Favorite teams</h3><p>收藏最喜歡的車隊，集中追蹤排名與積分。</p></div><span class="tag-mini">TEAMS · ' + safe(teamItems.length) + '</span></div>'
+          + favoriteRows(teamItems, 'constructors')
+          + '</section>';
+      }
+      if (!html) {
+        html = '<div class="favorite-shell"><div class="favorite-empty">這裡還沒有內容。</div></div>';
+      }
+      $('favoriteHub').innerHTML = html;
+      $('tz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || '裝置本地時區';
+      $('lastUpdated').textContent = state.updated ? new Date(state.updated).toLocaleString('zh-TW') : '尚未成功同步';
+    }
+
+    function renderStandings() {
+      const boardList = state[state.board] || [];
+      $('standingsList').innerHTML = boardList.length
+        ? boardList.map((item, index) => rankingRow(item, index, state.board, true)).join('')
+        : '<div class="empty">暫無排名資料。請連上網路並更新。</div>';
+
+      $('toprank').innerHTML = state.drivers.length
+        ? state.drivers.slice(0,3).map((item, index) => rankingRow(item, index, 'drivers', true)).join('')
+        : '<div class="empty">暫無車手排名資料。</div>';
+
+      renderFavoriteHub();
+    }
+
+    function render() {
+      renderHero();
+      renderRaces();
+      renderStandings();
+    }
+
+    function go(page) {
+      document.querySelectorAll('.view').forEach(el => el.classList.toggle('hidden', el.id !== page));
+      document.querySelectorAll('.nav').forEach(el => el.classList.toggle('active', el.dataset.go === page));
+      window.scrollTo(0, 0);
+    }
+
+    function toggleFavorite(type, id) {
+      if (!id) return;
+      const key = type === 'driver' ? 'favoriteDrivers' : 'favoriteTeams';
+      const list = state[key];
+      state[key] = list.includes(id) ? list.filter(x => x !== id) : [...list, id];
+      store(key, state[key]);
+      renderStandings();
+    }
+
+    document.addEventListener('click', event => {
+      const nav = event.target.closest('[data-go]');
+      if (nav) {
+        go(nav.dataset.go);
+        return;
+      }
+
+      const favorite = event.target.closest('[data-favtype]');
+      if (favorite) {
+        toggleFavorite(favorite.dataset.favtype, favorite.dataset.favid);
+        return;
+      }
+
+      const filter = event.target.closest('[data-filter]');
+      if (filter) {
+        state.filter = filter.dataset.filter;
+        document.querySelectorAll('[data-filter]').forEach(el => el.classList.toggle('active', el === filter));
+        renderRaces();
+        return;
+      }
+
+      const board = event.target.closest('[data-board]');
+      if (board) {
+        state.board = board.dataset.board;
+        document.querySelectorAll('[data-board]').forEach(el => el.classList.toggle('active', el === board));
+        renderStandings();
+        return;
+      }
+
+      const tab = event.target.closest('[data-favtab]');
+      if (tab) {
+        state.favoriteTab = tab.dataset.favtab;
+        document.querySelectorAll('[data-favtab]').forEach(el => el.classList.toggle('active', el === tab));
+        renderFavoriteHub();
+      }
+    });
+
+    $('resetDriverFav').onclick = () => {
+      state.favoriteDrivers = [];
+      store('favoriteDrivers', []);
+      renderStandings();
+    };
+
+    $('resetTeamFav').onclick = () => {
+      state.favoriteTeams = [];
+      store('favoriteTeams', []);
+      renderStandings();
+    };
+
+    $('resetAllFav').onclick = () => {
+      state.favoriteDrivers = [];
+      state.favoriteTeams = [];
+      store('favoriteDrivers', []);
+      store('favoriteTeams', []);
+      renderStandings();
+    };
+
+    async function fetchJSON(url) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 12000);
+      try {
+        const response = await fetch(url, {signal: controller.signal, cache: 'no-store'});
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return await response.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function sync() {
+      const button = $('refresh');
+      button.textContent = '⟳';
+      button.disabled = true;
+      announce('同步公開賽事資料中…');
+      let successes = 0;
+
+      const jobs = [
+        ['races', 'races', json => json?.MRData?.RaceTable?.Races || []],
+        ['driverStandings', 'drivers', json => json?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings || []],
+        ['constructorStandings', 'constructors', json => json?.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings || []]
+      ];
+
+      const results = await Promise.allSettled(jobs.map(async ([path, key, parse]) => {
+        const data = await fetchJSON(API + '/' + path + '.json?limit=100');
+        const list = parse(data);
+        if (!Array.isArray(list)) throw new Error('格式不符');
+        state[key] = list;
+        store(key, list);
+        successes += 1;
+      }));
+
+      button.textContent = '↻';
+      button.disabled = false;
+
+      if (successes) {
+        state.updated = new Date().toISOString();
+        store('updated', state.updated);
+      }
+
+      const errors = results.filter(result => result.status === 'rejected');
+      announce(errors.length ? '部分資料更新失敗，保留可用的本機快取。' : '資料同步完成。', errors.length > 0);
+      render();
+    }
+
+    $('refresh').onclick = sync;
+
+    render();
+    sync();
+    setInterval(renderHero, 1000);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
