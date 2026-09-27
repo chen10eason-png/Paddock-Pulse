@@ -187,6 +187,24 @@
 @media(max-width:380px){.showcase-card{min-height:390px;padding:18px}.showcase-card .surname{font-size:34px}.profile-stat{padding:12px 9px}.profile-banner h1{max-width:90%}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important}}
 
+
+/* V1.4 race results · touch-first race weekend */
+.result-toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:20px}
+.result-toolbar label{display:block;font-size:11px;color:#a7b0c0;letter-spacing:1.2px;font-weight:850;margin:0 0 9px}
+.result-select{width:100%;min-height:52px;border:1px solid #394252;background:#191f2b;color:#fff;border-radius:15px;padding:12px;font-size:14px;font-weight:750;appearance:auto}
+.result-refresh{min-height:52px;border:1px solid #464e5d;background:#252c3a;border-radius:15px;color:#fff;padding:12px 16px;font-weight:850}
+.result-banner{position:relative;overflow:hidden;border:1px solid #ffffff23;background:radial-gradient(ellipse at 93% 10%,#ec4d5d48,transparent 50%),linear-gradient(130deg,#272433,#111924);border-radius:25px;padding:23px;margin:17px 0}
+.result-banner:before{content:'RACE';font-size:clamp(80px,20vw,160px);font-style:italic;font-weight:1000;position:absolute;right:-20px;bottom:-36px;letter-spacing:-11px;color:#ffffff08;pointer-events:none}
+.result-banner>*{position:relative}.result-banner h2{font-size:clamp(23px,6vw,36px);line-height:1.1;letter-spacing:-1.4px;margin:14px 0 8px}.result-banner p{margin:0;color:#b8c0cd;font-size:12px}.result-tag{display:inline-block;font-size:10px;font-weight:950;letter-spacing:1.5px;border-radius:8px;padding:7px 9px;background:#ff576122;color:#ffc5ca;border:1px solid #ff576143}
+.result-tabs{display:flex;gap:9px;overflow:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding:3px 2px 14px;margin:6px -2px 7px}.result-tabs::-webkit-scrollbar{display:none}
+.result-tab{min-width:76px;flex:0 0 auto;scroll-snap-align:start;border:1px solid #353d4c;border-radius:15px;padding:12px 14px;background:#1b212d;color:#aeb9c9;text-align:left}
+.result-tab.active{border-color:#ff6b73;color:#fff;background:linear-gradient(135deg,#a52f40,#4f2638)}.result-tab strong{display:block;font-size:12px;white-space:nowrap}.result-tab small{display:block;color:inherit;opacity:.7;font-size:10px;margin-top:4px}
+.result-summary{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin:17px 0 11px}.result-summary h3{font-size:19px;letter-spacing:-.5px;margin:0}.result-summary p{margin:6px 0 0;font-size:11px;color:#9aa5b5}.result-source{font-size:10px;color:#9faabb;padding:6px 9px;background:#ffffff0c;border:1px solid #ffffff18;border-radius:100px;white-space:nowrap}
+.result-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0}.podium-card{position:relative;overflow:hidden;border:1px solid #ffffff25;border-radius:18px;background:radial-gradient(ellipse at 80% 4%,var(--team-color),transparent 85%),linear-gradient(160deg,#252c3a,#151a22);min-height:162px;padding:13px 10px;display:flex;flex-direction:column;justify-content:space-between}.podium-card:nth-child(1){margin-top:14px}.podium-card:nth-child(3){margin-top:27px}.podium-card .place{font-weight:1000;font-size:34px;font-style:italic;color:#fff9;line-height:1}.podium-card .driver{font-size:13px;font-weight:900;line-height:1.2;overflow-wrap:anywhere}.podium-card .team{font-size:10px;color:#d0d6dfb0;margin-top:5px}.podium-card .result{font-size:11px;margin-top:9px;color:#fff;font-variant-numeric:tabular-nums}
+.result-list{background:#141922;border:1px solid #2a3240;border-radius:20px;overflow:hidden}.result-row{display:flex;gap:12px;align-items:center;padding:14px 15px;border-bottom:1px solid #ffffff12}.result-row:last-child{border:0}.result-pos{flex:0 0 27px;text-align:center;font-size:15px;font-weight:950;color:#c8d1df}.result-strip{flex:0 0 4px;height:38px;border-radius:8px;background:var(--team-color,#ff6570)}.result-driver{min-width:0;flex:1}.result-driver b{display:block;font-size:13px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.result-driver small{display:block;color:#98a4b6;font-size:11px;margin-top:5px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.result-metric{text-align:right;font-size:12px;font-weight:850;font-variant-numeric:tabular-nums;max-width:112px}.result-metric small{display:block;color:#8995a6;margin-top:5px;font-size:10px;font-weight:600}.result-status{padding:42px 19px;background:#151b25;border:1px solid #303949;border-radius:19px;text-align:center;line-height:1.6}.result-status .symbol{font-size:32px;margin-bottom:10px}.result-status h3{font-size:17px;margin:6px 0}.result-status p{font-size:12px;color:#aab6c7}.result-status button{border:0;background:#f05260;color:white;border-radius:11px;font-weight:850;padding:11px 16px;margin-top:9px}.results-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid #4c4e60;color:#fff;background:#242a36;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;margin-top:10px}.result-note{font-size:11px;color:#93a0b3;line-height:1.7;margin:15px 0 25px}
+@media(min-width:700px){.result-podium{max-width:700px;gap:14px}.podium-card{min-height:190px;padding:21px}.podium-card .driver{font-size:18px}}
+@media(max-width:370px){.result-row{padding:12px 9px;gap:8px}.result-metric{max-width:88px;font-size:11px}.result-toolbar{grid-template-columns:1fr}.result-podium{gap:5px}.podium-card{padding:11px 7px}}
+
   </style>
 </head>
 <body>
@@ -235,6 +253,8 @@
         </div>
       </div>
 
+      <div class="section-head"><h2>最新賽果</h2><button data-go="results">全部結果 →</button></div>
+      <button class="tile" data-go="results" style="min-height:94px;width:100%;text-align:left;color:inherit;display:flex;align-items:center;justify-content:space-between;gap:12px"><div><span class="eyebrow">SESSION RESULTS</span><h3 style="font-size:18px;margin:9px 0 5px">練習・衝刺・排位・正賽</h3><p>查看每一站的全部成績</p></div><span style="font-size:30px;color:#ff6972">↗</span></button>
       <div class="section-head"><h2>你的 Paddock</h2><button data-go="favorites">我的收藏 →</button></div><div id="homeGarage"></div><div class="section-head"><h2>冠軍爭奪戰</h2><button data-go="standings">完整排名 →</button></div>
       <div class="panel" id="toprank"><div class="empty">正在載入積分</div></div>
     </section>
@@ -249,6 +269,20 @@
         <button class="chip" data-filter="past">已結束</button>
       </div>
       <div id="raceList" class="panel"><div class="empty">正在載入</div></div>
+    </section>
+
+    <section id="results" class="view hidden" aria-label="2026 年 F1 比賽結果">
+      <div class="eyebrow">THE RACE WEEKEND</div>
+      <h1 class="page-title">Race results<span style="color:#ff535b">.</span></h1>
+      <p class="muted">每站練習、衝刺、排位和正賽成績，依場次公布情況顯示。</p>
+      <div class="result-toolbar">
+        <div><label for="resultRound">選擇分站</label><select id="resultRound" class="result-select" aria-label="選擇分站"><option>賽程載入中…</option></select></div>
+        <button id="resultRefresh" class="result-refresh" aria-label="重新更新本場結果">↻ 更新</button>
+      </div>
+      <div id="resultRaceBanner" class="result-banner"><h2>載入賽程中…</h2></div>
+      <div id="resultTabs" class="result-tabs" aria-label="選擇場次"></div>
+      <div id="resultContent" aria-live="polite"><div class="result-status"><p>請選擇分站與場次查看結果。</p></div></div>
+      <p class="result-note">資料來源：Jolpica-F1、OpenF1。僅顯示已取得的實際比賽結果；練習賽與衝刺排位資料依 OpenF1 開放情況提供。此頁不是現場即時計時，資料可能延後發布。</p>
     </section>
 
     <section id="standings" class="view hidden">
@@ -294,7 +328,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.3.0 · 非官方 F1 資訊 PWA。更新收藏展廳、首頁個人專區、車手／車隊詳情與車手近期賽果。個人卡片使用原創抽象賽車圖案，未使用授權車手肖像或車隊徽章。非即時數據；無 iOS 原生 Widget 或 Live Activities。</div>
+      <div class="panel info">Paddock Pulse V1.4.0 · 非官方 F1 資訊 PWA。更新收藏展廳、首頁個人專區、車手／車隊詳情與車手近期賽果。個人卡片使用原創抽象賽車圖案，未使用授權車手肖像或車隊徽章。非即時數據；無 iOS 原生 Widget 或 Live Activities。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -305,14 +339,14 @@
   <nav class="bottom" aria-label="主要導覽">
     <button class="nav active" data-go="home"><i>⌂</i>首頁</button>
     <button class="nav" data-go="schedule"><i>▦</i>賽程</button>
-    <button class="nav" data-go="standings"><i>▥</i>排名</button>
+    <button class="nav" data-go="results"><i>🏁</i>賽果</button><button class="nav" data-go="standings"><i>▥</i>排名</button>
     <button class="nav" data-go="favorites"><i>♡</i>我的</button>
   </nav>
 
   <script>
     'use strict';
 
-    const APP_VERSION = '1.3.0';
+    const APP_VERSION = '1.4.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -340,7 +374,9 @@
       filter: 'all',
       board: 'drivers',
       favoriteTab: 'all',
-      updated: saved('updated', null)
+      updated: saved('updated', null),
+      resultRound: null, resultSession: 'race', resultToken: 0, openSessions: saved('openSessions2026', []),
+      resultCache: {}, resultError: null
     };
 
     store('favoriteDrivers', state.favoriteDrivers);
@@ -408,7 +444,7 @@
         + '<span class="grow"><span class="mainline" style="display:block">' + safe(race.raceName) + '</span><span class="subline">' + safe(race.Circuit?.circuitName || race.Circuit?.Location?.country || '') + '</span></span>'
         + '<span class="datebox">' + safe(shortDate(date)) + '<small>' + (done ? '已結束' : '查看場次 ▾') + '</small></span>'
         + '</summary>'
-        + '<div class="info" style="padding:13px 0 0 56px">' + sessionRows + '</div>'
+        + '<div class="info" style="padding:13px 0 0 56px">' + sessionRows + '<button class="results-link" data-openresults="' + safe(race.round) + '">查看本站賽果 →</button></div>'
         + '</details>';
     }
 
@@ -472,6 +508,190 @@
     function emptyFavoriteStage(type) {
       const label = type === 'drivers' ? '車手' : '車隊';
       return '<div class="favorite-empty-stage"><div class="favorite-empty">你還沒有收藏' + label + '。<br>到積分榜點一下 ♡ 或 ♥，這裡就會變成你的專屬 showcase。</div><div class="ghost-cards"><div class="ghost-card"></div><div class="ghost-card"></div></div></div>';
+    }
+
+
+    // ----- Race weekend results. Sessions and results are fetched on demand only. -----
+    const OPENF1 = 'https://api.openf1.org/v1';
+    const RESULT_TYPES = [
+      {id:'fp1', label:'FP1', full:'第一次練習', field:'FirstPractice', open:'Practice 1'},
+      {id:'fp2', label:'FP2', full:'第二次練習', field:'SecondPractice', open:'Practice 2'},
+      {id:'fp3', label:'FP3', full:'第三次練習', field:'ThirdPractice', open:'Practice 3'},
+      {id:'sq', label:'衝刺排位', full:'衝刺排位', field:'SprintQualifying', open:'Sprint Qualifying'},
+      {id:'sprint', label:'衝刺賽', full:'衝刺賽', field:'Sprint', open:'Sprint'},
+      {id:'qualifying', label:'排位賽', full:'正式排位', field:'Qualifying', open:'Qualifying'},
+      {id:'race', label:'正賽', full:'正賽', field:null, open:'Race'}
+    ];
+    const resultType = id => RESULT_TYPES.find(x=>x.id===id);
+    const scheduledSession = (race,type) => type.field ? race?.[type.field] : race && ({date:race.date,time:race.time});
+    function sessionIsScheduled(race,type){
+      if(type.id==='race') return true;
+      if(scheduledSession(race,type))return true;
+      // Some schedules omit optional sprint sessions. These are never inferred.
+      return false;
+    }
+    const availableTypes = race => RESULT_TYPES.filter(t=>sessionIsScheduled(race,t));
+    const when = value => value ? +new Date(value) : NaN;
+    const nameKey = value => String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+    const pendingSession = (race,type) => {
+      const s=scheduledSession(race,type);
+      const ts=s?when(sessionDate(s)):NaN;
+      return Number.isFinite(ts) ? ts>Date.now()-90*60000 : true;
+    };
+    function resultRoundDefault(){
+      return state.races.filter(x=>raceDate(x).getTime()<=Date.now()).at(-1)?.round || state.races[0]?.round || null;
+    }
+    function renderResultPicker(){
+      const node=$('resultRound');
+      if(!state.races.length){node.innerHTML='<option value="">賽程尚未載入</option>';return;}
+      if(!state.races.some(x=>x.round===state.resultRound))state.resultRound=resultRoundDefault();
+      node.innerHTML=state.races.map(x=>'<option value="'+safe(x.round)+'"'+(x.round===state.resultRound?' selected':'')+'>R'+safe(x.round)+' · '+safe(x.raceName)+'</option>').join('');
+    }
+    function renderResultHeader(){
+      renderResultPicker();
+      const r=state.races.find(x=>x.round===state.resultRound);
+      if(!r){$('resultRaceBanner').innerHTML='<h2>尚未取得賽程</h2>'; $('resultTabs').innerHTML='';return null;}
+      $('resultRaceBanner').innerHTML='<span class="result-tag">ROUND '+safe(r.round)+' / 2026</span><h2>'+safe(r.raceName)+'</h2><p>📍 '+safe(r.Circuit?.circuitName||r.Circuit?.Location?.locality||'')+' · '+safe(shortDate(raceDate(r)))+'</p>';
+      const types=availableTypes(r);
+      if(!types.some(t=>t.id===state.resultSession))state.resultSession=types.at(-1)?.id||'race';
+      $('resultTabs').innerHTML=types.map(t=>'<button class="result-tab '+(t.id===state.resultSession?'active':'')+'" data-resultsession="'+t.id+'"><strong>'+safe(t.label)+'</strong><small>'+safe(t.full)+'</small></button>').join('');
+      return r;
+    }
+    function resultLoading(title){$('resultContent').innerHTML='<div class="result-status"><span class="loader" aria-hidden="true"></span><h3>'+safe(title)+'</h3><p>正在讀取場次成績…</p></div>';}
+    function resultEmpty(title,description,retry=false){
+      $('resultContent').innerHTML='<div class="result-status"><div class="symbol">🏁</div><h3>'+safe(title)+'</h3><p>'+safe(description)+'</p>'+(retry?'<button data-resultretry="1">重新取得</button>':'')+'</div>';
+    }
+    function fmtLap(value){
+      if(value===null||value===undefined||value==='')return '—';
+      const n=Number(value);if(!Number.isFinite(n)||n<=0)return '—';
+      return Math.floor(n/60)+':'+(n%60).toFixed(3).padStart(6,'0');
+    }
+    function fmtGap(value){
+      if(value===null||value===undefined||value==='')return '—';
+      if(Array.isArray(value))return fmtGap(value.filter(x=>x!==null&&x!==undefined).at(-1));
+      if(typeof value==='number')return value===0?'LEADER':'+'+value.toFixed(3)+'s';
+      return String(value);
+    }
+    function openF1SessionFor(race,type){
+      const scheduled=scheduledSession(race,type);
+      const date=scheduled&&sessionDate(scheduled).getTime();
+      const candidates=state.openSessions.filter(s=>{
+        if(s.is_cancelled)return false;
+        let sn=nameKey(s.session_name);
+        const expected=nameKey(type.open);
+        if(type.id==='sprint'&&sn==='sprintrace')sn='sprint';
+        if(type.id==='sq'&&sn==='sprintshootout')sn='sprintqualifying';
+        if(sn!==expected)return false;
+        const delta=Math.abs(when(s.date_start)-date);
+        return Number.isFinite(delta)&&delta<24*3600000;
+      });
+      candidates.sort((a,b)=>Math.abs(when(a.date_start)-date)-Math.abs(when(b.date_start)-date));
+      return candidates[0]||null;
+    }
+    async function getOpenSessions(force=false){
+      const time=Number(saved('openSessionsAt2026',0));
+      if(!force&&state.openSessions.length&&Date.now()-time<8*3600000)return state.openSessions;
+      const data=await fetchJSON(OPENF1+'/sessions?year=2026');
+      if(!Array.isArray(data))throw Error('場次資料格式不符');
+      state.openSessions=data;
+      store('openSessions2026',data);store('openSessionsAt2026',Date.now());
+      return data;
+    }
+    function resultColors(team){return teamColor(team||'');}
+    function normalizeJolpica(json,type){
+      const first=json?.MRData?.RaceTable?.Races?.[0];
+      if(!first)return [];
+      const key=type.id==='race'?'Results':type.id==='sprint'?'SprintResults':'QualifyingResults';
+      const list=first[key];
+      if(!Array.isArray(list))return [];
+      return list.map((x,i)=>{
+        const name=[x.Driver?.givenName,x.Driver?.familyName].filter(Boolean).join(' ')||x.Driver?.driverId||'未知車手';
+        const time=type.id==='qualifying'?[x.Q1,x.Q2,x.Q3].filter(Boolean).at(-1):x.Time?.time;
+        const meta=type.id==='race'||type.id==='sprint'?(x.status&&x.status!=='Finished'&&!/^\+\d+ Lap/.test(x.status)?x.status:(x.Time?.time||x.status||'—')):time||'—';
+        return {position:Number(x.position)||i+1,name,team:x.Constructor?.name||'',number:x.Driver?.permanentNumber||'',metric:meta,sub:type.id==='qualifying'?[x.Q1,x.Q2,x.Q3].map((v,j)=>v?'Q'+(j+1)+' '+v:'').filter(Boolean).join(' · '):(x.points!==undefined?'積分 '+x.points:'')};
+      });
+    }
+    async function loadJolpicaResult(race,type){
+      const path=type.id==='race'?'results':type.id==='sprint'?'sprint':'qualifying';
+      const json=await fetchJSON(API+'/'+encodeURIComponent(race.round)+'/'+path+'.json?limit=100');
+      return normalizeJolpica(json,type);
+    }
+    function metricForOpenF1(x,type){
+      if(x.dsq)return 'DSQ';if(x.dns)return 'DNS';if(x.dnf)return 'DNF';
+      if(type.id==='race'||type.id==='sprint')return fmtGap(x.gap_to_leader);
+      const durations=Array.isArray(x.duration)?x.duration:[x.duration];
+      return fmtLap(durations.filter(x=>x!==null&&x!==undefined).at(-1));
+    }
+    async function loadOpenF1Result(race,type){
+      await getOpenSessions();
+      let session=openF1SessionFor(race,type);
+      if(!session){await getOpenSessions(true);session=openF1SessionFor(race,type);}
+      if(!session)return [];
+      if(when(session.date_end)>Date.now()-20*60000)return [];
+      const [results,drivers]=await Promise.all([
+        fetchJSON(OPENF1+'/session_result?session_key='+session.session_key),
+        fetchJSON(OPENF1+'/drivers?session_key='+session.session_key).catch(()=>[])
+      ]);
+      if(!Array.isArray(results))throw Error('比賽結果格式不符');
+      const byNumber=new Map((Array.isArray(drivers)?drivers:[]).map(x=>[String(x.driver_number),x]));
+      return results.filter(x=>x.driver_number!==undefined).map((x,i)=>{
+        const d=byNumber.get(String(x.driver_number))||{};
+        const fallback=state.drivers.find(item=>String(item?.Driver?.permanentNumber||'')===String(x.driver_number));
+        const name=d.full_name||[d.first_name,d.last_name].filter(Boolean).join(' ')||(fallback?driverNameOf(fallback):'車號 #'+x.driver_number);
+        const team=d.team_name||(fallback?driverTeamOf(fallback):'');
+        const segments=Array.isArray(x.duration)?x.duration.map((v,j)=>v?'Q'+(j+1)+' '+fmtLap(v):'').filter(Boolean).join(' · '):'';
+        return {position:x.position??i+1,name,team,number:x.driver_number,metric:metricForOpenF1(x,type),sub:segments||(x.number_of_laps!==undefined?'圈數 '+x.number_of_laps:'')};
+      });
+    }
+    function podiumMarkup(rows){
+      const top=rows.slice(0,3);if(top.length<3)return '';
+      // Visual podium ordering P2 / P1 / P3.
+      return '<div class="result-podium">'+[top[1],top[0],top[2]].map(x=>'<div class="podium-card" style="--team-color:'+safe(resultColors(x.team))+'55"><span class="place">P'+safe(x.position)+'</span><div><div class="driver">'+safe(x.name)+'</div><div class="team">'+safe(x.team||'F1')+'</div><div class="result">'+safe(x.metric)+'</div></div></div>').join('')+'</div>';
+    }
+    function showResultRows(rows,type,source,cached=false){
+      const ordered=rows.slice().sort((a,b)=>(Number(a.position)||99)-(Number(b.position)||99));
+      $('resultContent').innerHTML='<div class="result-summary"><div><h3>'+safe(type.full)+'成績</h3><p>'+safe(ordered.length)+' 位車手'+(cached?' · 已儲存結果':'')+'</p></div><span class="result-source">'+safe(source)+'</span></div>'
+        +podiumMarkup(ordered)
+        +'<div class="result-list">'+ordered.map(x=>'<div class="result-row" style="--team-color:'+safe(resultColors(x.team))+'"><div class="result-pos">'+safe(x.position===null?'—':'P'+x.position)+'</div><div class="result-strip"></div><div class="result-driver"><b>'+safe(x.name)+'</b><small>'+safe(x.team||('車號 #'+x.number))+'</small></div><div class="result-metric">'+safe(x.metric)+'<small>'+safe(x.sub||'')+'</small></div></div>').join('')+'</div>';
+    }
+    async function openResults(round,session=null){
+      if(round)state.resultRound=String(round);
+      if(session)state.resultSession=session;
+      if(!state.resultRound)state.resultRound=resultRoundDefault();
+      const race=renderResultHeader();
+      go('results');
+      if(race)await loadSelectedResult();
+      else resultEmpty('賽程尚未載入','請連線後點選右上角的資料更新。');
+    }
+    async function loadSelectedResult(force=false){
+      const race=renderResultHeader();if(!race)return;
+      const type=resultType(state.resultSession);if(!type)return;
+      const token=++state.resultToken;
+      const key=race.round+'-'+type.id;
+      const cache=state.resultCache[key]||saved('sessionResult2026_'+key,null);
+      const valid=cache?.rows?.length && Date.now()-cache.stamp<6*3600000;
+      if(!force&&valid){showResultRows(cache.rows,type,cache.source,true);return;}
+      if(pendingSession(race,type)){resultEmpty('尚未公布結果','這個場次尚未結束，結果公布後即可查看。');return;}
+      if(cache?.rows?.length)showResultRows(cache.rows,type,cache.source,true);
+      else resultLoading(type.full);
+      let rows=[],source='',failures=[];
+      // Stable Jolpica endpoints are preferred for official classification results.
+      if(['race','sprint','qualifying'].includes(type.id)){
+        try{rows=await loadJolpicaResult(race,type);source='Jolpica-F1';}
+        catch(error){failures.push(error);}
+      }
+      if(!rows.length){
+        try{rows=await loadOpenF1Result(race,type);source='OpenF1';}
+        catch(error){failures.push(error);}
+      }
+      if(token!==state.resultToken||document.querySelector('#results.hidden'))return;
+      if(rows.length){
+        state.resultCache[key]={rows,source,stamp:Date.now()};
+        store('sessionResult2026_'+key,state.resultCache[key]);
+        showResultRows(rows,type,source);
+      }else if(cache?.rows?.length){showResultRows(cache.rows,type,cache.source,true);}
+      else if(failures.length)resultEmpty('暫時無法取得成績','資料來源連線失敗。請稍後重新更新，已完成的其他場次仍可查看。',true);
+      else resultEmpty('等待官方結果','這場次目前尚無可取得的結果。資料公布後再按更新即可。',true);
     }
 
     function renderHero() {
@@ -599,6 +819,7 @@
       renderHero();
       renderRaces();
       renderStandings();
+      renderResultHeader();
     }
 
     function go(page) {
@@ -618,11 +839,17 @@
     }
 
     document.addEventListener('click', event => {
+      const openResult = event.target.closest('[data-openresults]');
+      if(openResult){openResults(openResult.dataset.openresults);return;}
+      const resultTab = event.target.closest('[data-resultsession]');
+      if(resultTab){state.resultSession=resultTab.dataset.resultsession;loadSelectedResult();return;}
+      if(event.target.closest('[data-resultretry]')){loadSelectedResult(true);return;}
       const detail = event.target.closest('[data-detailtype]');
       if(detail){openDetail(detail.dataset.detailtype,detail.dataset.detailid);return;}
       const nav = event.target.closest('[data-go]');
       if (nav) {
         if(nav.dataset.boardjump){state.board=nav.dataset.boardjump;document.querySelectorAll('[data-board]').forEach(x=>x.classList.toggle('active',x.dataset.board===state.board));renderStandings();}
+        if(nav.dataset.go==='results'){openResults(state.resultRound);return;}
         go(nav.dataset.go);
         return;
       }
@@ -657,6 +884,8 @@
       }
     });
 
+    $('resultRound').onchange = event => { state.resultRound=event.target.value; const race=state.races.find(x=>x.round===state.resultRound); state.resultSession=availableTypes(race).at(-1)?.id||'race'; loadSelectedResult(); };
+    $('resultRefresh').onclick=()=>loadSelectedResult(true);
     $('profileBack').onclick=()=>{state.activeDetail=null;go(state.returnPage||'favorites');};
     $('resetDriverFav').onclick = () => {
       state.favoriteDrivers = [];
@@ -723,6 +952,8 @@
       const errors = results.filter(result => result.status === 'rejected');
       announce(errors.length ? '部分資料更新失敗，保留可用的本機快取。' : '資料同步完成。', errors.length > 0);
       render();
+      renderResultHeader();
+      if(!document.querySelector('#results.hidden'))loadSelectedResult();
     }
 
     $('refresh').onclick = sync;
