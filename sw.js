@@ -1,4 +1,4 @@
-const CACHE='paddock-pulse-v1-4-0';
+const CACHE='paddock-pulse-v1-5-0';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('paddock-pulse-')&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
