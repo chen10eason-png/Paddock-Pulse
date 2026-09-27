@@ -1,4 +1,4 @@
-# Paddock Pulse V1.0
+# Paddock Pulse V1.0.1
 
 獨立非官方 F1 資訊 PWA，適合 iPhone/iPad 及 GitHub Pages。
 
@@ -20,3 +20,8 @@ Jolpica-F1: https://api.jolpi.ca/ergast/f1/2026/races.json （含積分相關端
 
 ## 未來開發
 整合 OpenF1 公開 API 的歷史圈速/賽況、經查證的即時賽況供應商、新聞、通知以及（若需原生 iOS）WidgetKit 和 ActivityKit。外部來源授權及平台速率限制需個別檢查。
+
+## V1.0.1 修正
+- 正確顯示 Jolpica DriverStandings.Driver 的姓名與 ConstructorStandings.Constructor 的車隊名稱。
+- 車手收藏使用 Driver.driverId，兼容之前儲存的資料。
+- 更新離線快取版本；部署後重新整理以取得新版。
