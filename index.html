@@ -226,7 +226,7 @@
 .track-drawing{position:relative;background:radial-gradient(circle at 50% 20%,#273244 0,#181d27 55%,#11151d 100%);border:1px solid #2f3948;border-radius:18px;min-height:220px;padding:10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .track-shell.compact .track-drawing{min-height:150px}
 .track-drawing:after{content:'TRACK';position:absolute;right:8px;bottom:-8px;font-size:56px;font-weight:1000;letter-spacing:-3px;color:#ffffff08;font-style:italic}
-.track-svg{width:100%;height:100%}.track-outline{fill:none;stroke:#7f8da01c;stroke-width:20;stroke-linecap:round;stroke-linejoin:round}.track-line{fill:none;stroke:#edf3ff;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(255,255,255,.12))}.track-glow{fill:none;stroke:#ff5f68;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.85}.start-dot{fill:#ff646d;stroke:#fff;stroke-width:2}.start-label{font-size:8px;font-weight:900;fill:#d6dde9;letter-spacing:.8px}.track-copy{display:flex;flex-direction:column;justify-content:space-between;gap:12px}.track-copy h3{margin:2px 0 4px;font-size:19px;letter-spacing:-.5px}.track-copy p{margin:0;color:#9dacbf;font-size:12px;line-height:1.6}.track-chiprow{display:flex;gap:8px;flex-wrap:wrap}.track-chip{display:inline-flex;align-items:center;gap:6px;background:#ffffff0a;border:1px solid #ffffff14;color:#dfe6ef;border-radius:999px;padding:7px 10px;font-size:11px}.track-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.track-mini{background:#121722;border:1px solid #2a3240;border-radius:16px;padding:12px}.track-mini small{display:block;color:#95a1b3;font-size:10px;letter-spacing:1px;text-transform:uppercase}.track-mini strong{display:block;margin-top:6px;font-size:14px;letter-spacing:-.2px}.track-note{font-size:11px;color:#92a0b4;line-height:1.65}.schedule-track-wrap{padding:13px 0 2px}.schedule-track-wrap .track-card{margin-top:0;background:transparent;border:0}.schedule-track-wrap .track-shell.compact .track-copy h3{font-size:15px}.schedule-track-wrap .track-note{margin-top:2px}.schedule-track-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+.track-photo{max-width:100%;max-height:100%;display:block;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(0,0,0,.28))}.track-photo-box{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}.track-photo-box:before{content:"OFFICIAL MAP";position:absolute;left:10px;top:8px;font-size:10px;font-weight:900;letter-spacing:1.8px;color:#f2f5fb9a}.track-photo-box:after{content:"FORMULA1.COM";position:absolute;right:10px;bottom:8px;font-size:10px;font-weight:900;letter-spacing:1.2px;color:#ffffff45}.track-fallback{padding:16px;text-align:center;color:#b7c2d1;font-size:12px;line-height:1.7}.track-copy{display:flex;flex-direction:column;justify-content:space-between;gap:12px}.track-copy h3{margin:2px 0 4px;font-size:19px;letter-spacing:-.5px}.track-copy p{margin:0;color:#9dacbf;font-size:12px;line-height:1.6}.track-chiprow{display:flex;gap:8px;flex-wrap:wrap}.track-chip{display:inline-flex;align-items:center;gap:6px;background:#ffffff0a;border:1px solid #ffffff14;color:#dfe6ef;border-radius:999px;padding:7px 10px;font-size:11px}.track-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.track-mini{background:#121722;border:1px solid #2a3240;border-radius:16px;padding:12px}.track-mini small{display:block;color:#95a1b3;font-size:10px;letter-spacing:1px;text-transform:uppercase}.track-mini strong{display:block;margin-top:6px;font-size:14px;letter-spacing:-.2px}.track-note{font-size:11px;color:#92a0b4;line-height:1.65}.track-source{font-size:10px;color:#7f8da2;line-height:1.5}.schedule-track-wrap{padding:13px 0 2px}.schedule-track-wrap .track-card{margin-top:0;background:transparent;border:0}.schedule-track-wrap .track-shell.compact .track-copy h3{font-size:15px}.schedule-track-wrap .track-note{margin-top:2px}.schedule-track-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
 @media(max-width:700px){.track-shell{grid-template-columns:1fr}.track-drawing{min-height:195px}.track-mini-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:430px){.track-mini-grid{grid-template-columns:1fr}.track-shell.compact .track-drawing{min-height:135px}}
 
@@ -357,7 +357,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.7.0 · 非官方 F1 資訊 PWA。此版補強賽道功能：修正各分站對應的賽道地圖、加入賽道詳細資訊、賽道放大詳情頁，以及首頁本週賽道卡片，並保留賽事週末時間軸、收藏展廳、車手／車隊詳情與近期賽果。地圖為原創風格化路線示意，非官方授權賽道圖。</div>
+      <div class="panel info">Paddock Pulse V1.8.0 · 非官方 F1 資訊 PWA。此版把賽道圖改為真正的官方賽道圖來源：賽道卡片、賽果頁與賽道詳情頁優先使用 Formula1.com 的官方 circuit map，不再使用先前的自畫示意圖，並保留賽事週末時間軸、收藏展廳、車手／車隊詳情與近期賽果。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -379,7 +379,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.7.0';
+    const APP_VERSION = '1.8.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -484,64 +484,82 @@
       fallback:{path:'M78 120 C85 86, 118 59, 163 56 C209 52, 250 74, 262 107 C272 133, 260 156, 236 169 C209 183, 173 182, 144 184 C118 186, 101 196, 100 211 C98 228, 117 241, 150 246 C190 253, 238 241, 270 214',start:[262,107]}
     };
     const TRACK_INFO = {
-      albert_park:{direction:'Clockwise', turns:'14', length:'5.278 km', laps:'58 laps', type:'Semi-street circuit', first:'1996', note:'湖畔公園賽道，速度快、煞車點多，現代版 Albert Park 已比早期更流暢。'},
-      shanghai:{direction:'Clockwise', turns:'16', length:'5.451 km', laps:'56 laps', type:'Permanent circuit', first:'2004', note:'以上海「上」字概念延伸的賽道輪廓，首兩個彎為標誌性長彎。'},
-      suzuka:{direction:'Figure-eight / Clockwise', turns:'18', length:'5.807 km', laps:'53 laps', type:'Permanent circuit', first:'1987', note:'最經典的技術型賽道之一，S Curves、Degner、Spoon 與 130R 都很有代表性。'},
-      bahrain:{direction:'Clockwise', turns:'15', length:'5.412 km', laps:'57 laps', type:'Permanent circuit', first:'2004', note:'沙漠夜戰代表，重煞車與加速區很多，輪胎與煞車管理都很重要。'},
-      jeddah:{direction:'Counter-clockwise', turns:'27', length:'6.174 km', laps:'50 laps', type:'Street circuit', first:'2021', note:'高速街道賽，牆邊容錯低、彎角快，是目前日曆中最高速的街道賽之一。'},
-      miami:{direction:'Counter-clockwise', turns:'19', length:'5.412 km', laps:'57 laps', type:'Semi-street circuit', first:'2022', note:'位於球場周邊的暫時賽道，低速髮夾與長直線組合形成超車機會。'},
-      imola:{direction:'Counter-clockwise', turns:'19', length:'4.909 km', laps:'63 laps', type:'Permanent circuit', first:'1980', note:'起伏明顯、路面狹窄，Tamburello、Acque Minerali 等路段很具歷史感。'},
-      monaco:{direction:'Clockwise', turns:'19', length:'3.337 km', laps:'78 laps', type:'Street circuit', first:'1950', note:'F1 最傳奇街道賽，超車極難，排位與貼牆精準度往往決定週末成敗。'},
-      catalunya:{direction:'Clockwise', turns:'14', length:'4.657 km', laps:'66 laps', type:'Permanent circuit', first:'1991', note:'測試與比賽常客，兼具高速與中低速，是車輛整體性能的綜合考場。'},
-      villeneuve:{direction:'Clockwise', turns:'14', length:'4.361 km', laps:'70 laps', type:'Semi-street circuit', first:'1978', note:'以長直線與重煞車聞名，最後一彎出口的冠軍牆最具標誌性。'},
-      red_bull_ring:{direction:'Clockwise', turns:'10', length:'4.318 km', laps:'71 laps', type:'Permanent circuit', first:'1970', note:'圈長不長但落差大，前段連續重煞車區創造很多超車機會。'},
-      silverstone:{direction:'Clockwise', turns:'18', length:'5.891 km', laps:'52 laps', type:'Permanent circuit', first:'1950', note:'高速連續彎名聞世界，Maggotts-Becketts-Chapel 是最具代表性的區段。'},
-      spa:{direction:'Clockwise', turns:'19', length:'7.004 km', laps:'44 laps', type:'Permanent circuit', first:'1950', note:'高低起伏與長圈長兼具，Eau Rouge / Raidillon 與長直線非常經典。'},
-      hungaroring:{direction:'Clockwise', turns:'14', length:'4.381 km', laps:'70 laps', type:'Permanent circuit', first:'1986', note:'狹窄多彎、節奏密集，常被稱為沒有牆的摩納哥。'},
-      zandvoort:{direction:'Clockwise', turns:'14', length:'4.259 km', laps:'72 laps', type:'Permanent circuit', first:'1952', note:'沙丘地形與高傾角彎帶來獨特視覺與駕駛節奏。'},
-      monza:{direction:'Clockwise', turns:'11', length:'5.793 km', laps:'53 laps', type:'Permanent circuit', first:'1950', note:'速度聖殿，以低下壓力設定與高尾速著稱。'},
-      baku:{direction:'Counter-clockwise', turns:'20', length:'6.003 km', laps:'51 laps', type:'Street circuit', first:'2016', note:'極窄城堡區與超長主直線並存，節奏反差非常大。'},
-      singapore:{direction:'Counter-clockwise', turns:'19', length:'4.940 km', laps:'62 laps', type:'Street circuit', first:'2008', note:'濕熱夜戰考驗體能與專注力，失誤代價高。'},
-      americas:{direction:'Counter-clockwise', turns:'20', length:'5.513 km', laps:'56 laps', type:'Permanent circuit', first:'2012', note:'首彎大上坡和多段向經典賽道致敬的連續彎，是美國站代表性賽道。'},
-      rodriguez:{direction:'Clockwise', turns:'17', length:'4.304 km', laps:'71 laps', type:'Permanent circuit', first:'1963', note:'高海拔讓空力與冷卻更有挑戰，Peraltada 區域極具標誌性。'},
-      interlagos:{direction:'Counter-clockwise', turns:'15', length:'4.309 km', laps:'71 laps', type:'Permanent circuit', first:'1973', note:'短圈、上下起伏、天氣多變，常產生戲劇化比賽。'},
-      las_vegas:{direction:'Clockwise', turns:'17', length:'6.201 km', laps:'50 laps', type:'Street circuit', first:'2023', note:'以賭城大道高速路段為特色，低溫夜賽與長直線相當關鍵。'},
-      lusail:{direction:'Clockwise', turns:'16', length:'5.419 km', laps:'57 laps', type:'Permanent circuit', first:'2021', note:'原本為摩托車賽道，高速連續彎多，節奏非常流暢。'},
-      yas_marina:{direction:'Counter-clockwise', turns:'16', length:'5.281 km', laps:'58 laps', type:'Permanent circuit', first:'2009', note:'黃昏到夜晚的收官賽地標，近期改版後比賽節奏更順。'},
+      albert_park:{direction:'Clockwise', turns:'14', length:'5.278 km', laps:'58 laps', type:'Semi-street circuit', first:'1996', note:'Albert Park 是高速的半街道賽道，週末初期通常偏滑，車輛需要靈活的前軸反應。'},
+      shanghai:{direction:'Clockwise', turns:'16', length:'5.451 km', laps:'56 laps', type:'Permanent circuit', first:'2004', note:'上海國際賽道以首段長彎最具代表性，重煞車與加速區也很多。'},
+      suzuka:{direction:'Figure-eight / Clockwise', turns:'18', length:'5.807 km', laps:'53 laps', type:'Permanent circuit', first:'1987', note:'Suzuka 是最經典的技術型賽道之一，S Curves、Degner、Spoon 與 130R 都很有代表性。'},
+      bahrain:{direction:'Clockwise', turns:'15', length:'5.412 km', laps:'57 laps', type:'Permanent circuit', first:'2004', note:'Bahrain 是典型重煞車與加速出彎考場，夜戰與輪胎管理很關鍵。'},
+      jeddah:{direction:'Counter-clockwise', turns:'27', length:'6.174 km', laps:'50 laps', type:'Street circuit', first:'2021', note:'Jeddah 是高速街道賽代表，容錯低、平均速度高。'},
+      miami:{direction:'Counter-clockwise', turns:'19', length:'5.412 km', laps:'57 laps', type:'Semi-street circuit', first:'2022', note:'Miami 結合球場周邊場地與長直線，是混合型暫時賽道。'},
+      imola:{direction:'Counter-clockwise', turns:'19', length:'4.909 km', laps:'63 laps', type:'Permanent circuit', first:'1980', note:'Imola 高低起伏明顯，路面狹窄，充滿歷史感。'},
+      monaco:{direction:'Clockwise', turns:'19', length:'3.337 km', laps:'78 laps', type:'Street circuit', first:'1950', note:'Monaco 是 F1 最傳奇的街道賽，排位賽往往幾乎決定週末走勢。'},
+      catalunya:{direction:'Clockwise', turns:'14', length:'4.657 km', laps:'66 laps', type:'Permanent circuit', first:'1991', note:'Catalunya 兼具高速與中低速彎角，是非常全面的測試型賽道。'},
+      madring:{direction:'Clockwise', turns:'22', length:'5.414 km', laps:'57 laps', type:'Hybrid street circuit', first:'2026', note:'2026 起西班牙站移至 Madring，結合公路與專用路段，並有標誌性的高傾角彎。'},
+      villeneuve:{direction:'Clockwise', turns:'14', length:'4.361 km', laps:'70 laps', type:'Semi-street circuit', first:'1978', note:'Montreal 的 Gilles-Villeneuve 長直線與重煞車區很多，最後的冠軍牆最有名。'},
+      red_bull_ring:{direction:'Clockwise', turns:'10', length:'4.318 km', laps:'71 laps', type:'Permanent circuit', first:'1970', note:'Red Bull Ring 圈長短但落差大，前段是主要超車區。'},
+      silverstone:{direction:'Clockwise', turns:'18', length:'5.891 km', laps:'52 laps', type:'Permanent circuit', first:'1950', note:'Silverstone 以高速連續彎聞名，Maggotts-Becketts-Chapel 極具代表性。'},
+      spa:{direction:'Clockwise', turns:'19', length:'7.004 km', laps:'44 laps', type:'Permanent circuit', first:'1950', note:'Spa-Francorchamps 兼具長圈長與高低起伏，Eau Rouge / Raidillon 非常經典。'},
+      hungaroring:{direction:'Clockwise', turns:'14', length:'4.381 km', laps:'70 laps', type:'Permanent circuit', first:'1986', note:'Hungaroring 節奏密集且不易超車，常被稱為沒有牆的摩納哥。'},
+      zandvoort:{direction:'Clockwise', turns:'14', length:'4.259 km', laps:'72 laps', type:'Permanent circuit', first:'1952', note:'Zandvoort 穿梭於沙丘間，起伏與高傾角彎是最大特色。'},
+      monza:{direction:'Clockwise', turns:'11', length:'5.793 km', laps:'53 laps', type:'Permanent circuit', first:'1950', note:'Monza 是速度聖殿，以低下壓力與高尾速著稱。'},
+      baku:{direction:'Counter-clockwise', turns:'20', length:'6.003 km', laps:'51 laps', type:'Street circuit', first:'2016', note:'Baku 的窄城堡區和極長主直線形成強烈反差。'},
+      singapore:{direction:'Counter-clockwise', turns:'19', length:'4.940 km', laps:'62 laps', type:'Street circuit', first:'2008', note:'Singapore 是高溫高濕夜戰，對體能與專注力要求很高。'},
+      americas:{direction:'Counter-clockwise', turns:'20', length:'5.513 km', laps:'56 laps', type:'Permanent circuit', first:'2012', note:'COTA 融合多條經典賽道靈感，首彎大上坡是亮點。'},
+      rodriguez:{direction:'Clockwise', turns:'17', length:'4.304 km', laps:'71 laps', type:'Permanent circuit', first:'1963', note:'Mexico City 高海拔稀薄空氣使空力與冷卻條件更加特別。'},
+      interlagos:{direction:'Counter-clockwise', turns:'15', length:'4.309 km', laps:'71 laps', type:'Permanent circuit', first:'1973', note:'Interlagos 短圈、起伏與天氣變化，經常帶來戲劇性比賽。'},
+      las_vegas:{direction:'Clockwise', turns:'17', length:'6.201 km', laps:'50 laps', type:'Street circuit', first:'2023', note:'Las Vegas 以長直線與夜賽城市景觀最具代表性。'},
+      lusail:{direction:'Clockwise', turns:'16', length:'5.419 km', laps:'57 laps', type:'Permanent circuit', first:'2021', note:'Lusail 原本主要舉辦 MotoGP，整體節奏高速且流暢。'},
+      yas_marina:{direction:'Counter-clockwise', turns:'16', length:'5.281 km', laps:'58 laps', type:'Permanent circuit', first:'2009', note:'Yas Marina 是黃昏到夜晚的收官舞台，近年修改後節奏更順暢。'},
       fallback:{direction:'—', turns:'—', length:'—', laps:'—', type:'Grand Prix circuit', first:'—', note:'此站的賽道詳細資訊尚未完整建立。'}
     };
-    function trackVisualFor(race){
-      const id = race?.Circuit?.circuitId;
-      return TRACK_VISUALS[id] || TRACK_VISUALS.fallback;
+    const TRACK_ASSET_BASE = 'https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/';
+    const OFFICIAL_TRACK_SLUGS = {
+      albert_park:'melbourne', shanghai:'shanghai', suzuka:'suzuka', bahrain:'bahrain', jeddah:'jeddah', miami:'miami', imola:'imola', monaco:'monaco', catalunya:'catalunya', madring:'madring', villeneuve:'montreal', red_bull_ring:'redbullring', silverstone:'silverstone', spa:'spa', hungaroring:'hungaroring', zandvoort:'zandvoort', monza:'monza', baku:'baku', singapore:'singapore', americas:'austin', rodriguez:'mexicocity', interlagos:'interlagos', las_vegas:'lasvegas', lusail:'lusail', yas_marina:'yasmarina'
+    };
+    function normalizeCircuitKey(race){
+      const raw = String(race?.Circuit?.circuitId || '').toLowerCase();
+      const text = `${race?.Circuit?.circuitName || ''} ${race?.raceName || ''}`.toLowerCase();
+      const alias = {albert_park:'albert_park', melbourne:'albert_park', shanghai:'shanghai', suzuka:'suzuka', bahrain:'bahrain', sakhir:'bahrain', jeddah:'jeddah', miami:'miami', imola:'imola', monaco:'monaco', catalunya:'catalunya', villeneuve:'villeneuve', montreal:'villeneuve', red_bull_ring:'red_bull_ring', spielberg:'red_bull_ring', silverstone:'silverstone', spa:'spa', francorchamps:'spa', hungaroring:'hungaroring', zandvoort:'zandvoort', monza:'monza', baku:'baku', singapore:'singapore', americas:'americas', austin:'americas', rodriguez:'rodriguez', mexicocity:'rodriguez', interlagos:'interlagos', las_vegas:'las_vegas', lusail:'lusail', qatar:'lusail', yas_marina:'yas_marina', yasmarina:'yas_marina'};
+      if(alias[raw]) return alias[raw];
+      if(text.includes('madring') || text.includes('madrid')) return 'madring';
+      if(text.includes('circuit gilles-villeneuve') || text.includes('montreal')) return 'villeneuve';
+      if(text.includes('circuit of the americas') || text.includes('austin') || text.includes('united states')) return 'americas';
+      if(text.includes('mexico city') || text.includes('autódromo hermanos rodríguez') || text.includes('autodromo hermanos rodriguez')) return 'rodriguez';
+      if(text.includes('são paulo') || text.includes('sao paulo') || text.includes('josé carlos pace') || text.includes('jose carlos pace')) return 'interlagos';
+      if(text.includes('yas marina') || text.includes('abu dhabi')) return 'yas_marina';
+      if(text.includes('albert park') || text.includes('melbourne')) return 'albert_park';
+      if(text.includes('lusail') || text.includes('qatar')) return 'lusail';
+      return raw || 'fallback';
     }
     function trackInfoFor(race){
-      const id = race?.Circuit?.circuitId;
-      return TRACK_INFO[id] || TRACK_INFO.fallback;
+      const key = normalizeCircuitKey(race);
+      return TRACK_INFO[key] || TRACK_INFO.fallback;
+    }
+    function officialTrackMap(race){
+      const key = normalizeCircuitKey(race);
+      const slug = OFFICIAL_TRACK_SLUGS[key];
+      return slug ? `${TRACK_ASSET_BASE}2026track${slug}detailed.webp` : '';
     }
 
     function circuitMapCard(race, compact=false, full=false){
       if(!race) return '';
-      const visual = trackVisualFor(race);
+      const mapUrl = officialTrackMap(race);
       const info = trackInfoFor(race);
       const location = [race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
-      const sf = visual.start || [262,107];
       const chips = '<span class="track-chip">'+safe(info.length)+'</span><span class="track-chip">'+safe(info.turns)+' turns</span><span class="track-chip">'+safe(info.direction)+'</span>';
       const actions = '<div class="track-actions"><button class="track-cta primary" data-opencircuit="'+safe(race.round)+'">放大賽道圖</button><button class="track-cta" data-openresults="'+safe(race.round)+'">查看本站賽果</button></div>';
+      const mapHtml = mapUrl
+        ? '<div class="track-photo-box"><img class="track-photo" loading="lazy" src="'+safe(mapUrl)+'" alt="'+safe(race.Circuit?.circuitName || race.raceName)+' 官方賽道圖"></div>'
+        : '<div class="track-fallback">這站暫時沒有找到已驗證的官方賽道圖。<br>我先不顯示任何示意圖，避免放錯。</div>';
       return '<section class="track-card">'
         + '<div class="track-shell'+(compact?' compact':'')+(full?' full':'')+'">'
-        + '<div class="track-drawing"><svg class="track-svg" viewBox="0 0 400 320" aria-label="'+safe(race.raceName)+' 賽道地圖" role="img">'
-        + '<path class="track-outline" d="'+safe(visual.path)+'"></path>'
-        + '<path class="track-line" d="'+safe(visual.path)+'"></path>'
-        + '<path class="track-glow" d="'+safe(visual.path)+'"></path>'
-        + '<circle class="start-dot" cx="'+safe(sf[0])+'" cy="'+safe(sf[1])+'" r="5"></circle>'
-        + '<text class="start-label" x="'+safe(sf[0]+10)+'" y="'+safe(sf[1]-8)+'">START / FINISH</text>'
-        + '</svg></div>'
+        + '<div class="track-drawing">'+mapHtml+'</div>'
         + '<div class="track-copy">'
-        + '<div><div class="eyebrow">TRACK MAP</div><h3>'+safe(race.Circuit?.circuitName || race.raceName)+'</h3><p>'+safe(location || 'Formula 1 circuit')+'</p></div>'
+        + '<div><div class="eyebrow">OFFICIAL TRACK MAP</div><h3>'+safe(race.Circuit?.circuitName || race.raceName)+'</h3><p>'+safe(location || 'Formula 1 circuit')+'</p></div>'
         + '<div class="track-chiprow">'+chips+'</div>'
         + '<div class="track-mini-grid"><div class="track-mini"><small>Circuit type</small><strong>'+safe(info.type)+'</strong></div><div class="track-mini"><small>Race distance</small><strong>'+safe(info.laps)+'</strong></div><div class="track-mini"><small>First GP</small><strong>'+safe(info.first)+'</strong></div><div class="track-mini"><small>Round</small><strong>R'+safe(race.round)+'</strong></div></div>'
-        + '<div class="track-note">'+safe(info.note)+' 賽道圖為 App 內建的原創風格化示意，並非官方授權地圖。</div>'
-        + (compact?actions:actions)
+        + '<div class="track-note">'+safe(info.note)+'</div>'
+        + '<div class="track-source">Track map source: Formula1.com official circuit image. 若官方圖無法載入，App 會顯示空狀態，而不再放錯圖。</div>'
+        + actions
         + '</div></div></section>';
     }
 
