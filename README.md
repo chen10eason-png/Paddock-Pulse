@@ -1,4 +1,4 @@
-# Paddock Pulse V1.11.0
+# Paddock Pulse V1.12.0
 
 本版從 GitHub 公開版本 V1.10.0（index.html blob 4c5839a37a05b29f18d41c1167dc8615c09da955）接續修改。
 
@@ -17,7 +17,7 @@ Open-Meteo 免費預報 API https://open-meteo.com/en/docs，按賽道座標及�
 ZIP 解壓後，將資料夾**內部** 7 個檔案上傳至 GitHub Pages repo 根目錄：index.html、manifest.webmanifest、sw.js、icon-192.png、icon-512.png、TRACK_AUDIT.json、README.md。GitHub Pages deployment 不會因為 ZIP 下載而自動更新（目前 GitHub connector 對此 repo 僅有讀取權限）。
 
 ## 版本核對
-index.html `APP_VERSION`、收藏頁文字、ZIP 檔名、Service Worker cache、README 全部設定為 V1.11.0。
+index.html `APP_VERSION`、收藏頁文字、ZIP 檔名、Service Worker cache、README 全部設定為 V1.12.0。
 
 ## 核實的重要賽事更新與規則
 - 2026 第 16 站「巴林大獎賽」於 10 月 2–4 日在馬來西亞 Sepang 舉辦，即使原始賽程快取尚未更新也會正確映射；來源：https://www.formula1.com/en/latest/article/formula-1-and-fia-confirm-formula-1-and-fia-confirm-malaysia-will-join-2026-calendar-as-host-venue-for-the-bahrain-grand-prix.6lL7vjFEM2VVynRHvg1TCf
@@ -25,3 +25,8 @@ index.html `APP_VERSION`、收藏頁文字、ZIP 檔名、Service Worker cache�
 
 ## 驗證範圍
 已核對賽道資料庫內 25 個 SVG 名稱與版號；iPhone / iPad 尺寸以模擬網路回應測試場次切換、圖片成功載入、已公告配胎及 Open-Meteo 逐小時時區轉換。實際 CDN 與天氣 API 的部署端到端連線仍須在可對外連線的真實網站確認，不能將模擬測試視作已驗證實際預報。
+
+## V1.12.0
+- **Las Vegas map offline-stable**: `assets/las-vegas-1.svg` bundles the exact documented 2023–2026 layout from Jules Roy/f1-circuits-svg, modified stroke colors; full attribution under CC BY 4.0; remote identical SVG remains fallback.
+- **Floating glass bottom dock**: rounded translucent floating pill, strong Safari backdrop blur/saturation, bright specular strokes, animated selected lens, crisp five SVG icons, safe-area-aware iPhone/iPad responsive spacing, reduced-motion support. This is a CSS recreation; Apple's proprietary native Liquid Glass renderer is not exposed to website PWAs.
+- Same existing localStorage favorites and weather/tyre policy; version and PWA cache updated.

@@ -27,5 +27,8 @@
     "suzuka-2.svg",
     "yas-marina-2.svg",
     "zandvoort-5.svg"
-  ]
+  ],
+  "las_vegas_local_asset": "assets/las-vegas-1.svg",
+  "las_vegas_source_url": "https://github.com/julesr0y/f1-circuits-svg/blob/main/circuits/detailed/white-outline/las-vegas-1.svg",
+  "las_vegas_license": "CC BY 4.0 (modified stroke colors)"
 }
