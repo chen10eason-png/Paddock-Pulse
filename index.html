@@ -236,6 +236,9 @@
   
 /* V1.9.0 circuit premium page */
 .circuit-hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:end}.hero-kicker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff14;color:#eff4fb;font-size:11px;font-weight:800;letter-spacing:.3px}.hero-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}.hero-meta .meta-box{background:#ffffff08;border:1px solid #ffffff10;border-radius:18px;padding:12px}.hero-meta .meta-box small{display:block;color:#b4c0d0;font-size:10px;letter-spacing:1px;text-transform:uppercase}.hero-meta .meta-box strong{display:block;margin-top:8px;font-size:18px;line-height:1.15;letter-spacing:-.4px}.hero-side-card{background:linear-gradient(145deg,#121924,#0e131b);border:1px solid #2b3443;border-radius:24px;padding:16px}.hero-side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.2px}.hero-side-card p{margin:0;color:#b5c1d0;font-size:12px;line-height:1.7}.map-status{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.status-dot{width:10px;height:10px;border-radius:50%}.status-ok{background:#4df086;box-shadow:0 0 0 4px rgba(77,240,134,.12)}.status-warn{background:#ffb84d;box-shadow:0 0 0 4px rgba(255,184,77,.12)}.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.guide-card{background:#161b26;border:1px solid #2a3240;border-radius:22px;padding:18px}.guide-card h2{margin:0 0 14px;font-size:17px}.pillrow{display:flex;flex-wrap:wrap;gap:8px}.guide-pill{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:#ffffff0b;border:1px solid #ffffff12;color:#dce5f0;font-size:11px;font-weight:700}.corner-list,.zone-list{display:flex;flex-direction:column;gap:10px}.corner-item,.zone-item{background:#202735;border-radius:16px;padding:14px;border:1px solid #2b3443}.corner-item strong,.zone-item strong{display:block;font-size:14px;margin-bottom:6px}.corner-item p,.zone-item p{margin:0;color:#bcc8d8;font-size:12px;line-height:1.65}.guide-note{font-size:11px;color:#93a1b5;line-height:1.7;margin-top:12px}.source-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.source-box{background:#202735;border-radius:16px;padding:14px}.source-box small{display:block;color:#9dabbe;font-size:10px;letter-spacing:1px;text-transform:uppercase}.source-box code{display:block;margin-top:8px;font-size:12px;color:#f1f5fb;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.source-box strong{display:block;margin-top:8px;font-size:15px}.track-source{font-size:10px;color:#7f8da2;line-height:1.5}.track-card.premium{background:linear-gradient(145deg,#171d27,#0f141c);border:1px solid #2f3846}.track-card.premium .track-shell{gap:18px}.track-card.premium .track-drawing{background:radial-gradient(circle at 50% 18%,#2b3547 0,#171d27 55%,#0f141c 100%)}.track-card.premium .track-copy h3{font-size:23px}@media(max-width:900px){.circuit-hero-grid{grid-template-columns:1fr}.hero-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.guide-grid{grid-template-columns:1fr}}@media(max-width:480px){.hero-meta{grid-template-columns:1fr 1fr}.source-grid{grid-template-columns:1fr}}
+
+/* V1.10.0 map fallback + extra circuit cards */
+.track-source-inline{position:absolute;left:12px;bottom:10px;font-size:10px;color:#ffffff8a;background:#0d1118c8;border:1px solid #ffffff12;border-radius:999px;padding:6px 9px;backdrop-filter:blur(8px)}.track-loading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;color:#d8e0ec;background:#101620d6;border:1px solid #ffffff10;border-radius:999px;padding:8px 12px}.extra-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:16px}.extra-card{background:#161b26;border:1px solid #2a3240;border-radius:22px;padding:18px}.extra-card h2{margin:0 0 12px;font-size:17px}.extra-card p{margin:0;color:#bcc8d8;font-size:12px;line-height:1.7}.extra-list{display:flex;flex-direction:column;gap:10px}.extra-item{background:#202735;border:1px solid #2b3443;border-radius:16px;padding:12px}.extra-item small{display:block;color:#9dabbe;font-size:10px;letter-spacing:1px;text-transform:uppercase}.extra-item strong{display:block;margin-top:7px;font-size:14px;line-height:1.35}@media(max-width:960px){.extra-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -360,7 +363,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.9.0 · 非官方 F1 資訊 PWA。此版強化賽道體驗：逐站檢查官方賽道圖對應、加入 map source 檢查狀態、重做更高級的賽道詳情頁，並新增特色彎角、超車點與 DRS 區資訊。</div>
+      <div class="panel info">Paddock Pulse V1.10.0 · 非官方 F1 資訊 PWA。此版補強賽道圖穩定度：同一站會自動依序嘗試多個官方候選圖網址，減少缺圖情況，並新增輪胎策略、天氣與賽道設定重點。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -382,7 +385,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.9.0';
+    const APP_VERSION = '1.10.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -565,10 +568,65 @@
       const key = normalizeCircuitKey(race);
       return TRACK_INFO[key] || TRACK_INFO.fallback;
     }
-    function officialTrackMap(race){
+
+    function officialTrackMapCandidates(race){
       const key = normalizeCircuitKey(race);
-      const slug = OFFICIAL_TRACK_SLUGS[key];
-      return slug ? `${TRACK_ASSET_BASE}2026track${slug}detailed.webp` : '';
+      const base = ['https://media.formula1.com/image/upload/c_fit,h_704/q_auto'];
+      const years = ['v1740000001/common/f1/2026/track/','v1730000001/common/f1/2025/track/','v1720000001/common/f1/2024/track/'];
+      const slugBase = OFFICIAL_TRACK_SLUGS[key] ? [OFFICIAL_TRACK_SLUGS[key]] : [];
+      const aliases = {
+        albert_park:['melbourne','australia','albertpark'], shanghai:['shanghai','china'], suzuka:['suzuka','japan'], bahrain:['bahrain','sakhir'], jeddah:['jeddah','saudiarabia'], miami:['miami'], imola:['imola','emiliaromagna'], monaco:['monaco'], catalunya:['catalunya','spain','barcelona'], madring:['madring','madrid','spain'], villeneuve:['montreal','canada','villeneuve'], red_bull_ring:['redbullring','austria','spielberg'], silverstone:['silverstone','greatbritain','britain'], spa:['spa','belgium','spafrancorchamps'], hungaroring:['hungaroring','hungary'], zandvoort:['zandvoort','netherlands'], monza:['monza','italy'], baku:['baku','azerbaijan'], singapore:['singapore'], americas:['austin','usa','unitedstates','americas'], rodriguez:['mexicocity','mexico','rodriguez'], interlagos:['interlagos','brazil','saopaulo'], las_vegas:['lasvegas','vegas'], lusail:['lusail','qatar'], yas_marina:['yasmarina','abudhabi','abudhabiyasmarina']
+      };
+      const slugs = [...new Set([...slugBase, ...(aliases[key]||[])])];
+      const out=[];
+      for(const year of years){
+        for(const slug of slugs){
+          out.push(`${base[0]}/${year}2026track${slug}detailed.webp`);
+          out.push(`${base[0]}/${year}2026track${slug}.webp`);
+        }
+      }
+      return [...new Set(out)];
+    }
+    function trackExtraFor(race){
+      const key = normalizeCircuitKey(race);
+      const high = new Set(['monaco','singapore','hungaroring','zandvoort','yas_marina','madring']);
+      const low = new Set(['monza','las_vegas','spa','baku','jeddah']);
+      const street = new Set(['monaco','singapore','jeddah','baku','las_vegas','madring']);
+      const hot = new Set(['bahrain','jeddah','miami','singapore','las_vegas','lusail','yas_marina']);
+      const tyre = street.has(key) ? '通常偏向機械抓地與煞車穩定，街道牆邊容錯低，輪胎暖胎與前軸信心特別重要。' : low.has(key) ? '通常偏重尾速與煞車效率，前後胎溫度管理與重煞車穩定性是關鍵。' : '通常需要平衡高速穩定與低速牽引，策略上常在輪胎衰退與進站時機間取捨。';
+      const setup = high.has(key) ? '設定傾向較高下壓力與更靈活的前軸反應，重視中低速抓地與方向改變。' : low.has(key) ? '設定傾向較低下壓力與較小阻力，力求直線尾速，同時兼顧重煞車穩定。' : '設定多半走中等到中高下壓力，追求全圈平衡與長距離穩定。';
+      const weather = hot.has(key) ? '通常偏炎熱，煞車與輪胎溫度容易升高，白天與夜間條件差異也值得注意。' : key==='spa' ? '天氣變化極大，同一圈不同區段常出現不同路況，是策略與輪胎判斷重點。' : key==='silverstone' || key==='zandvoort' || key==='monza' ? '常見偏涼或有風條件，側風與溫度變化可能影響平衡。' : '多數情況以乾地為主，但氣溫與風向變化仍可能左右單圈與長跑表現。';
+      const records = {monza:'速度聖殿，低下壓力與尾速通常最受關注。', monaco:'排位的重要性幾乎高於一切，賽道位置極難被取代。', spa:'長圈長加上高低起伏，常放大車手信心與車輛平衡差異。'};
+      return { tyre, setup, weather, note: records[key] || '可把這張卡當成本站的策略與設定快速摘要。' };
+    }
+    function initTrackMapImages(root=document){
+      root.querySelectorAll('.track-photo[data-candidates]:not([data-bound])').forEach(img=>{
+        img.dataset.bound='1';
+        let list=[];
+        try{ list = JSON.parse(decodeURIComponent(img.dataset.candidates||'')); }catch{}
+        if(!Array.isArray(list) || !list.length){
+          const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback');
+          if(fb) fb.hidden=false;
+          img.remove();
+          return;
+        }
+        const statusNode = img.closest('.track-photo-box')?.querySelector('.track-source-inline');
+        const loadingNode = img.closest('.track-photo-box')?.querySelector('.track-loading');
+        const setStatus = (txt)=>{ if(statusNode) statusNode.textContent=txt; };
+        const loadAt = (idx)=>{
+          img.dataset.index=String(idx);
+          setStatus(`Trying source ${idx+1} / ${list.length}`);
+          if(loadingNode) loadingNode.hidden=false;
+          img.src=list[idx];
+        };
+        img.onerror=()=>{
+          const next=(parseInt(img.dataset.index||'0',10))+1;
+          if(next<list.length){ loadAt(next); }
+          else { if(loadingNode) loadingNode.hidden=true; img.hidden=true; const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback'); if(fb) fb.hidden=false; setStatus('All official candidates failed'); }
+        };
+        img.onload=()=>{ if(loadingNode) loadingNode.hidden=true; const idx=parseInt(img.dataset.index||'0',10); setStatus(`Loaded official source ${idx+1} / ${list.length}`); img.hidden=false; const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback'); if(fb) fb.hidden=true; };
+        loadAt(0);
+      });
     }
 
     function trackGuideFor(race){
@@ -578,7 +636,8 @@
     function trackMapStatus(race){
       const key = normalizeCircuitKey(race);
       const slug = OFFICIAL_TRACK_SLUGS[key] || '';
-      return {key, slug, url: officialTrackMap(race), verified: Boolean(slug)};
+      const candidates = officialTrackMapCandidates(race);
+      return {key, slug, url: candidates[0] || '', verified: Boolean(slug), candidates};
     }
     function bulletPills(items){ return (items||[]).map(x=>`<span class="guide-pill">${safe(x)}</span>`).join(''); }
     function cornerItems(items){ return (items||[]).map(([title,desc])=>`<div class="corner-item"><strong>${safe(title)}</strong><p>${safe(desc)}</p></div>`).join(''); }
@@ -587,13 +646,14 @@
     function circuitMapCard(race, compact=false, full=false){
       if(!race) return '';
       const status = trackMapStatus(race);
-      const mapUrl = status.url;
+      const candidates = status.candidates || [];
       const info = trackInfoFor(race);
       const location = [race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
       const chips = '<span class="track-chip">'+safe(info.length)+'</span><span class="track-chip">'+safe(info.turns)+' turns</span><span class="track-chip">'+safe(info.direction)+'</span>';
       const actions = '<div class="track-actions"><button class="track-cta primary" data-opencircuit="'+safe(race.round)+'">放大賽道圖</button><button class="track-cta" data-openresults="'+safe(race.round)+'">查看本站賽果</button></div>';
-      const mapHtml = mapUrl
-        ? '<div class="track-photo-box"><img class="track-photo" loading="lazy" src="'+safe(mapUrl)+'" alt="'+safe(race.Circuit?.circuitName || race.raceName)+' 官方賽道圖"></div>'
+      const encodedCandidates = encodeURIComponent(JSON.stringify(candidates));
+      const mapHtml = candidates.length
+        ? '<div class="track-photo-box"><div class="track-loading">Loading official track map…</div><img class="track-photo" loading="lazy" alt="'+safe(race.Circuit?.circuitName || race.raceName)+' 官方賽道圖" data-candidates="'+encodedCandidates+'"><div class="track-source-inline">Preparing sources…</div><div class="track-fallback" hidden>這站的官方賽道圖候選網址都載入失敗。<br>我先保留正確賽道資訊，避免放錯圖。</div></div>'
         : '<div class="track-fallback">這站暫時沒有找到已驗證的官方賽道圖。<br>我先不顯示任何示意圖，避免放錯。</div>';
       return '<section class="track-card'+(full?' premium':'')+'">'
         + '<div class="track-shell'+(compact?' compact':'')+(full?' full':'')+'">'
@@ -603,7 +663,7 @@
         + '<div class="track-chiprow">'+chips+'</div>'
         + '<div class="track-mini-grid"><div class="track-mini"><small>Circuit type</small><strong>'+safe(info.type)+'</strong></div><div class="track-mini"><small>Race distance</small><strong>'+safe(info.laps)+'</strong></div><div class="track-mini"><small>First GP</small><strong>'+safe(info.first)+'</strong></div><div class="track-mini"><small>Round</small><strong>R'+safe(race.round)+'</strong></div></div>'
         + '<div class="track-note">'+safe(info.note)+'</div>'
-        + '<div class="track-source">Track map source: Formula1.com official circuit image · key <strong>'+safe(status.key)+'</strong> · slug <strong>'+safe(status.slug||'N/A')+'</strong></div>'
+        + '<div class="track-source">Track map source: Formula1.com official circuit image · key <strong>'+safe(status.key)+'</strong> · slug <strong>'+safe(status.slug||'N/A')+'</strong> · candidates <strong>'+safe((status.candidates||[]).length)+'</strong></div>'
         + actions
         + '</div></div></section>';
     }
@@ -770,6 +830,7 @@
       const info=trackInfoFor(race);
       const status=trackMapStatus(race);
       node.innerHTML='<div class="home-track-card"><div class="home-track-top"><div class="micro">THIS WEEK CIRCUIT</div><h3>'+safe(race.Circuit?.circuitName||race.raceName)+'</h3><p>'+safe(info.note)+'</p><div class="track-source" style="margin-top:8px">Map check: '+(status.verified?'Verified official map':'Need alias review')+' · '+safe(status.key)+'</div></div>'+circuitMapCard(race,true)+'</div>';
+      initTrackMapImages(node);
     }
 
     const when = value => value ? +new Date(value) : NaN;
@@ -797,6 +858,7 @@
       if(!types.some(t=>t.id===state.resultSession))state.resultSession=types.at(-1)?.id||'race';
       $('resultTabs').innerHTML=types.map(t=>'<button class="result-tab '+(t.id===state.resultSession?'active':'')+'" data-resultsession="'+t.id+'"><strong>'+safe(t.label)+'</strong><small>'+safe(t.full)+'</small></button>').join('');
       $('resultCircuitMap').innerHTML = circuitMapCard(r, false);
+      initTrackMapImages($('resultCircuitMap'));
       renderWeekendTimeline(r);
       return r;
     }
@@ -1075,6 +1137,7 @@
       const info=trackInfoFor(race);
       const guide=trackGuideFor(race);
       const status=trackMapStatus(race);
+      const extra=trackExtraFor(race);
       const location=[race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
       const heroMeta=`<div class="hero-meta">${factBox('Track length',info.length)}${factBox('Turns',info.turns)}${factBox('Race distance',info.laps)}${factBox('Direction',info.direction)}</div>`;
       $('circuitBody').innerHTML=`
@@ -1092,9 +1155,9 @@
             </div>
             <div class="hero-side-card">
               <h3>Track map source check</h3>
-              <div class="map-status"><span class="status-dot ${status.verified?'status-ok':'status-warn'}"></span><strong>${status.verified?'Official map linked':'Need alias check'}</strong></div>
-              <p style="margin-top:10px">這一站的賽道圖來源檢查結果會顯示在這裡。已驗證就直接用官方圖；如果日後賽站名稱改動，這裡也方便快速檢查 alias 與 slug 是否正確。</p>
-              <div class="guide-note">Resolved key: <strong>${safe(status.key)}</strong> · slug: <strong>${safe(status.slug||'N/A')}</strong></div>
+              <div class="map-status"><span class="status-dot ${status.verified?'status-ok':'status-warn'}"></span><strong>${status.verified?'Official map candidate set ready':'Need alias check'}</strong></div>
+              <p style="margin-top:10px">現在同一站會自動依序嘗試多個官方候選圖網址，所以即使第一個網址失敗，也會往下找可用版本，減少缺圖機率。</p>
+              <div class="guide-note">Resolved key: <strong>${safe(status.key)}</strong> · slug: <strong>${safe(status.slug||'N/A')}</strong> · candidates: <strong>${safe((status.candidates||[]).length)}</strong></div>
             </div>
           </div>
         </div>
@@ -1102,15 +1165,21 @@
           <div class="circuit-side">${circuitMapCard(race,false,true)}</div>
           <div>
             <div class="circuit-facts"><h2>賽道重點</h2><div class="fact-grid">${factBox('Location',location)}${factBox('Direction',info.direction)}${factBox('Turns',info.turns)}${factBox('Track length',info.length)}${factBox('Race distance',info.laps)}${factBox('Circuit type',info.type)}${factBox('First GP',info.first)}${factBox('Round','R'+race.round)}</div></div>
-            <div class="circuit-story"><h2>賽道說明</h2><p>${safe(info.note)}</p><div class="circuit-copy-note">這一頁已改用官方賽道圖來源；若未來某站圖檔命名調整，也可透過 source check 直接看出需要補 alias 的站別。</div></div>
+            <div class="circuit-story"><h2>賽道說明</h2><p>${safe(info.note)}</p><div class="circuit-copy-note">這一頁已改成多候選官方賽道圖模式；如果某站第一張圖失敗，系統會自動切換下一個官方候選網址。</div></div>
           </div>
         </div>
         <div class="guide-grid">
           <section class="guide-card"><h2>特色彎角</h2><div class="corner-list">${cornerItems(guide.corners)}</div><div class="guide-note">用簡短重點整理這條賽道最值得看的彎角與駕駛挑戰。</div></section>
           <section class="guide-card"><h2>超車點 / DRS 區</h2><div class="zone-list">${zoneItems(guide.drs)}</div><div class="corner-item" style="margin-top:10px"><strong>主要超車點</strong><p>${safe(guide.overtake)}</p></div></section>
           <section class="guide-card"><h2>Sector 節奏</h2><div class="pillrow">${bulletPills(guide.sectors)}</div><div class="guide-note">方便快速理解這條賽道每一段的節奏與看點。</div></section>
-          <section class="guide-card"><h2>Map source / alias 檢查</h2><div class="source-grid"><div class="source-box"><small>Resolved key</small><strong>${safe(status.key)}</strong></div><div class="source-box"><small>Slug</small><strong>${safe(status.slug||'N/A')}</strong></div><div class="source-box"><small>Status</small><strong>${status.verified?'Verified':'Needs review'}</strong></div><div class="source-box"><small>Official URL</small><code>${safe(status.url||'N/A')}</code></div></div><div class="guide-note">這個區塊就是我幫你做的逐站檢查入口。若某站賽道圖不對，你可直接看 key / slug 是否對應錯誤。</div></section>
+          <section class="guide-card"><h2>Map source / alias 檢查</h2><div class="source-grid"><div class="source-box"><small>Resolved key</small><strong>${safe(status.key)}</strong></div><div class="source-box"><small>Slug</small><strong>${safe(status.slug||'N/A')}</strong></div><div class="source-box"><small>Status</small><strong>${status.verified?'Verified':'Needs review'}</strong></div><div class="source-box"><small>Candidate count</small><strong>${safe((status.candidates||[]).length)}</strong></div></div><div class="guide-note">如果哪一站賽道圖還是有問題，可以直接根據 key / slug / candidate count 再修正。</div></section>
+        </div>
+        <div class="extra-grid">
+          <section class="extra-card"><h2>輪胎策略</h2><div class="extra-list"><div class="extra-item"><small>Tyre focus</small><strong>${safe(extra.tyre)}</strong></div></div></section>
+          <section class="extra-card"><h2>車輛設定重點</h2><div class="extra-list"><div class="extra-item"><small>Setup balance</small><strong>${safe(extra.setup)}</strong></div></div></section>
+          <section class="extra-card"><h2>天氣 / 賽道摘要</h2><div class="extra-list"><div class="extra-item"><small>Typical weather</small><strong>${safe(extra.weather)}</strong></div><div class="extra-item"><small>Quick note</small><strong>${safe(extra.note)}</strong></div></div></section>
         </div>`;
+      initTrackMapImages($('circuitBody'));
     }
 
     function renderStandings() {
