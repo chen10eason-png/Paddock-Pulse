@@ -230,6 +230,9 @@
 @media(max-width:700px){.track-shell{grid-template-columns:1fr}.track-drawing{min-height:195px}.track-mini-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:430px){.track-mini-grid{grid-template-columns:1fr}.track-shell.compact .track-drawing{min-height:135px}}
 
+
+/* V1.7 circuit detail page + improved map actions */
+.track-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.track-cta{border:1px solid #454f60;background:#1a2230;color:#f4f7fb;border-radius:12px;padding:10px 13px;font-weight:800;font-size:12px}.track-cta.primary{background:#fff;color:#111824;border-color:#fff}.home-track-card{border:1px solid #303848;border-radius:23px;background:linear-gradient(145deg,#181f2a,#10151d);overflow:hidden}.home-track-top{padding:16px 16px 0}.home-track-top .micro{font-size:10px;letter-spacing:1.5px;font-weight:900;color:#ff9da5}.home-track-top h3{font-size:22px;letter-spacing:-.7px;margin:8px 0 4px}.home-track-top p{font-size:12px;color:#aab6c7;line-height:1.55;margin:0}.circuit-hero{position:relative;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 90% 10%,#ff667033,transparent 32%),linear-gradient(145deg,#1a212e,#0f141c);border:1px solid #303848;padding:22px}.circuit-hero:before{content:'CIRCUIT';position:absolute;right:-14px;top:-6px;font-size:86px;font-weight:1000;letter-spacing:-5px;color:#ffffff06;font-style:italic}.circuit-hero>*{position:relative;z-index:1}.circuit-hero h1{font-size:clamp(30px,8vw,52px);line-height:.95;letter-spacing:-2.2px;margin:12px 0 8px}.circuit-hero p{font-size:13px;color:#c9d2dd;line-height:1.7;max-width:650px}.circuit-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:16px;margin-top:17px}.circuit-side .track-card{margin-top:0;height:100%}.circuit-facts{background:#161b26;border:1px solid #2a3240;border-radius:22px;padding:18px}.circuit-facts h2{margin:0 0 14px;font-size:17px}.fact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fact-box{background:#202735;border-radius:17px;padding:14px}.fact-box small{display:block;color:#9dabbe;font-size:10px;letter-spacing:1px;text-transform:uppercase}.fact-box strong{display:block;margin-top:8px;font-size:18px;line-height:1.2;letter-spacing:-.3px}.circuit-story{background:#161b26;border:1px solid #2a3240;border-radius:22px;padding:18px;margin-top:16px}.circuit-story h2{margin:0 0 12px;font-size:17px}.circuit-story p{margin:0;color:#b8c4d4;line-height:1.75;font-size:13px}.circuit-copy-note{margin-top:14px;font-size:11px;color:#93a1b5;line-height:1.7}.track-shell.full .track-drawing{min-height:310px}.track-shell.full .track-copy h3{font-size:24px}.track-shell.full .track-note{font-size:12px}.track-shell.compact .track-actions{margin-top:8px}.track-shell.compact .track-mini strong{font-size:13px}.result-shell-top{display:grid;grid-template-columns:1fr;gap:14px}@media(min-width:800px){.result-shell-top{grid-template-columns:1fr}.circuit-grid{grid-template-columns:1.12fr .88fr}}@media(max-width:700px){.fact-grid{grid-template-columns:1fr 1fr}.circuit-grid{grid-template-columns:1fr}.track-shell.full .track-drawing{min-height:240px}}@media(max-width:430px){.fact-grid{grid-template-columns:1fr}.circuit-hero{padding:18px}}
   </style>
 </head>
 <body>
@@ -354,11 +357,15 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.6.0 · 非官方 F1 資訊 PWA。此版新增賽道地圖功能：在賽果頁顯示本分站的賽道地圖與賽道資訊，賽程頁也可預覽各站的 track map，並保留賽事週末時間軸、收藏展廳、車手／車隊詳情與近期賽果。地圖為原創風格化路線示意，非官方授權賽道圖。</div>
+      <div class="panel info">Paddock Pulse V1.7.0 · 非官方 F1 資訊 PWA。此版補強賽道功能：修正各分站對應的賽道地圖、加入賽道詳細資訊、賽道放大詳情頁，以及首頁本週賽道卡片，並保留賽事週末時間軸、收藏展廳、車手／車隊詳情與近期賽果。地圖為原創風格化路線示意，非官方授權賽道圖。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
       <div id="profileBody"></div>
+    </section>
+    <section id="circuit" class="view hidden" aria-label="賽道詳情">
+      <button id="circuitBack" class="back-button" aria-label="返回上一頁">← 返回</button>
+      <div id="circuitBody"></div>
     </section>
   </main>
 
@@ -372,7 +379,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.6.0';
+    const APP_VERSION = '1.7.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -402,7 +409,7 @@
       favoriteTab: 'all',
       updated: saved('updated', null),
       resultRound: null, resultSession: 'race', resultToken: 0, openSessions: saved('openSessions2026', []),
-      resultCache: {}, resultError: null
+      resultCache: {}, resultError: null, circuitRound: null, circuitReturnPage: 'home'
     };
 
     store('favoriteDrivers', state.favoriteDrivers);
@@ -450,46 +457,79 @@
     function constructorNationOf(item) { return item?.Constructor?.nationality || item?.nationality || ''; }
 
     const TRACK_VISUALS = {
-      albert_park:{path:'M72 118 C58 86, 78 48, 128 43 C168 38, 204 54, 225 86 C248 122, 244 158, 216 183 C194 204, 164 203, 153 178 C145 157, 160 137, 180 139 C199 140, 213 158, 211 179 C208 200, 186 214, 161 216 C122 219, 90 208, 67 181 C43 154, 40 131, 51 111 C59 96, 73 90, 85 94 C99 99, 98 116, 85 124 C78 129, 70 126, 72 118',start:[84,96]},
-      shanghai:{path:'M77 58 C116 46, 171 43, 208 54 C237 63, 250 84, 246 103 C242 122, 223 132, 197 133 C175 134, 156 130, 144 135 C127 143, 126 163, 144 176 C161 188, 189 192, 211 199 C235 207, 248 223, 243 241 C238 262, 214 276, 179 275 C140 274, 111 258, 108 235 C106 218, 121 205, 139 206 C156 207, 168 218, 168 232 C168 245, 156 256, 140 257 C124 258, 111 250, 103 240 C92 226, 86 207, 84 188 C81 159, 87 133, 98 120 C111 105, 131 102, 149 102 C178 102, 198 91, 198 75 C199 61, 186 53, 163 51 C138 49, 105 51, 77 58',start:[197,75]},
-      suzuka:{path:'M73 66 C104 43, 152 42, 177 63 C198 80, 198 108, 176 124 C156 139, 120 143, 110 161 C102 175, 115 194, 137 200 C165 208, 198 198, 215 212 C230 224, 230 250, 210 263 C186 279, 143 279, 117 262 C92 245, 93 219, 112 208 C132 196, 163 198, 168 182 C172 169, 148 162, 126 157 C95 150, 71 136, 61 112 C51 89, 57 74, 73 66 M171 60 C162 90, 154 115, 137 130',start:[171,60]},
-      bahrain:{path:'M97 57 C133 44, 188 49, 217 75 C241 97, 245 130, 225 154 C209 173, 182 182, 159 177 C141 174, 127 160, 124 145 C120 126, 132 111, 151 108 C168 105, 184 118, 185 135 C187 156, 172 168, 153 173 C128 180, 104 194, 97 214 C91 231, 106 249, 133 256 C169 265, 211 250, 237 222',start:[185,135]},
-      jeddah:{path:'M185 34 C162 53, 158 74, 170 94 C181 113, 205 126, 208 145 C210 159, 195 171, 175 174 C154 177, 133 172, 117 178 C92 188, 84 214, 95 233 C106 252, 128 259, 151 255 C177 250, 196 233, 206 212 C217 189, 220 164, 230 143 C241 120, 260 102, 266 79 C272 57, 257 41, 230 40 C208 39, 194 47, 186 62',start:[185,34]},
-      miami:{path:'M71 107 C77 72, 107 47, 145 47 C189 47, 221 69, 228 103 C234 133, 217 159, 190 167 C169 173, 146 167, 132 177 C118 187, 121 208, 138 219 C160 233, 198 230, 220 215 C241 201, 252 178, 252 152 C252 125, 267 112, 283 116 C296 120, 302 136, 297 152 C289 176, 271 198, 244 217 C210 241, 157 247, 114 231 C74 216, 57 184, 58 148 C58 134, 63 120, 71 107',start:[252,152]},
-      imola:{path:'M69 170 C60 147, 67 120, 89 103 C114 83, 156 76, 193 84 C228 92, 255 111, 258 135 C261 161, 240 183, 206 191 C176 198, 145 196, 123 204 C105 211, 95 227, 100 242 C106 258, 126 264, 153 260 C188 255, 219 234, 243 211',start:[89,103]},
-      monaco:{path:'M118 63 C142 49, 177 47, 197 61 C214 73, 213 93, 194 102 C177 110, 152 108, 140 119 C129 128, 134 145, 150 151 C169 158, 198 154, 214 165 C228 174, 229 191, 216 202 C203 213, 179 217, 161 214 C141 211, 126 200, 122 185 C117 167, 131 155, 146 151 C162 146, 176 144, 176 133 C176 120, 154 119, 135 111 C112 102, 103 80, 118 63',start:[176,133]},
-      catalunya:{path:'M79 147 C76 121, 92 98, 121 88 C154 77, 198 79, 225 95 C252 112, 259 139, 244 161 C231 180, 205 188, 179 186 C154 184, 133 177, 118 181 C101 186, 92 198, 96 212 C101 228, 121 237, 149 236 C185 235, 220 219, 242 194',start:[244,161]},
-      villeneuve:{path:'M57 150 C58 112, 83 78, 121 69 C154 61, 193 72, 214 96 C230 113, 229 136, 209 151 C189 166, 153 170, 143 188 C135 203, 150 221, 175 225 C203 229, 232 216, 253 196 C275 174, 287 147, 284 123 C281 99, 264 84, 243 82',start:[121,69]},
-      red_bull_ring:{path:'M91 173 C69 155, 67 123, 94 102 C122 80, 176 73, 217 86 C255 98, 274 126, 264 154 C253 184, 214 193, 178 190 C147 188, 121 190, 105 201 C89 211, 88 228, 104 238 C125 252, 164 253, 206 241 C235 232, 257 216, 271 198',start:[94,102]},
-      silverstone:{path:'M66 121 C72 85, 109 60, 156 58 C203 56, 244 77, 254 109 C262 135, 246 157, 217 166 C194 173, 167 170, 151 178 C137 184, 134 197, 143 207 C156 221, 184 226, 210 221 C236 216, 261 202, 275 183 C289 164, 291 141, 281 125 C272 111, 255 107, 245 115 C237 121, 239 132, 248 136',start:[156,58]},
-      spa:{path:'M98 60 C131 48, 176 53, 207 72 C239 92, 253 123, 242 149 C232 173, 207 187, 176 189 C148 190, 125 182, 111 191 C98 199, 98 215, 112 225 C130 239, 162 243, 193 236 C225 229, 254 208, 266 181 C278 154, 272 119, 248 93',start:[111,191]},
-      hungaroring:{path:'M78 154 C67 126, 80 95, 112 78 C149 58, 204 60, 235 80 C263 99, 268 129, 248 149 C229 168, 193 171, 162 171 C137 171, 119 177, 116 189 C114 201, 127 209, 149 212 C175 216, 205 213, 226 222 C247 231, 250 252, 231 264 C206 280, 160 278, 122 263',start:[248,149]},
-      zandvoort:{path:'M105 64 C134 48, 177 49, 205 64 C235 80, 247 107, 235 130 C224 150, 196 162, 166 163 C142 164, 124 170, 121 183 C118 196, 133 207, 158 212 C186 217, 217 216, 239 226 C257 234, 263 250, 252 262 C237 279, 200 282, 161 273 C120 263, 93 241, 89 214 C85 191, 97 175, 111 164 C127 151, 142 143, 141 131 C140 117, 120 109, 107 94 C98 83, 98 71, 105 64',start:[141,131]},
-      monza:{path:'M113 53 C151 43, 204 51, 235 71 C262 88, 269 113, 255 136 C242 157, 213 169, 182 170 C158 171, 136 174, 126 186 C116 198, 122 214, 141 223 C165 234, 205 235, 234 226 C259 219, 276 206, 284 190',start:[126,186]},
-      baku:{path:'M61 120 C71 86, 101 62, 143 56 C183 50, 226 61, 249 84 C268 102, 270 124, 253 142 C238 158, 209 166, 180 166 C153 166, 130 164, 118 173 C106 182, 108 197, 125 206 C149 218, 189 219, 224 214 C254 209, 278 198, 296 184',start:[249,84]},
-      singapore:{path:'M119 49 C150 42, 190 49, 214 65 C235 79, 239 98, 225 112 C212 125, 187 130, 171 139 C153 149, 145 163, 151 177 C158 194, 181 202, 207 199 C231 197, 250 183, 256 165 C263 144, 256 123, 242 109 C226 93, 204 88, 182 91 C164 93, 149 103, 148 116 C147 128, 164 134, 180 136 C196 138, 208 147, 208 159 C209 173, 194 184, 175 186 C151 189, 128 176, 118 157 C106 133, 104 101, 119 49',start:[148,116]},
-      americas:{path:'M91 58 C124 45, 171 47, 204 61 C237 76, 255 101, 249 126 C243 148, 219 162, 188 166 C163 169, 140 170, 129 182 C119 194, 125 210, 145 220 C171 232, 214 229, 246 214 C274 201, 291 178, 289 153 C287 134, 274 122, 259 120 C241 118, 227 130, 229 145 C231 159, 246 164, 259 161',start:[204,61]},
-      rodriguez:{path:'M66 141 C67 103, 95 72, 140 63 C184 55, 233 69, 257 96 C277 118, 278 145, 258 165 C239 184, 206 190, 174 188 C146 186, 122 179, 108 187 C94 195, 94 210, 109 221 C132 237, 174 240, 215 232 C251 225, 280 208, 300 187',start:[257,96]},
-      interlagos:{path:'M79 123 C85 88, 121 61, 169 59 C216 57, 253 78, 260 108 C266 134, 248 155, 218 164 C192 171, 163 168, 143 174 C120 180, 110 195, 116 211 C123 229, 150 239, 186 237 C223 235, 253 220, 272 196',start:[260,108]},
-      las_vegas:{path:'M57 89 L131 89 C146 89 156 99 156 114 L156 143 C156 158 166 168 181 168 L252 168 C270 168 283 181 283 198 L283 230 C283 245 271 257 256 257 L115 257 C100 257 88 247 88 232 L88 190 C88 175 76 163 61 163',start:[156,143]},
-      lusail:{path:'M91 96 C116 73, 160 66, 204 76 C244 85, 271 108, 275 134 C279 158, 258 178, 221 184 C191 189, 158 188, 136 194 C113 200, 102 213, 107 228 C114 248, 148 259, 193 257 C232 255, 265 240, 287 216',start:[275,134]},
-      yas_marina:{path:'M83 149 C72 124, 83 96, 112 80 C147 60, 202 61, 238 80 C271 98, 283 125, 271 147 C260 166, 228 174, 196 173 C165 172, 141 167, 128 175 C114 183, 116 197, 132 206 C153 217, 192 221, 229 215 C260 210, 285 196, 302 177',start:[271,147]},
+      albert_park:{path:'M81 99 C86 66, 121 45, 166 45 C208 45, 239 61, 247 88 C254 112, 237 130, 205 139 C177 147, 151 148, 137 158 C123 167, 124 181, 141 191 C161 203, 195 204, 220 194 C243 185, 260 168, 267 146 C275 121, 269 95, 251 76 C231 56, 202 47, 173 49 C138 51, 109 63, 94 82 C84 95, 80 109, 81 123 C81 140, 92 149, 106 145 C116 142, 120 132, 115 122 C110 112, 96 110, 88 117',start:[94,82]},
+      shanghai:{path:'M77 70 C98 55, 131 49, 167 49 C208 49, 236 57, 246 74 C255 89, 247 105, 226 113 C203 121, 175 121, 151 126 C128 131, 117 144, 118 159 C119 176, 137 188, 164 195 C191 201, 220 205, 238 217 C254 227, 256 242, 244 255 C228 272, 193 278, 151 272 C108 267, 77 248, 72 223 C69 205, 80 192, 96 192 C114 192, 128 203, 128 218 C128 231, 116 241, 99 241 C81 241, 67 230, 59 214 C49 194, 48 165, 58 143 C69 119, 92 103, 118 98 C145 93, 169 93, 183 86 C193 81, 192 71, 183 65 C170 57, 146 57, 120 61 C101 64, 87 67, 77 70',start:[118,98]},
+      suzuka:{path:'M95 73 C118 53, 153 47, 184 55 C211 62, 226 78, 224 98 C222 116, 206 130, 183 136 C161 142, 138 144, 126 155 C114 165, 117 181, 135 191 C157 203, 192 205, 211 218 C225 228, 227 245, 216 257 C201 273, 170 279, 136 273 C101 267, 79 246, 81 224 C82 207, 99 196, 120 197 C139 198, 153 208, 154 222 C155 234, 146 242, 132 243 C118 244, 107 238, 100 228 C90 214, 86 195, 88 176 C90 153, 102 138, 120 127 C139 115, 165 112, 181 101 C192 94, 193 84, 188 76 C181 67, 165 63, 145 64 C122 65, 104 68, 95 73 M189 72 C182 99, 169 120, 151 136',start:[189,72]},
+      bahrain:{path:'M101 72 C130 58, 171 57, 206 68 C239 79, 259 99, 263 125 C266 149, 253 169, 228 179 C205 188, 179 185, 161 175 C146 166, 139 151, 141 136 C144 118, 159 106, 177 107 C194 108, 207 122, 205 140 C203 160, 185 171, 164 179 C140 188, 118 201, 110 217 C103 232, 114 247, 137 255 C168 265, 214 259, 245 243 C269 231, 287 213, 298 195',start:[205,140]},
+      jeddah:{path:'M192 38 C174 52, 170 70, 180 86 C190 102, 211 112, 214 130 C216 143, 204 153, 187 155 C168 157, 149 152, 133 156 C111 161, 95 176, 91 198 C88 217, 97 233, 113 240 C130 247, 150 244, 168 236 C190 226, 208 209, 220 188 C233 166, 239 143, 250 121 C263 96, 280 77, 286 58 C291 42, 281 31, 263 33 C242 35, 225 48, 216 67 C209 82, 210 98, 217 111 C224 124, 236 132, 244 145',start:[192,38]},
+      miami:{path:'M72 101 C81 73, 109 57, 143 57 C181 57, 211 75, 220 102 C229 128, 215 149, 190 158 C168 166, 141 166, 128 176 C116 185, 118 199, 134 208 C156 220, 192 220, 222 209 C249 199, 270 183, 281 163 C291 146, 290 128, 281 118 C274 110, 261 108, 253 114 C246 120, 246 129, 252 136 C259 143, 271 145, 281 142 C294 138, 302 126, 302 110',start:[220,102]},
+      imola:{path:'M74 170 C65 148, 69 123, 88 107 C112 86, 154 78, 195 82 C231 86, 260 101, 267 122 C275 146, 257 166, 226 176 C198 185, 166 186, 141 191 C117 196, 102 207, 97 223 C93 237, 104 248, 126 252 C154 258, 194 252, 226 239 C253 228, 272 214, 286 197',start:[88,107]},
+      monaco:{path:'M122 68 C139 56, 165 53, 187 60 C206 67, 217 80, 216 94 C215 108, 202 119, 183 122 C166 126, 149 125, 140 133 C132 140, 135 151, 148 156 C164 162, 186 162, 200 171 C211 178, 214 189, 208 199 C200 212, 179 220, 157 220 C136 220, 121 212, 115 199 C109 184, 115 170, 128 162 C142 153, 160 149, 167 139 C171 132, 168 125, 159 120 C148 113, 132 111, 122 101 C112 91, 111 77, 122 68',start:[167,139]},
+      catalunya:{path:'M78 150 C76 126, 90 105, 117 95 C149 82, 193 81, 228 92 C258 102, 274 120, 274 142 C274 163, 257 177, 228 181 C204 184, 176 181, 155 182 C132 184, 113 190, 106 201 C99 212, 106 223, 126 230 C154 240, 199 237, 236 223 C264 213, 285 197, 299 176',start:[274,142]},
+      villeneuve:{path:'M60 155 C63 121, 84 94, 117 87 C151 80, 189 90, 210 109 C228 125, 230 146, 216 161 C203 176, 181 183, 161 183 C143 184, 130 188, 126 198 C121 209, 131 221, 149 227 C173 235, 207 232, 233 219 C256 207, 276 188, 292 163 C307 141, 314 119, 312 101 C310 84, 299 74, 282 74',start:[292,163]},
+      red_bull_ring:{path:'M91 171 C74 157, 71 130, 89 112 C112 89, 159 80, 208 87 C249 93, 277 110, 283 132 C290 156, 271 173, 237 177 C205 180, 168 175, 144 178 C118 182, 101 193, 95 207 C91 220, 101 231, 123 238 C156 248, 206 244, 248 227 C280 214, 304 195, 320 173',start:[89,112]},
+      silverstone:{path:'M70 118 C78 88, 109 67, 149 66 C190 64, 229 80, 247 102 C259 117, 260 134, 250 147 C238 162, 214 170, 187 171 C160 173, 136 172, 123 180 C112 186, 111 197, 121 204 C135 214, 162 219, 191 216 C223 212, 255 198, 278 177 C296 160, 306 140, 304 121 C302 105, 291 95, 276 93 C258 90, 243 100, 244 114 C245 125, 258 131, 271 129',start:[149,66]},
+      spa:{path:'M96 71 C127 57, 170 60, 204 76 C236 92, 256 118, 258 144 C259 168, 243 187, 215 197 C188 206, 156 206, 132 198 C112 192, 98 180, 93 166 C87 149, 95 132, 112 125 C131 117, 156 122, 171 137 C183 149, 190 165, 204 171 C220 177, 237 170, 246 156 C256 139, 256 117, 246 98 C235 78, 216 67, 195 64 C164 60, 130 64, 96 71',start:[171,137]},
+      hungaroring:{path:'M80 153 C70 127, 82 100, 113 84 C149 66, 202 67, 237 83 C270 97, 284 121, 276 143 C268 165, 240 176, 206 177 C176 179, 147 174, 130 178 C115 181, 110 190, 117 199 C128 213, 156 220, 189 220 C222 221, 250 230, 255 246 C259 259, 248 270, 224 276 C190 284, 143 279, 107 261',start:[276,143]},
+      zandvoort:{path:'M107 69 C133 55, 171 56, 198 68 C225 80, 239 100, 237 120 C235 139, 220 154, 197 160 C175 166, 151 165, 137 174 C124 182, 124 195, 140 204 C161 216, 198 218, 227 211 C252 205, 271 193, 277 177 C283 160, 277 143, 263 132 C251 123, 236 120, 228 111 C219 101, 221 87, 232 77 C246 65, 267 62, 283 69',start:[228,111]},
+      monza:{path:'M110 65 C144 54, 191 58, 226 71 C258 83, 281 102, 288 124 C296 148, 286 170, 258 183 C232 194, 195 194, 162 191 C138 189, 121 191, 118 202 C116 214, 133 226, 163 233 C200 241, 251 235, 288 217 C315 204, 334 186, 345 166',start:[118,202]},
+      baku:{path:'M69 123 C80 93, 110 74, 149 69 C190 64, 230 74, 252 92 C272 108, 275 129, 260 145 C246 159, 222 167, 195 170 C168 172, 143 170, 127 177 C112 184, 109 196, 120 205 C136 218, 167 224, 205 221 C244 219, 278 205, 303 184 C322 168, 334 149, 335 130 C336 113, 327 100, 312 95',start:[252,92]},
+      singapore:{path:'M120 58 C149 48, 186 50, 212 62 C235 72, 248 89, 247 107 C246 125, 233 138, 213 146 C194 154, 173 155, 160 163 C145 171, 140 185, 148 198 C159 214, 186 222, 214 219 C239 217, 258 204, 265 186 C273 165, 266 141, 249 126 C233 112, 209 107, 184 110 C164 112, 147 122, 144 133 C141 145, 153 153, 171 157 C191 161, 205 172, 204 185 C202 201, 183 213, 157 213 C128 213, 105 198, 97 174 C88 146, 96 110, 120 58',start:[144,133]},
+      americas:{path:'M96 66 C126 54, 168 56, 201 68 C235 80, 258 99, 264 122 C269 142, 258 160, 237 171 C214 182, 184 184, 160 179 C142 175, 127 177, 122 188 C116 200, 126 214, 148 222 C180 234, 229 230, 267 211 C299 195, 318 171, 320 146 C321 126, 309 112, 292 111 C274 111, 261 124, 263 138 C266 153, 282 160, 299 155',start:[201,68]},
+      rodriguez:{path:'M70 145 C72 108, 98 80, 140 74 C183 67, 229 79, 256 101 C279 119, 285 144, 272 164 C258 185, 224 196, 183 197 C147 197, 118 192, 101 197 C84 202, 80 214, 91 223 C109 238, 148 246, 193 244 C237 241, 278 225, 308 201 C330 183, 344 162, 347 140 C349 124, 343 111, 330 104',start:[256,101]},
+      interlagos:{path:'M82 126 C90 95, 121 74, 162 72 C204 70, 240 86, 255 109 C267 128, 266 149, 251 164 C235 181, 207 188, 175 188 C145 188, 120 183, 104 190 C89 196, 84 208, 92 219 C105 236, 138 245, 179 243 C220 241, 257 224, 283 198 C303 178, 315 154, 314 131',start:[255,109]},
+      las_vegas:{path:'M60 88 L140 88 C155 88 166 99 166 114 L166 146 C166 159 176 169 189 169 L266 169 C281 169 292 180 292 195 L292 234 C292 249 281 260 266 260 L111 260 C96 260 85 249 85 234 L85 192 C85 178 74 167 60 167',start:[166,146]},
+      lusail:{path:'M91 98 C117 77, 158 68, 201 74 C244 80, 276 99, 288 124 C299 145, 292 165, 268 178 C243 192, 205 197, 166 194 C132 191, 107 192, 96 202 C85 213, 91 226, 114 236 C147 250, 199 251, 247 238 C283 228, 309 212, 325 191',start:[288,124]},
+      yas_marina:{path:'M88 154 C78 130, 87 104, 113 88 C145 69, 194 69, 232 82 C270 94, 293 114, 298 139 C302 162, 286 179, 254 188 C226 196, 194 196, 168 194 C144 193, 127 198, 125 209 C122 222, 137 234, 168 242 C210 254, 268 251, 313 232 C347 217, 370 196, 383 171',start:[298,139]},
       fallback:{path:'M78 120 C85 86, 118 59, 163 56 C209 52, 250 74, 262 107 C272 133, 260 156, 236 169 C209 183, 173 182, 144 184 C118 186, 101 196, 100 211 C98 228, 117 241, 150 246 C190 253, 238 241, 270 214',start:[262,107]}
     };
-
+    const TRACK_INFO = {
+      albert_park:{direction:'Clockwise', turns:'14', length:'5.278 km', laps:'58 laps', type:'Semi-street circuit', first:'1996', note:'湖畔公園賽道，速度快、煞車點多，現代版 Albert Park 已比早期更流暢。'},
+      shanghai:{direction:'Clockwise', turns:'16', length:'5.451 km', laps:'56 laps', type:'Permanent circuit', first:'2004', note:'以上海「上」字概念延伸的賽道輪廓，首兩個彎為標誌性長彎。'},
+      suzuka:{direction:'Figure-eight / Clockwise', turns:'18', length:'5.807 km', laps:'53 laps', type:'Permanent circuit', first:'1987', note:'最經典的技術型賽道之一，S Curves、Degner、Spoon 與 130R 都很有代表性。'},
+      bahrain:{direction:'Clockwise', turns:'15', length:'5.412 km', laps:'57 laps', type:'Permanent circuit', first:'2004', note:'沙漠夜戰代表，重煞車與加速區很多，輪胎與煞車管理都很重要。'},
+      jeddah:{direction:'Counter-clockwise', turns:'27', length:'6.174 km', laps:'50 laps', type:'Street circuit', first:'2021', note:'高速街道賽，牆邊容錯低、彎角快，是目前日曆中最高速的街道賽之一。'},
+      miami:{direction:'Counter-clockwise', turns:'19', length:'5.412 km', laps:'57 laps', type:'Semi-street circuit', first:'2022', note:'位於球場周邊的暫時賽道，低速髮夾與長直線組合形成超車機會。'},
+      imola:{direction:'Counter-clockwise', turns:'19', length:'4.909 km', laps:'63 laps', type:'Permanent circuit', first:'1980', note:'起伏明顯、路面狹窄，Tamburello、Acque Minerali 等路段很具歷史感。'},
+      monaco:{direction:'Clockwise', turns:'19', length:'3.337 km', laps:'78 laps', type:'Street circuit', first:'1950', note:'F1 最傳奇街道賽，超車極難，排位與貼牆精準度往往決定週末成敗。'},
+      catalunya:{direction:'Clockwise', turns:'14', length:'4.657 km', laps:'66 laps', type:'Permanent circuit', first:'1991', note:'測試與比賽常客，兼具高速與中低速，是車輛整體性能的綜合考場。'},
+      villeneuve:{direction:'Clockwise', turns:'14', length:'4.361 km', laps:'70 laps', type:'Semi-street circuit', first:'1978', note:'以長直線與重煞車聞名，最後一彎出口的冠軍牆最具標誌性。'},
+      red_bull_ring:{direction:'Clockwise', turns:'10', length:'4.318 km', laps:'71 laps', type:'Permanent circuit', first:'1970', note:'圈長不長但落差大，前段連續重煞車區創造很多超車機會。'},
+      silverstone:{direction:'Clockwise', turns:'18', length:'5.891 km', laps:'52 laps', type:'Permanent circuit', first:'1950', note:'高速連續彎名聞世界，Maggotts-Becketts-Chapel 是最具代表性的區段。'},
+      spa:{direction:'Clockwise', turns:'19', length:'7.004 km', laps:'44 laps', type:'Permanent circuit', first:'1950', note:'高低起伏與長圈長兼具，Eau Rouge / Raidillon 與長直線非常經典。'},
+      hungaroring:{direction:'Clockwise', turns:'14', length:'4.381 km', laps:'70 laps', type:'Permanent circuit', first:'1986', note:'狹窄多彎、節奏密集，常被稱為沒有牆的摩納哥。'},
+      zandvoort:{direction:'Clockwise', turns:'14', length:'4.259 km', laps:'72 laps', type:'Permanent circuit', first:'1952', note:'沙丘地形與高傾角彎帶來獨特視覺與駕駛節奏。'},
+      monza:{direction:'Clockwise', turns:'11', length:'5.793 km', laps:'53 laps', type:'Permanent circuit', first:'1950', note:'速度聖殿，以低下壓力設定與高尾速著稱。'},
+      baku:{direction:'Counter-clockwise', turns:'20', length:'6.003 km', laps:'51 laps', type:'Street circuit', first:'2016', note:'極窄城堡區與超長主直線並存，節奏反差非常大。'},
+      singapore:{direction:'Counter-clockwise', turns:'19', length:'4.940 km', laps:'62 laps', type:'Street circuit', first:'2008', note:'濕熱夜戰考驗體能與專注力，失誤代價高。'},
+      americas:{direction:'Counter-clockwise', turns:'20', length:'5.513 km', laps:'56 laps', type:'Permanent circuit', first:'2012', note:'首彎大上坡和多段向經典賽道致敬的連續彎，是美國站代表性賽道。'},
+      rodriguez:{direction:'Clockwise', turns:'17', length:'4.304 km', laps:'71 laps', type:'Permanent circuit', first:'1963', note:'高海拔讓空力與冷卻更有挑戰，Peraltada 區域極具標誌性。'},
+      interlagos:{direction:'Counter-clockwise', turns:'15', length:'4.309 km', laps:'71 laps', type:'Permanent circuit', first:'1973', note:'短圈、上下起伏、天氣多變，常產生戲劇化比賽。'},
+      las_vegas:{direction:'Clockwise', turns:'17', length:'6.201 km', laps:'50 laps', type:'Street circuit', first:'2023', note:'以賭城大道高速路段為特色，低溫夜賽與長直線相當關鍵。'},
+      lusail:{direction:'Clockwise', turns:'16', length:'5.419 km', laps:'57 laps', type:'Permanent circuit', first:'2021', note:'原本為摩托車賽道，高速連續彎多，節奏非常流暢。'},
+      yas_marina:{direction:'Counter-clockwise', turns:'16', length:'5.281 km', laps:'58 laps', type:'Permanent circuit', first:'2009', note:'黃昏到夜晚的收官賽地標，近期改版後比賽節奏更順。'},
+      fallback:{direction:'—', turns:'—', length:'—', laps:'—', type:'Grand Prix circuit', first:'—', note:'此站的賽道詳細資訊尚未完整建立。'}
+    };
     function trackVisualFor(race){
       const id = race?.Circuit?.circuitId;
       return TRACK_VISUALS[id] || TRACK_VISUALS.fallback;
     }
+    function trackInfoFor(race){
+      const id = race?.Circuit?.circuitId;
+      return TRACK_INFO[id] || TRACK_INFO.fallback;
+    }
 
-    function circuitMapCard(race, compact=false){
+    function circuitMapCard(race, compact=false, full=false){
       if(!race) return '';
       const visual = trackVisualFor(race);
+      const info = trackInfoFor(race);
       const location = [race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
       const sf = visual.start || [262,107];
+      const chips = '<span class="track-chip">'+safe(info.length)+'</span><span class="track-chip">'+safe(info.turns)+' turns</span><span class="track-chip">'+safe(info.direction)+'</span>';
+      const actions = '<div class="track-actions"><button class="track-cta primary" data-opencircuit="'+safe(race.round)+'">放大賽道圖</button><button class="track-cta" data-openresults="'+safe(race.round)+'">查看本站賽果</button></div>';
       return '<section class="track-card">'
-        + '<div class="track-shell'+(compact?' compact':'')+'">'
-        + '<div class="track-drawing"><svg class="track-svg" viewBox="0 0 320 320" aria-label="'+safe(race.raceName)+' 賽道地圖" role="img">'
+        + '<div class="track-shell'+(compact?' compact':'')+(full?' full':'')+'">'
+        + '<div class="track-drawing"><svg class="track-svg" viewBox="0 0 400 320" aria-label="'+safe(race.raceName)+' 賽道地圖" role="img">'
         + '<path class="track-outline" d="'+safe(visual.path)+'"></path>'
         + '<path class="track-line" d="'+safe(visual.path)+'"></path>'
         + '<path class="track-glow" d="'+safe(visual.path)+'"></path>'
@@ -498,9 +538,10 @@
         + '</svg></div>'
         + '<div class="track-copy">'
         + '<div><div class="eyebrow">TRACK MAP</div><h3>'+safe(race.Circuit?.circuitName || race.raceName)+'</h3><p>'+safe(location || 'Formula 1 circuit')+'</p></div>'
-        + '<div class="track-chiprow"><span class="track-chip">R'+safe(race.round)+'</span><span class="track-chip">'+safe(race.raceName)+'</span></div>'
-        + '<div class="track-mini-grid"><div class="track-mini"><small>Circuit</small><strong>'+safe(race.Circuit?.circuitName || '—')+'</strong></div><div class="track-mini"><small>Location</small><strong>'+safe(location || '—')+'</strong></div></div>'
-        + '<div class="track-note">賽道圖為 App 內建的原創風格化示意，方便快速辨識各分站賽道輪廓，並非官方授權地圖。</div>'
+        + '<div class="track-chiprow">'+chips+'</div>'
+        + '<div class="track-mini-grid"><div class="track-mini"><small>Circuit type</small><strong>'+safe(info.type)+'</strong></div><div class="track-mini"><small>Race distance</small><strong>'+safe(info.laps)+'</strong></div><div class="track-mini"><small>First GP</small><strong>'+safe(info.first)+'</strong></div><div class="track-mini"><small>Round</small><strong>R'+safe(race.round)+'</strong></div></div>'
+        + '<div class="track-note">'+safe(info.note)+' 賽道圖為 App 內建的原創風格化示意，並非官方授權地圖。</div>'
+        + (compact?actions:actions)
         + '</div></div></section>';
     }
 
@@ -525,7 +566,7 @@
         + '<span class="grow"><span class="mainline" style="display:block">' + safe(race.raceName) + '</span><span class="subline">' + safe(race.Circuit?.circuitName || race.Circuit?.Location?.country || '') + '</span></span>'
         + '<span class="datebox">' + safe(shortDate(date)) + '<small>' + (done ? '已結束' : '查看場次 ▾') + '</small></span>'
         + '</summary>'
-        + '<div class="info" style="padding:13px 0 0 56px">' + sessionRows + '<div class="schedule-track-wrap">' + circuitMapCard(race, true) + '</div><div class="schedule-track-actions"><button class="results-link" data-openresults="' + safe(race.round) + '">查看本站賽果 →</button></div></div>'
+        + '<div class="info" style="padding:13px 0 0 56px">' + sessionRows + '<div class="schedule-track-wrap">' + circuitMapCard(race, true) + '</div></div>'
         + '</details>';
     }
 
@@ -655,6 +696,16 @@
         +'<h3>'+safe(race.raceName)+'</h3><p>'+safe(race.Circuit?.circuitName||race.Circuit?.Location?.country||'')+'</p>'
         +'<div class="home-session"><span class="home-dot"></span><div class="grow"><div class="home-session-name">'+safe(next?chosen.type.full:'本站賽果')+'</div><div class="home-session-time">'+safe(next?sessionClock(scheduledSession(race,chosen.type)):'查看已結束場次的結果')+'</div></div>'
         +'<button class="arrow" data-openresults="'+safe(race.round)+'" data-ses="'+safe(chosen.type.id)+'">'+(next?'場次詳情':'全部結果')+' →</button></div></div>';
+    }
+
+    function renderHomeTrack(){
+      const node=$('homeTrack');
+      if(!node)return;
+      if(!state.races.length){node.innerHTML='<div class="weekend-empty">取得賽程後，這裡會顯示本週賽道。</div>';return;}
+      const now=Date.now();
+      const race=state.races.find(r=>availableTypes(r).some(t=>{ const date=+sessionDate(scheduledSession(r,t)); return date>=now; })) || state.races.at(-1);
+      const info=trackInfoFor(race);
+      node.innerHTML='<div class="home-track-card"><div class="home-track-top"><div class="micro">THIS WEEK CIRCUIT</div><h3>'+safe(race.Circuit?.circuitName||race.raceName)+'</h3><p>'+safe(info.note)+'</p></div>'+circuitMapCard(race,true)+'</div>';
     }
 
     const when = value => value ? +new Date(value) : NaN;
@@ -947,6 +998,21 @@
       }catch{if(state.activeDetail===token&&$('recentResults'))$('recentResults').textContent='近期賽果目前無法載入，請稍後重試。';}
     }
 
+    function openCircuit(round, fromPage=null){
+      const race=state.races.find(x=>String(x.round)===String(round));
+      if(!race){announce('暫時找不到這站的賽道資料。',true);return;}
+      state.circuitRound=String(round);
+      state.circuitReturnPage=fromPage || document.querySelector('.view:not(.hidden)')?.id || 'home';
+      renderCircuitDetail(race);
+      go('circuit');
+    }
+    function factBox(label,value){return `<div class="fact-box"><small>${safe(label)}</small><strong>${safe(value||'—')}</strong></div>`;}
+    function renderCircuitDetail(race){
+      const info=trackInfoFor(race);
+      const location=[race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
+      $('circuitBody').innerHTML=`<div class="circuit-hero"><div class="eyebrow">CIRCUIT GUIDE / ROUND ${safe(race.round)}</div><h1>${safe(race.Circuit?.circuitName||race.raceName)}</h1><p>${safe(race.raceName)} · ${safe(location)}。${safe(info.note)}</p></div><div class="circuit-grid"><div class="circuit-side">${circuitMapCard(race,false,true)}</div><div><div class="circuit-facts"><h2>賽道重點</h2><div class="fact-grid">${factBox('Location',location)}${factBox('Direction',info.direction)}${factBox('Turns',info.turns)}${factBox('Track length',info.length)}${factBox('Race distance',info.laps)}${factBox('Circuit type',info.type)}${factBox('First GP',info.first)}${factBox('Round','R'+race.round)}</div></div><div class="circuit-story"><h2>賽道說明</h2><p>${safe(info.note)}</p><div class="circuit-copy-note">此頁的賽道圖採原創風格化示意，重點在辨識輪廓與資訊閱讀，不是官方授權賽道地圖。</div></div></div></div>`;
+    }
+
     function renderStandings() {
 
       const boardList = state[state.board] || [];
@@ -965,6 +1031,7 @@
     function render() {
       renderHero();
       renderHomeWeekend();
+      renderHomeTrack();
       renderRaces();
       renderStandings();
       renderResultHeader();
@@ -990,6 +1057,13 @@
     document.addEventListener('click', event => {
       const openResult = event.target.closest('[data-openresults]');
       if(openResult){openResults(openResult.dataset.openresults,openResult.dataset.ses||null);return;}
+      const openCircuitBtn = event.target.closest('[data-opencircuit]');
+      if(openCircuitBtn){openCircuit(openCircuitBtn.dataset.opencircuit);return;}
+      if(event.target.closest('[data-openhomecircuit]')){
+        const race = state.races.find(r=>availableTypes(r).some(t=>{ const date=+sessionDate(scheduledSession(r,t)); return date>=Date.now(); })) || state.races.at(-1);
+        if(race) openCircuit(race.round,'home');
+        return;
+      }
       const resultTab = event.target.closest('[data-resultsession]');
       if(resultTab){state.resultSession=resultTab.dataset.resultsession;loadSelectedResult();return;}
       if(event.target.closest('[data-resultretry]')){loadSelectedResult(true);return;}
@@ -1036,6 +1110,7 @@
     $('resultRound').onchange = event => { state.resultRound=event.target.value; const race=state.races.find(x=>x.round===state.resultRound); state.resultSession=availableTypes(race).at(-1)?.id||'race'; loadSelectedResult(); };
     $('resultRefresh').onclick=()=>loadSelectedResult(true);
     $('profileBack').onclick=()=>{state.activeDetail=null;go(state.returnPage||'favorites');};
+    $('circuitBack').onclick=()=>{go(state.circuitReturnPage||'home');};
     $('resetDriverFav').onclick = () => {
       state.favoriteDrivers = [];
       store('favoriteDrivers', []);
