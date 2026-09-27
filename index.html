@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Paddock Pulse">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <title>Paddock Pulse · F1 Companion</title>
   <style>
@@ -363,7 +363,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.10.0 · 非官方 F1 資訊 PWA。此版補強賽道圖穩定度：同一站會自動依序嘗試多個官方候選圖網址，減少缺圖情況，並新增輪胎策略、天氣與賽道設定重點。</div>
+      <div class="panel info">Paddock Pulse V1.11.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -385,7 +385,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.10.0';
+    const APP_VERSION = '1.11.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -403,9 +403,25 @@
       try { localStorage.setItem('pp_' + key, JSON.stringify(value)); } catch {}
     };
 
+    // FIA and F1: the Bahrain-branded 2026 GP is held at Sepang, Malaysia, 2–4 October.
+    // Apply this to stored calendars and newly fetched calendars so a stale API cache cannot
+    // display Bahrain International Circuit for the October event.
+    function apply2026VenueCorrections(races){
+      if(!Array.isArray(races)) return [];
+      return races.map(r=>{
+        if(String(r.round)!=='16' || !/bahrain/i.test(r.raceName||''))return r;
+        const venue=r.Circuit?.circuitId;
+        if(venue==='sepang')return r;
+        return {...r,raceName:'Bahrain Grand Prix in Malaysia',date:'2026-10-04',time:'07:00:00Z',
+          Circuit:{circuitId:'sepang',circuitName:'Sepang International Circuit',Location:{lat:'2.760556',long:'101.7375',locality:'Sepang',country:'Malaysia'}},
+          FirstPractice:{date:'2026-10-02',time:'04:30:00Z'},SecondPractice:{date:'2026-10-02',time:'08:00:00Z'},ThirdPractice:{date:'2026-10-03',time:'04:30:00Z'},Qualifying:{date:'2026-10-03',time:'08:00:00Z'},
+          Sprint:undefined,SprintQualifying:undefined};
+      });
+    }
+
     const legacyDriverFavs = saved('favorites', []);
     const state = {
-      races: saved('races', []),
+      races: apply2026VenueCorrections(saved('races', [])),
       drivers: saved('drivers', []),
       constructors: saved('constructors', []),
       favoriteDrivers: saved('favoriteDrivers', legacyDriverFavs),
@@ -462,33 +478,6 @@
     function constructorNameOf(item) { return item?.Constructor?.name || item?.name || item?.constructorName || 'Unknown Team'; }
     function constructorNationOf(item) { return item?.Constructor?.nationality || item?.nationality || ''; }
 
-    const TRACK_VISUALS = {
-      albert_park:{path:'M81 99 C86 66, 121 45, 166 45 C208 45, 239 61, 247 88 C254 112, 237 130, 205 139 C177 147, 151 148, 137 158 C123 167, 124 181, 141 191 C161 203, 195 204, 220 194 C243 185, 260 168, 267 146 C275 121, 269 95, 251 76 C231 56, 202 47, 173 49 C138 51, 109 63, 94 82 C84 95, 80 109, 81 123 C81 140, 92 149, 106 145 C116 142, 120 132, 115 122 C110 112, 96 110, 88 117',start:[94,82]},
-      shanghai:{path:'M77 70 C98 55, 131 49, 167 49 C208 49, 236 57, 246 74 C255 89, 247 105, 226 113 C203 121, 175 121, 151 126 C128 131, 117 144, 118 159 C119 176, 137 188, 164 195 C191 201, 220 205, 238 217 C254 227, 256 242, 244 255 C228 272, 193 278, 151 272 C108 267, 77 248, 72 223 C69 205, 80 192, 96 192 C114 192, 128 203, 128 218 C128 231, 116 241, 99 241 C81 241, 67 230, 59 214 C49 194, 48 165, 58 143 C69 119, 92 103, 118 98 C145 93, 169 93, 183 86 C193 81, 192 71, 183 65 C170 57, 146 57, 120 61 C101 64, 87 67, 77 70',start:[118,98]},
-      suzuka:{path:'M95 73 C118 53, 153 47, 184 55 C211 62, 226 78, 224 98 C222 116, 206 130, 183 136 C161 142, 138 144, 126 155 C114 165, 117 181, 135 191 C157 203, 192 205, 211 218 C225 228, 227 245, 216 257 C201 273, 170 279, 136 273 C101 267, 79 246, 81 224 C82 207, 99 196, 120 197 C139 198, 153 208, 154 222 C155 234, 146 242, 132 243 C118 244, 107 238, 100 228 C90 214, 86 195, 88 176 C90 153, 102 138, 120 127 C139 115, 165 112, 181 101 C192 94, 193 84, 188 76 C181 67, 165 63, 145 64 C122 65, 104 68, 95 73 M189 72 C182 99, 169 120, 151 136',start:[189,72]},
-      bahrain:{path:'M101 72 C130 58, 171 57, 206 68 C239 79, 259 99, 263 125 C266 149, 253 169, 228 179 C205 188, 179 185, 161 175 C146 166, 139 151, 141 136 C144 118, 159 106, 177 107 C194 108, 207 122, 205 140 C203 160, 185 171, 164 179 C140 188, 118 201, 110 217 C103 232, 114 247, 137 255 C168 265, 214 259, 245 243 C269 231, 287 213, 298 195',start:[205,140]},
-      jeddah:{path:'M192 38 C174 52, 170 70, 180 86 C190 102, 211 112, 214 130 C216 143, 204 153, 187 155 C168 157, 149 152, 133 156 C111 161, 95 176, 91 198 C88 217, 97 233, 113 240 C130 247, 150 244, 168 236 C190 226, 208 209, 220 188 C233 166, 239 143, 250 121 C263 96, 280 77, 286 58 C291 42, 281 31, 263 33 C242 35, 225 48, 216 67 C209 82, 210 98, 217 111 C224 124, 236 132, 244 145',start:[192,38]},
-      miami:{path:'M72 101 C81 73, 109 57, 143 57 C181 57, 211 75, 220 102 C229 128, 215 149, 190 158 C168 166, 141 166, 128 176 C116 185, 118 199, 134 208 C156 220, 192 220, 222 209 C249 199, 270 183, 281 163 C291 146, 290 128, 281 118 C274 110, 261 108, 253 114 C246 120, 246 129, 252 136 C259 143, 271 145, 281 142 C294 138, 302 126, 302 110',start:[220,102]},
-      imola:{path:'M74 170 C65 148, 69 123, 88 107 C112 86, 154 78, 195 82 C231 86, 260 101, 267 122 C275 146, 257 166, 226 176 C198 185, 166 186, 141 191 C117 196, 102 207, 97 223 C93 237, 104 248, 126 252 C154 258, 194 252, 226 239 C253 228, 272 214, 286 197',start:[88,107]},
-      monaco:{path:'M122 68 C139 56, 165 53, 187 60 C206 67, 217 80, 216 94 C215 108, 202 119, 183 122 C166 126, 149 125, 140 133 C132 140, 135 151, 148 156 C164 162, 186 162, 200 171 C211 178, 214 189, 208 199 C200 212, 179 220, 157 220 C136 220, 121 212, 115 199 C109 184, 115 170, 128 162 C142 153, 160 149, 167 139 C171 132, 168 125, 159 120 C148 113, 132 111, 122 101 C112 91, 111 77, 122 68',start:[167,139]},
-      catalunya:{path:'M78 150 C76 126, 90 105, 117 95 C149 82, 193 81, 228 92 C258 102, 274 120, 274 142 C274 163, 257 177, 228 181 C204 184, 176 181, 155 182 C132 184, 113 190, 106 201 C99 212, 106 223, 126 230 C154 240, 199 237, 236 223 C264 213, 285 197, 299 176',start:[274,142]},
-      villeneuve:{path:'M60 155 C63 121, 84 94, 117 87 C151 80, 189 90, 210 109 C228 125, 230 146, 216 161 C203 176, 181 183, 161 183 C143 184, 130 188, 126 198 C121 209, 131 221, 149 227 C173 235, 207 232, 233 219 C256 207, 276 188, 292 163 C307 141, 314 119, 312 101 C310 84, 299 74, 282 74',start:[292,163]},
-      red_bull_ring:{path:'M91 171 C74 157, 71 130, 89 112 C112 89, 159 80, 208 87 C249 93, 277 110, 283 132 C290 156, 271 173, 237 177 C205 180, 168 175, 144 178 C118 182, 101 193, 95 207 C91 220, 101 231, 123 238 C156 248, 206 244, 248 227 C280 214, 304 195, 320 173',start:[89,112]},
-      silverstone:{path:'M70 118 C78 88, 109 67, 149 66 C190 64, 229 80, 247 102 C259 117, 260 134, 250 147 C238 162, 214 170, 187 171 C160 173, 136 172, 123 180 C112 186, 111 197, 121 204 C135 214, 162 219, 191 216 C223 212, 255 198, 278 177 C296 160, 306 140, 304 121 C302 105, 291 95, 276 93 C258 90, 243 100, 244 114 C245 125, 258 131, 271 129',start:[149,66]},
-      spa:{path:'M96 71 C127 57, 170 60, 204 76 C236 92, 256 118, 258 144 C259 168, 243 187, 215 197 C188 206, 156 206, 132 198 C112 192, 98 180, 93 166 C87 149, 95 132, 112 125 C131 117, 156 122, 171 137 C183 149, 190 165, 204 171 C220 177, 237 170, 246 156 C256 139, 256 117, 246 98 C235 78, 216 67, 195 64 C164 60, 130 64, 96 71',start:[171,137]},
-      hungaroring:{path:'M80 153 C70 127, 82 100, 113 84 C149 66, 202 67, 237 83 C270 97, 284 121, 276 143 C268 165, 240 176, 206 177 C176 179, 147 174, 130 178 C115 181, 110 190, 117 199 C128 213, 156 220, 189 220 C222 221, 250 230, 255 246 C259 259, 248 270, 224 276 C190 284, 143 279, 107 261',start:[276,143]},
-      zandvoort:{path:'M107 69 C133 55, 171 56, 198 68 C225 80, 239 100, 237 120 C235 139, 220 154, 197 160 C175 166, 151 165, 137 174 C124 182, 124 195, 140 204 C161 216, 198 218, 227 211 C252 205, 271 193, 277 177 C283 160, 277 143, 263 132 C251 123, 236 120, 228 111 C219 101, 221 87, 232 77 C246 65, 267 62, 283 69',start:[228,111]},
-      monza:{path:'M110 65 C144 54, 191 58, 226 71 C258 83, 281 102, 288 124 C296 148, 286 170, 258 183 C232 194, 195 194, 162 191 C138 189, 121 191, 118 202 C116 214, 133 226, 163 233 C200 241, 251 235, 288 217 C315 204, 334 186, 345 166',start:[118,202]},
-      baku:{path:'M69 123 C80 93, 110 74, 149 69 C190 64, 230 74, 252 92 C272 108, 275 129, 260 145 C246 159, 222 167, 195 170 C168 172, 143 170, 127 177 C112 184, 109 196, 120 205 C136 218, 167 224, 205 221 C244 219, 278 205, 303 184 C322 168, 334 149, 335 130 C336 113, 327 100, 312 95',start:[252,92]},
-      singapore:{path:'M120 58 C149 48, 186 50, 212 62 C235 72, 248 89, 247 107 C246 125, 233 138, 213 146 C194 154, 173 155, 160 163 C145 171, 140 185, 148 198 C159 214, 186 222, 214 219 C239 217, 258 204, 265 186 C273 165, 266 141, 249 126 C233 112, 209 107, 184 110 C164 112, 147 122, 144 133 C141 145, 153 153, 171 157 C191 161, 205 172, 204 185 C202 201, 183 213, 157 213 C128 213, 105 198, 97 174 C88 146, 96 110, 120 58',start:[144,133]},
-      americas:{path:'M96 66 C126 54, 168 56, 201 68 C235 80, 258 99, 264 122 C269 142, 258 160, 237 171 C214 182, 184 184, 160 179 C142 175, 127 177, 122 188 C116 200, 126 214, 148 222 C180 234, 229 230, 267 211 C299 195, 318 171, 320 146 C321 126, 309 112, 292 111 C274 111, 261 124, 263 138 C266 153, 282 160, 299 155',start:[201,68]},
-      rodriguez:{path:'M70 145 C72 108, 98 80, 140 74 C183 67, 229 79, 256 101 C279 119, 285 144, 272 164 C258 185, 224 196, 183 197 C147 197, 118 192, 101 197 C84 202, 80 214, 91 223 C109 238, 148 246, 193 244 C237 241, 278 225, 308 201 C330 183, 344 162, 347 140 C349 124, 343 111, 330 104',start:[256,101]},
-      interlagos:{path:'M82 126 C90 95, 121 74, 162 72 C204 70, 240 86, 255 109 C267 128, 266 149, 251 164 C235 181, 207 188, 175 188 C145 188, 120 183, 104 190 C89 196, 84 208, 92 219 C105 236, 138 245, 179 243 C220 241, 257 224, 283 198 C303 178, 315 154, 314 131',start:[255,109]},
-      las_vegas:{path:'M60 88 L140 88 C155 88 166 99 166 114 L166 146 C166 159 176 169 189 169 L266 169 C281 169 292 180 292 195 L292 234 C292 249 281 260 266 260 L111 260 C96 260 85 249 85 234 L85 192 C85 178 74 167 60 167',start:[166,146]},
-      lusail:{path:'M91 98 C117 77, 158 68, 201 74 C244 80, 276 99, 288 124 C299 145, 292 165, 268 178 C243 192, 205 197, 166 194 C132 191, 107 192, 96 202 C85 213, 91 226, 114 236 C147 250, 199 251, 247 238 C283 228, 309 212, 325 191',start:[288,124]},
-      yas_marina:{path:'M88 154 C78 130, 87 104, 113 88 C145 69, 194 69, 232 82 C270 94, 293 114, 298 139 C302 162, 286 179, 254 188 C226 196, 194 196, 168 194 C144 193, 127 198, 125 209 C122 222, 137 234, 168 242 C210 254, 268 251, 313 232 C347 217, 370 196, 383 171',start:[298,139]},
-      fallback:{path:'M78 120 C85 86, 118 59, 163 56 C209 52, 250 74, 262 107 C272 133, 260 156, 236 169 C209 183, 173 182, 144 184 C118 186, 101 196, 100 211 C98 228, 117 241, 150 246 C190 253, 238 241, 270 214',start:[262,107]}
-    };
     const TRACK_INFO = {
       albert_park:{direction:'Clockwise', turns:'14', length:'5.278 km', laps:'58 laps', type:'Semi-street circuit', first:'1996', note:'Albert Park 是高速的半街道賽道，週末初期通常偏滑，車輛需要靈活的前軸反應。'},
       shanghai:{direction:'Clockwise', turns:'16', length:'5.451 km', laps:'56 laps', type:'Permanent circuit', first:'2004', note:'上海國際賽道以首段長彎最具代表性，重煞車與加速區也很多。'},
@@ -514,6 +503,7 @@
       interlagos:{direction:'Counter-clockwise', turns:'15', length:'4.309 km', laps:'71 laps', type:'Permanent circuit', first:'1973', note:'Interlagos 短圈、起伏與天氣變化，經常帶來戲劇性比賽。'},
       las_vegas:{direction:'Clockwise', turns:'17', length:'6.201 km', laps:'50 laps', type:'Street circuit', first:'2023', note:'Las Vegas 以長直線與夜賽城市景觀最具代表性。'},
       lusail:{direction:'Clockwise', turns:'16', length:'5.419 km', laps:'57 laps', type:'Permanent circuit', first:'2021', note:'Lusail 原本主要舉辦 MotoGP，整體節奏高速且流暢。'},
+      sepang:{direction:'Clockwise',turns:'15',length:'5.543 km',laps:'56 laps',type:'Permanent circuit',first:'1999',note:'2026 年 10 月 2–4 日的巴林冠名大獎賽於馬來西亞雪邦賽道舉行。'},
       yas_marina:{direction:'Counter-clockwise', turns:'16', length:'5.281 km', laps:'58 laps', type:'Permanent circuit', first:'2009', note:'Yas Marina 是黃昏到夜晚的收官舞台，近年修改後節奏更順暢。'},
       fallback:{direction:'—', turns:'—', length:'—', laps:'—', type:'Grand Prix circuit', first:'—', note:'此站的賽道詳細資訊尚未完整建立。'}
     };
@@ -543,49 +533,55 @@
       las_vegas:{corners:[['Turn 1','主直線後煞車點。'],['Sphere / Strip section','城市地標感最強。'],['Final sector','需要兼顧牽引與防守。']],drs:['多段 DRS 與長直線是核心。','Turn 1 與 Turn 14 最可能超車。'],overtake:'Turn 1、Turn 14。',sectors:['S1 長直線。','S2 城市地標路段。','S3 收尾再加速。']},
       lusail:{corners:[['Turn 1','主直線尾端主要煞車點。'],['Fast sweepers','連續高速彎是全場特色。'],['Final sector','節奏流暢、壓力持續。']],drs:['主直線 DRS。','Turn 1 是最主要超車點。'],overtake:'Turn 1。',sectors:['S1 長直線後煞車。','S2 連續高速彎。','S3 流暢收尾。']},
       yas_marina:{corners:[['Turn 1','開局煞車點。'],['Hairpin','長直線前的重要出彎。'],['Hotel section','夜景與地標感最強的區域。']],drs:['主直線與後直線可搭配 DRS。','Turn 6 與 Turn 9 區域是主要超車點。'],overtake:'Turn 6、Turn 9。',sectors:['S1 開局重煞車。','S2 長直線攻防。','S3 夜景區低速技術段。']},
+      sepang:{corners:[['Turn 1–2','長主直線後的連續慢彎，是起跑後主要攻防區。'],['Turn 4','長直線尾端重煞車，是常見進攻區。'],['Turn 9','上坡髮夾彎，煞車與牽引力要求高。'],['Turn 15','最後髮夾連接主直線，出彎速度決定下一圈攻防。']],drs:[],overtake:'Turn 1、Turn 4、Turn 15（歷年常見攻防區，2026 實際啟用區域以 FIA 為準）。',sectors:['S1 長直線與低速彎。','S2 高速中段與輪胎橫向負荷。','S3 兩條大直線與最後髮夾。']},
       fallback:{corners:[['Track guide','此站的進階賽道說明尚待補完。']],drs:['DRS 與超車點資訊稍後補上。'],overtake:'待補充',sectors:['Sector guide 待補充。']}
     };
-    const TRACK_ASSET_BASE = 'https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/';
-    const OFFICIAL_TRACK_SLUGS = {
-      albert_park:'melbourne', shanghai:'shanghai', suzuka:'suzuka', bahrain:'bahrain', jeddah:'jeddah', miami:'miami', imola:'imola', monaco:'monaco', catalunya:'catalunya', madring:'madring', villeneuve:'montreal', red_bull_ring:'redbullring', silverstone:'silverstone', spa:'spa', hungaroring:'hungaroring', zandvoort:'zandvoort', monza:'monza', baku:'baku', singapore:'singapore', americas:'austin', rodriguez:'mexicocity', interlagos:'interlagos', las_vegas:'lasvegas', lusail:'lusail', yas_marina:'yasmarina'
-    };
+    const VERIFIED_TRACKS = {"albert_park":{"layout":"melbourne-2","seasons":"2022–2026","lat":-37.849722,"lon":144.968333},"shanghai":{"layout":"shanghai-1","seasons":"2024–2026","lat":31.338889,"lon":121.219722},"suzuka":{"layout":"suzuka-2","seasons":"2022–2026","lat":34.843056,"lon":136.540556},"bahrain":{"layout":"bahrain-1","seasons":"2004–2025","lat":26.0325,"lon":50.510556},"jeddah":{"layout":"jeddah-1","seasons":"recent layout","lat":21.6319,"lon":39.1044},"miami":{"layout":"miami-1","seasons":"2022–2026","lat":25.958056,"lon":-80.238889},"monaco":{"layout":"monaco-6","seasons":"2021–2026","lat":43.734722,"lon":7.420556},"catalunya":{"layout":"catalunya-6","seasons":"2023–2026","lat":41.57,"lon":2.261111},"madring":{"layout":"madring-1","seasons":"2026","lat":40.465278,"lon":-3.615278},"villeneuve":{"layout":"montreal-6","seasons":"2022–2026","lat":45.500578,"lon":-73.522461},"red_bull_ring":{"layout":"spielberg-3","seasons":"2014–2026","lat":47.219722,"lon":14.764722},"silverstone":{"layout":"silverstone-8","seasons":"2010–2026","lat":52.078611,"lon":-1.016944},"spa":{"layout":"spa-francorchamps-4","seasons":"2007–2026","lat":50.437222,"lon":5.971389},"hungaroring":{"layout":"hungaroring-3","seasons":"2003–2026","lat":47.582222,"lon":19.251111},"zandvoort":{"layout":"zandvoort-5","seasons":"2021–2026","lat":52.388819,"lon":4.540922},"monza":{"layout":"monza-7","seasons":"2000–2026","lat":45.620556,"lon":9.289444},"baku":{"layout":"baku-1","seasons":"2021–2026","lat":40.3725,"lon":49.853333},"singapore":{"layout":"marina-bay-4","seasons":"2023–2026","lat":1.291531,"lon":103.86385},"americas":{"layout":"austin-1","seasons":"2021–2026","lat":30.132778,"lon":-97.641111},"rodriguez":{"layout":"mexico-city-3","seasons":"2021–2026","lat":19.404197,"lon":-99.088747},"interlagos":{"layout":"interlagos-2","seasons":"1990–2026","lat":-23.701111,"lon":-46.697222},"las_vegas":{"layout":"las-vegas-1","seasons":"2023–2026","lat":36.175,"lon":-115.136389},"lusail":{"layout":"lusail-1","seasons":"2023–2026","lat":25.49,"lon":51.454167},"yas_marina":{"layout":"yas-marina-2","seasons":"2021–2026","lat":24.467222,"lon":54.603056},"sepang":{"layout":"sepang-1","seasons":"1999–2017; 2026","lat":2.760556,"lon":101.7375}};
+    const VERIFIED_2026_TYRES = {"albert_park":{"hard":"C3","medium":"C4","soft":"C5","source":"https://press.pirelli.com/complete-f1-tyre-range-for-the-first-three-grands-prix-of-2026/"},"shanghai":{"hard":"C2","medium":"C3","soft":"C4","source":"https://press.pirelli.com/complete-f1-tyre-range-for-the-first-three-grands-prix-of-2026/"},"suzuka":{"hard":"C1","medium":"C2","soft":"C3","source":"https://press.pirelli.com/complete-f1-tyre-range-for-the-first-three-grands-prix-of-2026/"},"catalunya":{"hard":"C2","medium":"C3","soft":"C4","source":"https://www.formula1.com/en/latest/article/what-tyres-will-the-teams-and-drivers-have-for-the-2026-barcelona-catalunya-grand-prix.2wVnaPZmlQUuj9P72FrjuA"},"monza":{"hard":"C3","medium":"C4","soft":"C5","source":"https://www.formula1.com/en/latest/article/what-tyres-will-the-teams-and-drivers-have-for-the-2026-italian-grand-prix.7nOpWdCgvCBFDGlnODs0gk"},"madring":{"hard":"C2","medium":"C3","soft":"C4","source":"https://www.formula1.com/en/latest/article/what-tyres-will-the-teams-and-drivers-have-for-the-2026-spanish-grand-prix.2vlcVOBnZUFRCooVcqWG7n"},"baku":{"hard":"C3","medium":"C4","soft":"C5","source":"https://press.pirelli.com/tyre-compound-selections-for-baku-sepang-and-singapore/"},"sepang":{"hard":"C2","medium":"C3","soft":"C4","source":"https://press.pirelli.com/tyre-compound-selections-for-baku-sepang-and-singapore/"},"singapore":{"hard":"C3","medium":"C4","soft":"C5","source":"https://press.pirelli.com/tyre-compound-selections-for-baku-sepang-and-singapore/"}};
+    // Only paths confirmed in julesr0y/f1-circuits-svg detailed/white-outline catalog.
+    // No guesses about v1740000001 filenames or other years.
+    const MAP_ASSET_PREFIX='circuits/detailed/white-outline/';
+    const MAP_CDN='https://cdn.jsdelivr.net/gh/julesr0y/f1-circuits-svg@main/';
+    const MAP_RAW='https://raw.githubusercontent.com/julesr0y/f1-circuits-svg/main/';
     function normalizeCircuitKey(race){
-      const raw = String(race?.Circuit?.circuitId || '').toLowerCase();
-      const text = `${race?.Circuit?.circuitName || ''} ${race?.raceName || ''}`.toLowerCase();
-      const alias = {albert_park:'albert_park', melbourne:'albert_park', shanghai:'shanghai', suzuka:'suzuka', bahrain:'bahrain', sakhir:'bahrain', jeddah:'jeddah', miami:'miami', imola:'imola', monaco:'monaco', catalunya:'catalunya', villeneuve:'villeneuve', montreal:'villeneuve', red_bull_ring:'red_bull_ring', spielberg:'red_bull_ring', silverstone:'silverstone', spa:'spa', francorchamps:'spa', hungaroring:'hungaroring', zandvoort:'zandvoort', monza:'monza', baku:'baku', singapore:'singapore', americas:'americas', austin:'americas', rodriguez:'rodriguez', mexicocity:'rodriguez', interlagos:'interlagos', las_vegas:'las_vegas', lusail:'lusail', qatar:'lusail', yas_marina:'yas_marina', yasmarina:'yas_marina'};
-      if(alias[raw]) return alias[raw];
-      if(text.includes('madring') || text.includes('madrid')) return 'madring';
-      if(text.includes('circuit gilles-villeneuve') || text.includes('montreal')) return 'villeneuve';
-      if(text.includes('circuit of the americas') || text.includes('austin') || text.includes('united states')) return 'americas';
-      if(text.includes('mexico city') || text.includes('autódromo hermanos rodríguez') || text.includes('autodromo hermanos rodriguez')) return 'rodriguez';
-      if(text.includes('são paulo') || text.includes('sao paulo') || text.includes('josé carlos pace') || text.includes('jose carlos pace')) return 'interlagos';
-      if(text.includes('yas marina') || text.includes('abu dhabi')) return 'yas_marina';
-      if(text.includes('albert park') || text.includes('melbourne')) return 'albert_park';
-      if(text.includes('lusail') || text.includes('qatar')) return 'lusail';
-      return raw || 'fallback';
+      const raw=String(race?.Circuit?.circuitId||'').toLowerCase();
+      const str=`${race?.Circuit?.circuitName||''} ${race?.raceName||''}`.toLowerCase();
+      const aliases={melbourne:'albert_park',albert_park:'albert_park',montreal:'villeneuve',villeneuve:'villeneuve',austin:'americas',americas:'americas',spielberg:'red_bull_ring',red_bull_ring:'red_bull_ring',mexico_city:'rodriguez',rodriguez:'rodriguez',marina_bay:'singapore',singapore:'singapore',yas_marina:'yas_marina',las_vegas:'las_vegas',bahrain:'bahrain',sepang:'sepang',jeddah:'jeddah',suzuka:'suzuka',shanghai:'shanghai',miami:'miami',monaco:'monaco',catalunya:'catalunya',madring:'madring',spa:'spa',silverstone:'silverstone',hungaroring:'hungaroring',zandvoort:'zandvoort',monza:'monza',baku:'baku',interlagos:'interlagos',lusail:'lusail'};
+      if(raw==='bahrain' && str.includes('sepang'))return 'sepang';
+      if(aliases[raw])return aliases[raw];
+      if(str.includes('sepang')||str.includes('kuala lumpur'))return 'sepang';
+      if(str.includes('madrid')||str.includes('madring'))return 'madring';
+      if(str.includes('gilles')||str.includes('montreal'))return 'villeneuve';
+      if(str.includes('miami'))return 'miami';
+      return raw;
     }
-    function trackInfoFor(race){
-      const key = normalizeCircuitKey(race);
-      return TRACK_INFO[key] || TRACK_INFO.fallback;
+    function trackInfoFor(race){return TRACK_INFO[normalizeCircuitKey(race)]||TRACK_INFO.fallback;}
+    function trackMapStatus(race){
+      const key=normalizeCircuitKey(race),entry=VERIFIED_TRACKS[key];
+      const path=entry?MAP_ASSET_PREFIX+entry.layout+'.svg':null;
+      return {key,entry,slug:entry?.layout||null,verified:!!entry,url:path?MAP_CDN+path:null,candidates:path?[MAP_CDN+path,MAP_RAW+path]:[]};
     }
-
-    function officialTrackMapCandidates(race){
-      const key = normalizeCircuitKey(race);
-      const base = ['https://media.formula1.com/image/upload/c_fit,h_704/q_auto'];
-      const years = ['v1740000001/common/f1/2026/track/','v1730000001/common/f1/2025/track/','v1720000001/common/f1/2024/track/'];
-      const slugBase = OFFICIAL_TRACK_SLUGS[key] ? [OFFICIAL_TRACK_SLUGS[key]] : [];
-      const aliases = {
-        albert_park:['melbourne','australia','albertpark'], shanghai:['shanghai','china'], suzuka:['suzuka','japan'], bahrain:['bahrain','sakhir'], jeddah:['jeddah','saudiarabia'], miami:['miami'], imola:['imola','emiliaromagna'], monaco:['monaco'], catalunya:['catalunya','spain','barcelona'], madring:['madring','madrid','spain'], villeneuve:['montreal','canada','villeneuve'], red_bull_ring:['redbullring','austria','spielberg'], silverstone:['silverstone','greatbritain','britain'], spa:['spa','belgium','spafrancorchamps'], hungaroring:['hungaroring','hungary'], zandvoort:['zandvoort','netherlands'], monza:['monza','italy'], baku:['baku','azerbaijan'], singapore:['singapore'], americas:['austin','usa','unitedstates','americas'], rodriguez:['mexicocity','mexico','rodriguez'], interlagos:['interlagos','brazil','saopaulo'], las_vegas:['lasvegas','vegas'], lusail:['lusail','qatar'], yas_marina:['yasmarina','abudhabi','abudhabiyasmarina']
-      };
-      const slugs = [...new Set([...slugBase, ...(aliases[key]||[])])];
-      const out=[];
-      for(const year of years){
-        for(const slug of slugs){
-          out.push(`${base[0]}/${year}2026track${slug}detailed.webp`);
-          out.push(`${base[0]}/${year}2026track${slug}.webp`);
-        }
-      }
-      return [...new Set(out)];
+    function trackCoordinates(race){const item=VERIFIED_TRACKS[normalizeCircuitKey(race)];return item?[item.lat,item.lon]:null;}
+    function officialTyreFor(race){return VERIFIED_2026_TYRES[normalizeCircuitKey(race)]||null;}
+    function trackGuideFor(race){return TRACK_GUIDE[normalizeCircuitKey(race)]||TRACK_GUIDE.fallback;}
+    function bulletPills(items){return (items||[]).map(x=>`<span class="guide-pill">${safe(x)}</span>`).join('');}
+    function cornerItems(items){return (items||[]).map(([title,desc])=>`<div class="corner-item"><strong>${safe(title)}</strong><p>${safe(desc)}</p></div>`).join('');}
+    function zoneItems(items){return (items||[]).map((txt,i)=>`<div class="zone-item"><strong>${i===0?'歷史參考':'補充'}</strong><p>${safe(txt)}</p></div>`).join('');}
+    function initTrackMapImages(root=document){
+      root.querySelectorAll('.track-photo[data-candidates]:not([data-bound])').forEach(img=>{
+        img.dataset.bound='1';let links=[];
+        try{links=JSON.parse(decodeURIComponent(img.dataset.candidates||''));}catch{}
+        const wrap=img.closest('.track-photo-box'),fail=wrap.querySelector('.track-fallback'),load=wrap.querySelector('.track-loading'),tag=wrap.querySelector('.track-source-inline');
+        if(!links.length){img.hidden=true;load.hidden=true;fail.hidden=false;return;}
+        let i=0;
+        const tryNext=()=>{
+          if(i>=links.length){img.hidden=true;load.hidden=true;fail.hidden=false;tag.textContent='尚未成功載入';return;}
+          tag.textContent='正在取得真實賽道圖';img.src=links[i++];
+        };
+        img.onload=()=>{img.hidden=false;load.hidden=true;fail.hidden=true;tag.textContent='圖片成功載入 · 已核對版號';};
+        img.onerror=tryNext;
+        tryNext();
+      });
     }
     function trackExtraFor(race){
       const key = normalizeCircuitKey(race);
@@ -599,73 +595,12 @@
       const records = {monza:'速度聖殿，低下壓力與尾速通常最受關注。', monaco:'排位的重要性幾乎高於一切，賽道位置極難被取代。', spa:'長圈長加上高低起伏，常放大車手信心與車輛平衡差異。'};
       return { tyre, setup, weather, note: records[key] || '可把這張卡當成本站的策略與設定快速摘要。' };
     }
-    function initTrackMapImages(root=document){
-      root.querySelectorAll('.track-photo[data-candidates]:not([data-bound])').forEach(img=>{
-        img.dataset.bound='1';
-        let list=[];
-        try{ list = JSON.parse(decodeURIComponent(img.dataset.candidates||'')); }catch{}
-        if(!Array.isArray(list) || !list.length){
-          const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback');
-          if(fb) fb.hidden=false;
-          img.remove();
-          return;
-        }
-        const statusNode = img.closest('.track-photo-box')?.querySelector('.track-source-inline');
-        const loadingNode = img.closest('.track-photo-box')?.querySelector('.track-loading');
-        const setStatus = (txt)=>{ if(statusNode) statusNode.textContent=txt; };
-        const loadAt = (idx)=>{
-          img.dataset.index=String(idx);
-          setStatus(`Trying source ${idx+1} / ${list.length}`);
-          if(loadingNode) loadingNode.hidden=false;
-          img.src=list[idx];
-        };
-        img.onerror=()=>{
-          const next=(parseInt(img.dataset.index||'0',10))+1;
-          if(next<list.length){ loadAt(next); }
-          else { if(loadingNode) loadingNode.hidden=true; img.hidden=true; const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback'); if(fb) fb.hidden=false; setStatus('All official candidates failed'); }
-        };
-        img.onload=()=>{ if(loadingNode) loadingNode.hidden=true; const idx=parseInt(img.dataset.index||'0',10); setStatus(`Loaded official source ${idx+1} / ${list.length}`); img.hidden=false; const fb = img.closest('.track-photo-box')?.querySelector('.track-fallback'); if(fb) fb.hidden=true; };
-        loadAt(0);
-      });
-    }
-
-    function trackGuideFor(race){
-      const key = normalizeCircuitKey(race);
-      return TRACK_GUIDE[key] || TRACK_GUIDE.fallback;
-    }
-    function trackMapStatus(race){
-      const key = normalizeCircuitKey(race);
-      const slug = OFFICIAL_TRACK_SLUGS[key] || '';
-      const candidates = officialTrackMapCandidates(race);
-      return {key, slug, url: candidates[0] || '', verified: Boolean(slug), candidates};
-    }
-    function bulletPills(items){ return (items||[]).map(x=>`<span class="guide-pill">${safe(x)}</span>`).join(''); }
-    function cornerItems(items){ return (items||[]).map(([title,desc])=>`<div class="corner-item"><strong>${safe(title)}</strong><p>${safe(desc)}</p></div>`).join(''); }
-    function zoneItems(items){ return (items||[]).map((txt,i)=>`<div class="zone-item"><strong>${i===0?'DRS / 攻防重點':'補充'}</strong><p>${safe(txt)}</p></div>`).join(''); }
-
-    function circuitMapCard(race, compact=false, full=false){
-      if(!race) return '';
-      const status = trackMapStatus(race);
-      const candidates = status.candidates || [];
-      const info = trackInfoFor(race);
-      const location = [race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
-      const chips = '<span class="track-chip">'+safe(info.length)+'</span><span class="track-chip">'+safe(info.turns)+' turns</span><span class="track-chip">'+safe(info.direction)+'</span>';
-      const actions = '<div class="track-actions"><button class="track-cta primary" data-opencircuit="'+safe(race.round)+'">放大賽道圖</button><button class="track-cta" data-openresults="'+safe(race.round)+'">查看本站賽果</button></div>';
-      const encodedCandidates = encodeURIComponent(JSON.stringify(candidates));
-      const mapHtml = candidates.length
-        ? '<div class="track-photo-box"><div class="track-loading">Loading official track map…</div><img class="track-photo" loading="lazy" alt="'+safe(race.Circuit?.circuitName || race.raceName)+' 官方賽道圖" data-candidates="'+encodedCandidates+'"><div class="track-source-inline">Preparing sources…</div><div class="track-fallback" hidden>這站的官方賽道圖候選網址都載入失敗。<br>我先保留正確賽道資訊，避免放錯圖。</div></div>'
-        : '<div class="track-fallback">這站暫時沒有找到已驗證的官方賽道圖。<br>我先不顯示任何示意圖，避免放錯。</div>';
-      return '<section class="track-card'+(full?' premium':'')+'">'
-        + '<div class="track-shell'+(compact?' compact':'')+(full?' full':'')+'">'
-        + '<div class="track-drawing">'+mapHtml+'</div>'
-        + '<div class="track-copy">'
-        + '<div><div class="eyebrow">OFFICIAL TRACK MAP</div><h3>'+safe(race.Circuit?.circuitName || race.raceName)+'</h3><p>'+safe(location || 'Formula 1 circuit')+'</p></div>'
-        + '<div class="track-chiprow">'+chips+'</div>'
-        + '<div class="track-mini-grid"><div class="track-mini"><small>Circuit type</small><strong>'+safe(info.type)+'</strong></div><div class="track-mini"><small>Race distance</small><strong>'+safe(info.laps)+'</strong></div><div class="track-mini"><small>First GP</small><strong>'+safe(info.first)+'</strong></div><div class="track-mini"><small>Round</small><strong>R'+safe(race.round)+'</strong></div></div>'
-        + '<div class="track-note">'+safe(info.note)+'</div>'
-        + '<div class="track-source">Track map source: Formula1.com official circuit image · key <strong>'+safe(status.key)+'</strong> · slug <strong>'+safe(status.slug||'N/A')+'</strong> · candidates <strong>'+safe((status.candidates||[]).length)+'</strong></div>'
-        + actions
-        + '</div></div></section>';
+    function circuitMapCard(race,compact=false,full=false){
+      if(!race)return '';
+      const src=trackMapStatus(race),info=trackInfoFor(race),location=[race.Circuit?.Location?.locality,race.Circuit?.Location?.country].filter(Boolean).join(', ');
+      const imgs=encodeURIComponent(JSON.stringify(src.candidates));
+      const map=src.candidates.length?`<div class="track-photo-box"><div class="track-loading">正在載入賽道圖…</div><img class="track-photo" loading="lazy" alt="${safe(race.Circuit?.circuitName||race.raceName)} ${safe(src.entry?.seasons||'')} 真實賽道圖" data-candidates="${imgs}"><div class="track-source-inline">待載入</div><div class="track-fallback" hidden>已核實此站賽道版本，但圖片來源目前無法連線。<br><a href="${safe(src.url)}" target="_blank" rel="noopener noreferrer">查看圖檔</a></div></div>`:'<div class="track-fallback">此站尚未有已核實的現行賽道 SVG，不以其他圖代替。</div>';
+      return `<section class="track-card ${full?'premium':''}"><div class="track-shell ${compact?'compact':''} ${full?'full':''}"><div class="track-drawing">${map}</div><div class="track-copy"><div><div class="eyebrow">VERIFIED CIRCUIT LAYOUT</div><h3>${safe(race.Circuit?.circuitName||race.raceName)}</h3><p>${safe(location)}</p></div><div class="track-chiprow"><span class="track-chip">${safe(info.length)}</span><span class="track-chip">${safe(info.turns)} 彎</span><span class="track-chip">${safe(src.entry?.seasons||'待核實')}</span></div><div class="track-note">${safe(info.note)}</div><div class="track-source">SVG: Jules Roy · CC BY 4.0；逐檔核對版號 ${safe(src.entry?.layout||'無')}</div><div class="track-actions"><button class="track-cta primary" data-opencircuit="${safe(race.round)}">賽道詳情 ↗</button><button class="track-cta" data-openresults="${safe(race.round)}">本站賽果</button></div></div></div></section>`;
     }
 
     function rowRace(race) {
@@ -829,7 +764,7 @@
       const race=state.races.find(r=>availableTypes(r).some(t=>{ const date=+sessionDate(scheduledSession(r,t)); return date>=now; })) || state.races.at(-1);
       const info=trackInfoFor(race);
       const status=trackMapStatus(race);
-      node.innerHTML='<div class="home-track-card"><div class="home-track-top"><div class="micro">THIS WEEK CIRCUIT</div><h3>'+safe(race.Circuit?.circuitName||race.raceName)+'</h3><p>'+safe(info.note)+'</p><div class="track-source" style="margin-top:8px">Map check: '+(status.verified?'Verified official map':'Need alias review')+' · '+safe(status.key)+'</div></div>'+circuitMapCard(race,true)+'</div>';
+      node.innerHTML='<div class="home-track-card"><div class="home-track-top"><div class="micro">THIS WEEK CIRCUIT</div><h3>'+safe(race.Circuit?.circuitName||race.raceName)+'</h3><p>'+safe(info.note)+'</p><div class="track-source" style="margin-top:8px">SVG 版號: '+safe(status.slug||'待核實')+'</div></div>'+circuitMapCard(race,true)+'</div>';
       initTrackMapImages(node);
     }
 
@@ -1050,6 +985,7 @@
       if (state.filter === 'past') list = list.filter(isPast);
       $('raceList').innerHTML = list.length ? list.map(rowRace).join('') : '<div class="empty">目前沒有符合條件的賽事。</div>';
       $('upcoming').innerHTML = state.races.filter(r => !isPast(r)).slice(0,3).map(rowRace).join('') || '<div class="empty">沒有即將登場的賽事。</div>';
+      initTrackMapImages($('raceList'));initTrackMapImages($('upcoming'));
     }
 
     function getFavoriteDriverItems() {
@@ -1138,6 +1074,7 @@
       const guide=trackGuideFor(race);
       const status=trackMapStatus(race);
       const extra=trackExtraFor(race);
+      const tyre=officialTyreFor(race);
       const location=[race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
       const heroMeta=`<div class="hero-meta">${factBox('Track length',info.length)}${factBox('Turns',info.turns)}${factBox('Race distance',info.laps)}${factBox('Direction',info.direction)}</div>`;
       $('circuitBody').innerHTML=`
@@ -1155,8 +1092,8 @@
             </div>
             <div class="hero-side-card">
               <h3>Track map source check</h3>
-              <div class="map-status"><span class="status-dot ${status.verified?'status-ok':'status-warn'}"></span><strong>${status.verified?'Official map candidate set ready':'Need alias check'}</strong></div>
-              <p style="margin-top:10px">現在同一站會自動依序嘗試多個官方候選圖網址，所以即使第一個網址失敗，也會往下找可用版本，減少缺圖機率。</p>
+              <div class="map-status"><span class="status-dot ${status.verified?'status-ok':'status-warn'}"></span><strong>${status.verified?'檔案及適用年份已核對':'Need alias check'}</strong></div>
+              <p style="margin-top:10px">現在此站對應到開放授權的真實賽道 SVG 和適用年份，圖片只嘗試該同一檔案的 CDN 與原始來源，不再猜測其他年份或其他賽道圖。</p>
               <div class="guide-note">Resolved key: <strong>${safe(status.key)}</strong> · slug: <strong>${safe(status.slug||'N/A')}</strong> · candidates: <strong>${safe((status.candidates||[]).length)}</strong></div>
             </div>
           </div>
@@ -1165,22 +1102,60 @@
           <div class="circuit-side">${circuitMapCard(race,false,true)}</div>
           <div>
             <div class="circuit-facts"><h2>賽道重點</h2><div class="fact-grid">${factBox('Location',location)}${factBox('Direction',info.direction)}${factBox('Turns',info.turns)}${factBox('Track length',info.length)}${factBox('Race distance',info.laps)}${factBox('Circuit type',info.type)}${factBox('First GP',info.first)}${factBox('Round','R'+race.round)}</div></div>
-            <div class="circuit-story"><h2>賽道說明</h2><p>${safe(info.note)}</p><div class="circuit-copy-note">這一頁已改成多候選官方賽道圖模式；如果某站第一張圖失敗，系統會自動切換下一個官方候選網址。</div></div>
+            <div class="circuit-story"><h2>賽道說明</h2><p>${safe(info.note)}</p><div class="circuit-copy-note">這一頁改用逐檔核對版號的開源賽道圖。如圖片連線失敗，僅嘗試同一 SVG 的備援網址。</div></div>
           </div>
         </div>
         <div class="guide-grid">
           <section class="guide-card"><h2>特色彎角</h2><div class="corner-list">${cornerItems(guide.corners)}</div><div class="guide-note">用簡短重點整理這條賽道最值得看的彎角與駕駛挑戰。</div></section>
-          <section class="guide-card"><h2>超車點 / DRS 區</h2><div class="zone-list">${zoneItems(guide.drs)}</div><div class="corner-item" style="margin-top:10px"><strong>主要超車點</strong><p>${safe(guide.overtake)}</p></div></section>
+          <section class="guide-card"><h2>2026 超車觀戰重點</h2><div class="no-data">2026 年已取消傳統 DRS，改用主動空力 Straight Mode / Corner Mode 與 Overtake Mode。每站實際啟用區域，須以該站 FIA 賽事文件為準，這裡不展示歷年 DRS 區當作 2026 資訊。<br><a href="https://www.fia.com/news/f1s-new-era-everything-you-need-know-about-how-fia-making-formula-1-more-competitive-more" target="_blank" rel="noopener noreferrer" style="color:#9ecaff">FIA 2026 規則說明 ↗</a></div><div class="corner-item" style="margin-top:10px"><strong>歷史常見攻防路段（僅參考）</strong><p>${safe(guide.overtake)}</p></div></section>
           <section class="guide-card"><h2>Sector 節奏</h2><div class="pillrow">${bulletPills(guide.sectors)}</div><div class="guide-note">方便快速理解這條賽道每一段的節奏與看點。</div></section>
-          <section class="guide-card"><h2>Map source / alias 檢查</h2><div class="source-grid"><div class="source-box"><small>Resolved key</small><strong>${safe(status.key)}</strong></div><div class="source-box"><small>Slug</small><strong>${safe(status.slug||'N/A')}</strong></div><div class="source-box"><small>Status</small><strong>${status.verified?'Verified':'Needs review'}</strong></div><div class="source-box"><small>Candidate count</small><strong>${safe((status.candidates||[]).length)}</strong></div></div><div class="guide-note">如果哪一站賽道圖還是有問題，可以直接根據 key / slug / candidate count 再修正。</div></section>
+          <section class="guide-card"><h2>Map source / alias 檢查</h2><div class="source-grid"><div class="source-box"><small>Resolved key</small><strong>${safe(status.key)}</strong></div><div class="source-box"><small>Slug</small><strong>${safe(status.slug||'N/A')}</strong></div><div class="source-box"><small>Status</small><strong>${status.verified?'版號已核對':'Needs review'}</strong></div><div class="source-box"><small>Candidate count</small><strong>${safe((status.candidates||[]).length)}</strong></div></div><div class="guide-note">如果哪一站賽道圖還是有問題，可以直接根據 key / slug / candidate count 再修正。</div></section>
         </div>
         <div class="extra-grid">
-          <section class="extra-card"><h2>輪胎策略</h2><div class="extra-list"><div class="extra-item"><small>Tyre focus</small><strong>${safe(extra.tyre)}</strong></div></div></section>
-          <section class="extra-card"><h2>車輛設定重點</h2><div class="extra-list"><div class="extra-item"><small>Setup balance</small><strong>${safe(extra.setup)}</strong></div></div></section>
-          <section class="extra-card"><h2>天氣 / 賽道摘要</h2><div class="extra-list"><div class="extra-item"><small>Typical weather</small><strong>${safe(extra.weather)}</strong></div><div class="extra-item"><small>Quick note</small><strong>${safe(extra.note)}</strong></div></div></section>
+          <section class="extra-card"><h2>2026 官方配胎</h2><div id="tyreVerified">${tyre?`<div class="compound-grid"><div class="compound-item"><span class="tyre-dot hard"></span><small>HARD / 白</small><strong>${tyre.hard}</strong></div><div class="compound-item"><span class="tyre-dot medium"></span><small>MEDIUM / 黃</small><strong>${tyre.medium}</strong></div><div class="compound-item"><span class="tyre-dot soft"></span><small>SOFT / 紅</small><strong>${tyre.soft}</strong></div></div><p class="meta-source">Pirelli 2026 已公布選胎 · <a href="${safe(tyre.source)}" target="_blank" rel="noopener noreferrer">官方來源 ↗</a></p>`:'<div class="no-data">此站 2026 官方配胎尚未完成核實，不顯示推測配方。</div>'}</div><div class="meta-source">賽前只提供已公告配胎，正式一停／兩停須待自由練習數據；不將一般賽道特性當成實際策略。</div></section>
+          <section class="extra-card"><h2>比賽週末天氣</h2><div id="verifiedWeather" aria-live="polite"><div class="no-data">正在確認預報是否已進入有效時段…</div></div><div class="meta-source">Open-Meteo · 逐小時實際預報 · 當地時區 · 非即時賽道測站</div></section>
+          <section class="extra-card"><h2>車輛設定與賽道特色</h2><div class="extra-list"><div class="extra-item"><small>賽道特性參考，非各隊實際設定</small><strong>${safe(extra.setup)}</strong></div><div class="extra-item"><small>注意事項</small><strong>${safe(extra.note)}</strong></div></div></section>
         </div>`;
       initTrackMapImages($('circuitBody'));
+      loadCircuitWeather(race);
     }
+    const weatherSessionTokens=new Map();
+    function tzDateParts(d,tz){
+      const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hour12:false,hourCycle:'h23'}).formatToParts(d);
+      const get=t=>p.find(x=>x.type===t)?.value;
+      return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}`;
+    }
+    function weatherDescription(code){
+      if(code===0)return '晴';if(code<=3)return '多雲';if([45,48].includes(code))return '霧';if(code<=57)return '毛毛雨';if(code<=67)return '雨';if(code<=77)return '雪';if(code<=82)return '陣雨';if(code<=86)return '陣雪';if(code>=95)return '雷雨';return '天氣代碼 '+code;
+    }
+    async function loadCircuitWeather(race){
+      const node=$('verifiedWeather');if(!node)return;
+      const coords=trackCoordinates(race),raceAt=raceDate(race),now=Date.now();
+      if(!coords){node.innerHTML='<div class="no-data">本賽道尚無已核實座標，無法顯示預報。</div>';return;}
+      if(!Number.isFinite(+raceAt)){node.innerHTML='<div class="no-data">賽程時間未確認，暫停預報。</div>';return;}
+      if(+raceAt < now-36*3600000){node.innerHTML='<div class="no-data">此站已結束；本頁不把歷史氣候或現在天氣冒充當時預報。</div>';return;}
+      if(+raceAt > now+15*86400000){node.innerHTML='<div class="no-data">距離比賽超出 16 天預報範圍，尚無可靠逐小時預報。</div>';return;}
+      const token=String(race.round)+'/'+now;weatherSessionTokens.set('active',token);
+      node.innerHTML='<div class="no-data">正在向 Open-Meteo 取得賽道附近逐小時預報…</div>';
+      const url=`https://api.open-meteo.com/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m&timezone=auto&forecast_days=16`;
+      try{
+        const data=await fetchJSON(url);if(weatherSessionTokens.get('active')!==token||!$('verifiedWeather'))return;
+        const h=data.hourly;if(!Array.isArray(h?.time)||!data.timezone)throw Error('資料格式異常');
+        const day=tzDateParts(raceAt,data.timezone).slice(0,10);
+        const sessions=[...availableTypes(race)].map(t=>({type:t,when:sessionDate(scheduledSession(race,t))})).filter(x=>x.when&&+x.when>=now-2*3600000);
+        let rows=sessions.map(x=>{
+          const key=tzDateParts(x.when,data.timezone);
+          const index=h.time.findIndex(t=>t===key||t.startsWith(key+':'));
+          if(index<0)return '';
+          const n=(a)=>a?.[index];
+          const temp=n(h.temperature_2m),prob=n(h.precipitation_probability),mm=n(h.precipitation),wind=n(h.wind_speed_10m),code=n(h.weather_code);
+          return `<div class="weather-row"><b>${safe(x.type.label)}</b><span>${safe(key.replace('T',' '))}:00</span><strong>${temp==null?'—':Math.round(temp)+'°C'} · ${safe(weatherDescription(code))}</strong><small>降雨機率 ${prob==null?'—':prob+'%'} · 預估雨量 ${mm==null?'—':mm+' mm'} · 風速 ${wind==null?'—':wind+' km/h'}</small></div>`;
+        }).filter(Boolean);
+        if(!rows.length){node.innerHTML='<div class="no-data">目前沒有本站排定場次的逐小時預報，請稍後更新。</div>';return;}
+        node.innerHTML=`<div class="weather-stack">${rows.join('')}</div><div class="meta-source">預報取得時間 ${safe(new Date().toLocaleString('zh-TW'))} · 時區 ${safe(data.timezone)} · 此為預報，非實測</div>`;
+      }catch(err){if(weatherSessionTokens.get('active')===token&&$('verifiedWeather'))node.innerHTML='<div class="no-data">即時預報來源暫時無法連線。沒有使用推測數據。</div><button class="track-cta" data-weatherretry="'+safe(race.round)+'">重試</button>';}
+    }
+
 
     function renderStandings() {
 
@@ -1224,6 +1199,7 @@
     }
 
     document.addEventListener('click', event => {
+      const weatherRetry=event.target.closest('[data-weatherretry]');if(weatherRetry){const r=state.races.find(x=>String(x.round)===weatherRetry.dataset.weatherretry);if(r)loadCircuitWeather(r);return;}
       const openResult = event.target.closest('[data-openresults]');
       if(openResult){openResults(openResult.dataset.openresults,openResult.dataset.ses||null);return;}
       const openCircuitBtn = event.target.closest('[data-opencircuit]');
@@ -1329,8 +1305,8 @@
         const data = await fetchJSON(API + '/' + path + '.json?limit=100');
         const list = parse(data);
         if (!Array.isArray(list)) throw new Error('格式不符');
-        state[key] = list;
-        store(key, list);
+        state[key] = key==='races' ? apply2026VenueCorrections(list) : list;
+        store(key, state[key]);
         successes += 1;
       }));
 

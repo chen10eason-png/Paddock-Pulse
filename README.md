@@ -1,43 +1,27 @@
-# Paddock Pulse V1.10.0
+# Paddock Pulse V1.11.0
 
-非官方 F1 iPhone / iPad PWA。
+本版從 GitHub 公開版本 V1.10.0（index.html blob 4c5839a37a05b29f18d41c1167dc8615c09da955）接續修改。
 
-這一版重點是繼續補強你剛剛提到的問題：
+## 賽道資料與授權
+採用 **julesr0y/f1-circuits-svg** 公開提供的 detailed / white-outline SVG；2026 適用版號按該專案 circuits.json 的 `seasons` 選用，**不再猜測 Formula1.com 的圖片網址**。23 條列為 2026 有效版號的賽道加上 Sepang、Bahrain、Jeddah 等特殊場地做精確別名；未匹配版號不顯示臆測圖。SVG 為外部 CDN 引用，使用相同檔案的 GitHub 原始來源作備援，需首次連網。
 
-## 這版更新
-- 針對賽道圖新增 **多候選官方圖網址 fallback 機制**。
-  - 同一站不只嘗試一個網址。
-  - 若第一個官方圖失敗，會自動往下嘗試其他候選網址。
-  - 減少「有些賽道沒有圖 / 跑不出來」的情況。
-- 保留並強化 **map source / alias 檢查**。
-- 新增 **輪胎策略**。
-- 新增 **車輛設定重點**。
-- 新增 **天氣 / 賽道摘要**。
-- 保留賽道頁的：
-  - 特色彎角
-  - 超車點 / DRS 區
-  - Sector 節奏
+© 2024–2026 ROY Jules，原始專案與 SVG 以 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 授權，來源：https://github.com/julesr0y/f1-circuits-svg。App 只用該 SVG 外部網址呈現，沒有宣稱為 F1 官方圖。
 
-## 目前功能
-- 深色風格 F1 首頁與下一站倒數。
-- 2026 賽程總覽。
-- 車手 / 車隊積分榜。
-- 車手 / 車隊收藏（localStorage）。
-- 分站賽果頁：可查看各場練習、衝刺、排位與正賽結果。
-- Race Weekend timeline：用時間軸切換各場次。
-- 車手 / 車隊詳情頁與近期賽果。
-- 官方來源賽道圖、賽道資訊、放大頁。
-- 賽道 guide：特色彎角、超車點、DRS 區、sector 節奏。
-- 額外賽道卡：輪胎策略 / 設定重點 / 天氣摘要。
-- map source / alias 檢查。
+## 輪胎
+2026 配胎僅提供已經核實的 Pirelli 公告或 Formula1.com 轉載，標示每站 C1–C5 的硬中軟對應與原始來源。不憑賽道類型預測一停兩停；未核實站標示未知。
 
-## 資料來源
-- Jolpica-F1：https://api.jolpi.ca/docs/
-- OpenF1：https://openf1.org/docs/
-- Formula1.com 官方分站頁 Circuit 區塊賽道圖：https://www.formula1.com/
+## 天氣
+Open-Meteo 免費預報 API https://open-meteo.com/en/docs，按賽道座標及實際場次時間取得當地時區逐小時氣溫、降雨機率、預估雨量、風速。預報範圍僅限 16 天內且尚未結束的週末；非當年歷史觀測或賽道測站，無資料時顯示等待／錯誤，不使用氣候統計冒充預報。
 
-## 使用方式
-將 `paddock-pulse-v1.10.0` 資料夾內所有檔案上傳到 GitHub Pages repository 根目錄即可部署。
+## 部署
+ZIP 解壓後，將資料夾**內部** 7 個檔案上傳至 GitHub Pages repo 根目錄：index.html、manifest.webmanifest、sw.js、icon-192.png、icon-512.png、TRACK_AUDIT.json、README.md。GitHub Pages deployment 不會因為 ZIP 下載而自動更新（目前 GitHub connector 對此 repo 僅有讀取權限）。
 
-## 測試說明
-已完成程式語法檢查與本機結構檢查。部署後建議重新整理 Safari / PWA 快取，並逐站查看是否有更多賽道成功載入官方圖。
+## 版本核對
+index.html `APP_VERSION`、收藏頁文字、ZIP 檔名、Service Worker cache、README 全部設定為 V1.11.0。
+
+## 核實的重要賽事更新與規則
+- 2026 第 16 站「巴林大獎賽」於 10 月 2–4 日在馬來西亞 Sepang 舉辦，即使原始賽程快取尚未更新也會正確映射；來源：https://www.formula1.com/en/latest/article/formula-1-and-fia-confirm-formula-1-and-fia-confirm-malaysia-will-join-2026-calendar-as-host-venue-for-the-bahrain-grand-prix.6lL7vjFEM2VVynRHvg1TCf
+- 2026 已無傳統 DRS，取而代之的是 Active Aero 與 Overtake Mode，未核實 FIA 當站圖的啟用區域不會畫成已確認資料；來源：https://www.fia.com/news/f1s-new-era-everything-you-need-know-about-how-fia-making-formula-1-more-competitive-more
+
+## 驗證範圍
+已核對賽道資料庫內 25 個 SVG 名稱與版號；iPhone / iPad 尺寸以模擬網路回應測試場次切換、圖片成功載入、已公告配胎及 Open-Meteo 逐小時時區轉換。實際 CDN 與天氣 API 的部署端到端連線仍須在可對外連線的真實網站確認，不能將模擬測試視作已驗證實際預報。
