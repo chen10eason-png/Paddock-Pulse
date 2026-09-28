@@ -393,7 +393,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.14.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
+      <div class="panel info">Paddock Pulse V1.14.1 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -417,7 +417,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.14.0';
+    const APP_VERSION = '1.14.1';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -591,7 +591,7 @@
     function trackMapStatus(race){
       const key=normalizeCircuitKey(race),entry=VERIFIED_TRACKS[key];
       const path=entry?MAP_ASSET_PREFIX+entry.layout+'.svg':null;
-      const urls=path?[...(key==='las_vegas'?['./las-vegas-1.svg','./assets/las-vegas-1.svg']:[]),MAP_CDN+path,MAP_RAW+path]:[];
+      const urls=path?[...(['las_vegas','lusail'].includes(key)?['./assets/'+entry.layout+'.svg']:[]),MAP_CDN+path,MAP_RAW+path]:[];
       return {key,entry,slug:entry?.layout||null,verified:!!entry,url:urls[0]||null,candidates:urls};
     }
     function trackCoordinates(race){const item=VERIFIED_TRACKS[normalizeCircuitKey(race)];return item?[item.lat,item.lon]:null;}

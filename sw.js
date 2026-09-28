@@ -1,6 +1,6 @@
-const NAME='paddock-pulse-v1-14-0';
+const NAME='paddock-pulse-v1-14-1';
 const TRACK_CACHE='paddock-pulse-track-svg-v1';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./assets/las-vegas-1.svg','./las-vegas-1.svg'];
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./assets/las-vegas-1.svg','./assets/lusail-1.svg'];
 const TRACK_HOSTS=new Set(['cdn.jsdelivr.net','raw.githubusercontent.com']);
 self.addEventListener('install',e=>{e.waitUntil(caches.open(NAME).then(c=>c.addAll(CORE)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('paddock-pulse-')&&k!==NAME&&k!==TRACK_CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

@@ -1,4 +1,4 @@
-# Paddock Pulse V1.14.0 — Track Reliability
+# Paddock Pulse V1.14.1 — Track Reliability
 
 以線上 V1.13.0 為基準。此版不更動既有賽程、賽果、收藏、輪胎與天氣邏輯，集中改善賽道圖可靠性。
 
@@ -11,3 +11,8 @@
 資料來源：ROY Jules / f1-circuits-svg，CC BY 4.0。
 
 > 注意：除 Las Vegas 外，其他 SVG 仍需至少成功連線一次才會進入裝置快取；這與把 25 個 SVG 全部實體打包進 ZIP 不同。本版不會把這件事誤標成完全離線內建。
+
+
+## V1.14.1 hotfix
+- Bundle Las Vegas and Lusail/Qatar SVGs as real local assets.
+- Prefer same-origin assets before verified CDN/raw fallbacks.

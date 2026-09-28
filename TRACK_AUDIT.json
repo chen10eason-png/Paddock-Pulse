@@ -1,38 +1,12 @@
 {
-  "version": "1.14.0",
+  "version": "1.14.1",
   "source": "https://github.com/julesr0y/f1-circuits-svg",
-  "source_version": "2026.3.0",
   "license": "CC BY 4.0",
-  "verified_layouts": [
-    "melbourne-2",
-    "shanghai-1",
-    "suzuka-2",
-    "bahrain-1",
-    "jeddah-1",
-    "miami-1",
-    "monaco-6",
-    "catalunya-6",
-    "madring-1",
-    "montreal-6",
-    "spielberg-3",
-    "silverstone-8",
-    "spa-francorchamps-4",
-    "hungaroring-3",
-    "zandvoort-5",
-    "monza-7",
-    "baku-1",
-    "marina-bay-4",
-    "austin-1",
-    "mexico-city-3",
-    "interlagos-2",
-    "las-vegas-1",
-    "lusail-1",
-    "yas-marina-2",
-    "sepang-1"
-  ],
   "bundled": [
-    "las-vegas-1.svg"
+    "las-vegas-1.svg",
+    "lusail-1.svg"
   ],
-  "runtime_cache": "All verified remote SVG responses are cached after first successful load; identical CDN/raw fallbacks only.",
-  "note": "No substitute track geometry is used. A verified path that cannot load remains unavailable rather than showing another circuit."
+  "fix": "Las Vegas and Qatar/Lusail are physical same-origin assets and are preferred before CDN/raw fallbacks.",
+  "others": "verified SVG paths via CDN / identical GitHub raw fallback; network required until first successful cache",
+  "live_checks": "V1.14.0 repository audit found both referenced local files missing; fixed in V1.14.1 package."
 }
