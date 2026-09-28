@@ -1,34 +1,10 @@
 {
-  "source": "julesr0y/f1-circuits-svg",
+  "version": "1.13.0",
+  "source": "https://github.com/julesr0y/f1-circuits-svg",
   "license": "CC BY 4.0",
-  "verified_svg_filenames": [
-    "austin-1.svg",
-    "bahrain-1.svg",
-    "baku-1.svg",
-    "catalunya-6.svg",
-    "hungaroring-3.svg",
-    "interlagos-2.svg",
-    "jeddah-1.svg",
-    "las-vegas-1.svg",
-    "lusail-1.svg",
-    "madring-1.svg",
-    "marina-bay-4.svg",
-    "melbourne-2.svg",
-    "mexico-city-3.svg",
-    "miami-1.svg",
-    "monaco-6.svg",
-    "montreal-6.svg",
-    "monza-7.svg",
-    "sepang-1.svg",
-    "shanghai-1.svg",
-    "silverstone-8.svg",
-    "spa-francorchamps-4.svg",
-    "spielberg-3.svg",
-    "suzuka-2.svg",
-    "yas-marina-2.svg",
-    "zandvoort-5.svg"
+  "bundled": [
+    "las-vegas-1.svg"
   ],
-  "las_vegas_local_asset": "assets/las-vegas-1.svg",
-  "las_vegas_source_url": "https://github.com/julesr0y/f1-circuits-svg/blob/main/circuits/detailed/white-outline/las-vegas-1.svg",
-  "las_vegas_license": "CC BY 4.0 (modified stroke colors)"
+  "others": "verified SVG paths via CDN / identical GitHub raw fallback; network required",
+  "live_checks": "not claimed"
 }

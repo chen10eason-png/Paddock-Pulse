@@ -393,7 +393,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.12.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
+      <div class="panel info">Paddock Pulse V1.13.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -417,7 +417,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.12.0';
+    const APP_VERSION = '1.13.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -591,11 +591,17 @@
     function trackMapStatus(race){
       const key=normalizeCircuitKey(race),entry=VERIFIED_TRACKS[key];
       const path=entry?MAP_ASSET_PREFIX+entry.layout+'.svg':null;
-      const urls=path?[...(key==='las_vegas'?['./assets/las-vegas-1.svg']:[]),MAP_CDN+path,MAP_RAW+path]:[];
+      const urls=path?[...(key==='las_vegas'?['./las-vegas-1.svg','./assets/las-vegas-1.svg']:[]),MAP_CDN+path,MAP_RAW+path]:[];
       return {key,entry,slug:entry?.layout||null,verified:!!entry,url:urls[0]||null,candidates:urls};
     }
     function trackCoordinates(race){const item=VERIFIED_TRACKS[normalizeCircuitKey(race)];return item?[item.lat,item.lon]:null;}
     function officialTyreFor(race){return VERIFIED_2026_TYRES[normalizeCircuitKey(race)]||null;}
+    function tyreRaceNotes(race){
+      const k=normalizeCircuitKey(race);
+      if(k==='sepang')return {text:'Pirelli 指出雪邦較粗糙的路面及 C2／C3／C4 選擇，是為了拉近一停與兩停的圈速差，增加策略選項。此為賽前官方說明，不代表已確定哪一種策略較快。',source:'https://press.pirelli.com/tyre-compound-selections-for-baku-sepang-and-singapore/'};
+      if(k==='baku'||k==='singapore')return {text:'Pirelli 公告本站使用 C3／C4／C5；實際進站次數及每段輪胎須依賽後資料確認。',source:'https://press.pirelli.com/tyre-compound-selections-for-baku-sepang-and-singapore/'};
+      return null;
+    }
     function trackGuideFor(race){return TRACK_GUIDE[normalizeCircuitKey(race)]||TRACK_GUIDE.fallback;}
     function bulletPills(items){return (items||[]).map(x=>`<span class="guide-pill">${safe(x)}</span>`).join('');}
     function cornerItems(items){return (items||[]).map(([title,desc])=>`<div class="corner-item"><strong>${safe(title)}</strong><p>${safe(desc)}</p></div>`).join('');}
@@ -606,12 +612,15 @@
         try{links=JSON.parse(decodeURIComponent(img.dataset.candidates||''));}catch{}
         const wrap=img.closest('.track-photo-box'),fail=wrap.querySelector('.track-fallback'),load=wrap.querySelector('.track-loading'),tag=wrap.querySelector('.track-source-inline');
         if(!links.length){img.hidden=true;load.hidden=true;fail.hidden=false;return;}
-        let i=0;
+        let i=0, watchdog=null;
         const tryNext=()=>{
+          if(watchdog)clearTimeout(watchdog);
           if(i>=links.length){img.hidden=true;load.hidden=true;fail.hidden=false;tag.textContent='尚未成功載入';return;}
-          tag.textContent='正在取得真實賽道圖';img.src=links[i++];
+          tag.textContent='正在取得賽道圖';img.src=links[i++];
+          // Some browsers fail silently when a cross-origin image stalls.
+          watchdog=setTimeout(()=>{ if(!img.complete || !img.naturalWidth)tryNext(); },9500);
         };
-        img.onload=()=>{img.hidden=false;load.hidden=true;fail.hidden=true;tag.textContent='圖片成功載入 · 已核對版號';};
+        img.onload=()=>{if(watchdog)clearTimeout(watchdog);img.hidden=false;load.hidden=true;fail.hidden=true;tag.textContent='已載入核對版號的 SVG';};
         img.onerror=tryNext;
         tryNext();
       });
@@ -1018,7 +1027,9 @@
       if (state.filter === 'past') list = list.filter(isPast);
       $('raceList').innerHTML = list.length ? list.map(rowRace).join('') : '<div class="empty">目前沒有符合條件的賽事。</div>';
       $('upcoming').innerHTML = state.races.filter(r => !isPast(r)).slice(0,3).map(rowRace).join('') || '<div class="empty">沒有即將登場的賽事。</div>';
-      initTrackMapImages($('raceList'));initTrackMapImages($('upcoming'));
+      // Closed schedule cards do not fetch map images until expanded.
+      $('raceList').querySelectorAll('details[open]').forEach(d=>initTrackMapImages(d));
+      $('upcoming').querySelectorAll('details[open]').forEach(d=>initTrackMapImages(d));
     }
 
     function getFavoriteDriverItems() {
@@ -1107,7 +1118,7 @@
       const guide=trackGuideFor(race);
       const status=trackMapStatus(race);
       const extra=trackExtraFor(race);
-      const tyre=officialTyreFor(race);
+      const tyre=officialTyreFor(race),tyreNotes=tyreRaceNotes(race);
       const location=[race.Circuit?.Location?.locality, race.Circuit?.Location?.country].filter(Boolean).join(', ');
       const heroMeta=`<div class="hero-meta">${factBox('Track length',info.length)}${factBox('Turns',info.turns)}${factBox('Race distance',info.laps)}${factBox('Direction',info.direction)}</div>`;
       $('circuitBody').innerHTML=`
@@ -1145,20 +1156,45 @@
           <section class="guide-card"><h2>Map source / alias 檢查</h2><div class="source-grid"><div class="source-box"><small>Resolved key</small><strong>${safe(status.key)}</strong></div><div class="source-box"><small>Slug</small><strong>${safe(status.slug||'N/A')}</strong></div><div class="source-box"><small>Status</small><strong>${status.verified?'版號已核對':'Needs review'}</strong></div><div class="source-box"><small>Candidate count</small><strong>${safe((status.candidates||[]).length)}</strong></div></div><div class="guide-note">如果哪一站賽道圖還是有問題，可以直接根據 key / slug / candidate count 再修正。</div></section>
         </div>
         <div class="extra-grid">
-          <section class="extra-card"><h2>2026 官方配胎</h2><div id="tyreVerified">${tyre?`<div class="compound-grid"><div class="compound-item"><span class="tyre-dot hard"></span><small>HARD / 白</small><strong>${tyre.hard}</strong></div><div class="compound-item"><span class="tyre-dot medium"></span><small>MEDIUM / 黃</small><strong>${tyre.medium}</strong></div><div class="compound-item"><span class="tyre-dot soft"></span><small>SOFT / 紅</small><strong>${tyre.soft}</strong></div></div><p class="meta-source">Pirelli 2026 已公布選胎 · <a href="${safe(tyre.source)}" target="_blank" rel="noopener noreferrer">官方來源 ↗</a></p>`:'<div class="no-data">此站 2026 官方配胎尚未完成核實，不顯示推測配方。</div>'}</div><div class="meta-source">賽前只提供已公告配胎，正式一停／兩停須待自由練習數據；不將一般賽道特性當成實際策略。</div></section>
+          <section class="extra-card"><h2>2026 官方配胎</h2><div id="tyreVerified">${tyre?`<div class="compound-grid"><div class="compound-item"><span class="tyre-dot hard"></span><small>HARD / 白</small><strong>${tyre.hard}</strong></div><div class="compound-item"><span class="tyre-dot medium"></span><small>MEDIUM / 黃</small><strong>${tyre.medium}</strong></div><div class="compound-item"><span class="tyre-dot soft"></span><small>SOFT / 紅</small><strong>${tyre.soft}</strong></div></div><p class="meta-source">Pirelli 2026 已公布選胎 · <a href="${safe(tyre.source)}" target="_blank" rel="noopener noreferrer">官方來源 ↗</a></p>${tyreNotes?`<p class="meta-source">${safe(tyreNotes.text)} · <a href="${safe(tyreNotes.source)}" target="_blank" rel="noopener noreferrer">Pirelli 原文 ↗</a></p>`:''}`:'<div class="no-data">此站 2026 官方配胎尚未完成核實，不顯示推測配方。</div>'}</div><div class="meta-source">只呈現已公布配胎；賽後進站紀錄由 Jolpica 提供，該來源不包含實際使用配方。</div><div id="pitstopVerified" aria-live="polite"></div></section>
           <section class="extra-card"><h2>比賽週末天氣</h2><div id="verifiedWeather" aria-live="polite"><div class="no-data">正在確認預報是否已進入有效時段…</div></div><div class="meta-source">Open-Meteo · 逐小時實際預報 · 當地時區 · 非即時賽道測站</div></section>
-          <section class="extra-card"><h2>車輛設定與賽道特色</h2><div class="extra-list"><div class="extra-item"><small>賽道特性參考，非各隊實際設定</small><strong>${safe(extra.setup)}</strong></div><div class="extra-item"><small>注意事項</small><strong>${safe(extra.note)}</strong></div></div></section>
+          <section class="extra-card"><h2>賽道特性（非車隊實際設定）</h2><div class="extra-list"><div class="extra-item"><small>一般賽道特性，非2026車隊實際設定</small><strong>${safe(extra.setup)}</strong></div><div class="extra-item"><small>注意事項</small><strong>${safe(extra.note)}</strong></div></div></section>
         </div>`;
       initTrackMapImages($('circuitBody'));
       loadCircuitWeather(race);
+      loadVerifiedPitstops(race);
+    }
+    const pitstopTokens=new Map();
+    async function loadVerifiedPitstops(race){
+      const node=$('pitstopVerified');if(!node)return;
+      const token=String(race.round)+'/'+Date.now();pitstopTokens.set('current',token);
+      if(+raceDate(race)>Date.now()-4*3600000){node.innerHTML='<div class="meta-source">尚未完成正賽：賽後才顯示真實進站圈次。</div>';return;}
+      node.innerHTML='<div class="meta-source">查詢實際進站紀錄…</div>';
+      try{
+        const json=await fetchJSON(API+'/'+encodeURIComponent(race.round)+'/pitstops.json?limit=2000');
+        const stops=json?.MRData?.RaceTable?.Races?.[0]?.PitStops||[];
+        if(pitstopTokens.get('current')!==token||!$('pitstopVerified'))return;
+        if(!stops.length){node.innerHTML='<div class="meta-source">目前沒有可核對的本站進站資料。</div>';return;}
+        const grouped=new Map();
+        for(const stop of stops){const id=stop.driverId;if(!id)continue;const list=grouped.get(id)||[];list.push(stop);grouped.set(id,list);}
+        const drivers=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+        const rows=drivers.map(([id,arr])=>{
+          const driver=state.drivers.find(d=>d.Driver?.driverId===id);
+          const name=driver?[driver.Driver?.givenName,driver.Driver?.familyName].filter(Boolean).join(' '):id.replaceAll('_',' ');
+          return '<div class="weather-row"><b>'+safe(name)+'</b><strong>'+arr.length+' 次</strong><small>進站圈次：'+safe(arr.map(x=>'L'+x.lap).join('、'))+'</small></div>';
+        }).join('');
+        node.innerHTML='<h3 style="font-size:13px;margin:16px 0 8px">本站實際進站圈次</h3><div class="weather-stack">'+rows+'</div><div class="meta-source">Jolpica 實際進站資料；不含使用輪胎配方，亦不將退賽車手推定為正常策略。</div>';
+      }catch(e){if(pitstopTokens.get('current')===token&&$('pitstopVerified'))node.innerHTML='<div class="meta-source">進站資料目前無法取得；不顯示推測紀錄。</div>';}
     }
     const weatherSessionTokens=new Map();
+    const weatherCache=new Map();
     function tzDateParts(d,tz){
       const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hour12:false,hourCycle:'h23'}).formatToParts(d);
       const get=t=>p.find(x=>x.type===t)?.value;
       return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}`;
     }
     function weatherDescription(code){
+      if(code==null || !Number.isFinite(Number(code))) return '未提供天氣代碼';
       if(code===0)return '晴';if(code<=3)return '多雲';if([45,48].includes(code))return '霧';if(code<=57)return '毛毛雨';if(code<=67)return '雨';if(code<=77)return '雪';if(code<=82)return '陣雨';if(code<=86)return '陣雪';if(code>=95)return '雷雨';return '天氣代碼 '+code;
     }
     async function loadCircuitWeather(race){
@@ -1172,17 +1208,21 @@
       node.innerHTML='<div class="no-data">正在向 Open-Meteo 取得賽道附近逐小時預報…</div>';
       const url=`https://api.open-meteo.com/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m&timezone=auto&forecast_days=16`;
       try{
-        const data=await fetchJSON(url);if(weatherSessionTokens.get('active')!==token||!$('verifiedWeather'))return;
+        const cacheKey=coords.join(',');const cached=weatherCache.get(cacheKey);
+        const data=cached && Date.now()-cached.at<25*60000 ? cached.data : await fetchJSON(url);
+        if(!cached || Date.now()-cached.at>=25*60000)weatherCache.set(cacheKey,{data,at:Date.now()});
+        if(weatherSessionTokens.get('active')!==token||!$('verifiedWeather'))return;
         const h=data.hourly;if(!Array.isArray(h?.time)||!data.timezone)throw Error('資料格式異常');
         const day=tzDateParts(raceAt,data.timezone).slice(0,10);
         const sessions=[...availableTypes(race)].map(t=>({type:t,when:sessionDate(scheduledSession(race,t))})).filter(x=>x.when&&+x.when>=now-2*3600000);
         let rows=sessions.map(x=>{
-          const key=tzDateParts(x.when,data.timezone);
+          const rounded=new Date(Math.round(+x.when/3600000)*3600000);
+          const key=tzDateParts(rounded,data.timezone);
           const index=h.time.findIndex(t=>t===key||t.startsWith(key+':'));
           if(index<0)return '';
-          const n=(a)=>a?.[index];
+          const n=(a)=>{const v=a?.[index];return v==null||!Number.isFinite(Number(v))?null:Number(v);};
           const temp=n(h.temperature_2m),prob=n(h.precipitation_probability),mm=n(h.precipitation),wind=n(h.wind_speed_10m),code=n(h.weather_code);
-          return `<div class="weather-row"><b>${safe(x.type.label)}</b><span>${safe(key.replace('T',' '))}:00</span><strong>${temp==null?'—':Math.round(temp)+'°C'} · ${safe(weatherDescription(code))}</strong><small>降雨機率 ${prob==null?'—':prob+'%'} · 預估雨量 ${mm==null?'—':mm+' mm'} · 風速 ${wind==null?'—':wind+' km/h'}</small></div>`;
+          return `<div class="weather-row"><b>${safe(x.type.label)}</b><span>整點預報 ${safe(key.replace('T',' '))}:00</span><strong>${temp==null?'—':Math.round(temp)+'°C'} · ${safe(weatherDescription(code))}</strong><small>降雨機率 ${prob==null?'—':prob+'%'} · 預估雨量 ${mm==null?'—':mm+' mm'} · 風速 ${wind==null?'—':wind+' km/h'}</small></div>`;
         }).filter(Boolean);
         if(!rows.length){node.innerHTML='<div class="no-data">目前沒有本站排定場次的逐小時預報，請稍後更新。</div>';return;}
         node.innerHTML=`<div class="weather-stack">${rows.join('')}</div><div class="meta-source">預報取得時間 ${safe(new Date().toLocaleString('zh-TW'))} · 時區 ${safe(data.timezone)} · 此為預報，非實測</div>`;
@@ -1234,6 +1274,10 @@
       if(state.activeDetail && document.querySelector('#profile:not(.hidden)')){const item=state[state.activeDetail.type==='driver'?'drivers':'constructors'].find(x=>(state.activeDetail.type==='driver'?driverIdOf(x):constructorIdOf(x))===state.activeDetail.id);if(item)renderDetail(item,state.activeDetail.type);}
     }
 
+    document.addEventListener('toggle', event => {
+      const details=event.target;
+      if(details?.matches?.('details.rowitem') && details.open) initTrackMapImages(details);
+    }, true);
     document.addEventListener('click', event => {
       const weatherRetry=event.target.closest('[data-weatherretry]');if(weatherRetry){const r=state.races.find(x=>String(x.round)===weatherRetry.dataset.weatherretry);if(r)loadCircuitWeather(r);return;}
       const openResult = event.target.closest('[data-openresults]');
