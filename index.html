@@ -393,7 +393,7 @@
       </div>
 
       <div class="section-head"><h2>關於這個版本</h2></div>
-      <div class="panel info">Paddock Pulse V1.13.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
+      <div class="panel info">Paddock Pulse V1.14.0 · 非官方 F1 PWA。更換成開放授權且逐檔核對的 2026 賽道 SVG，加入分站實際預報（Open-Meteo）及來源確認的 Pirelli 配胎資料；未知資料會標示未確認，不再臆測。</div>
     </section>
     <section id="profile" class="view hidden" aria-label="車手或車隊詳情">
       <button id="profileBack" class="back-button" aria-label="返回上一頁">← 返回</button>
@@ -417,7 +417,7 @@
   <script>
     'use strict';
 
-    const APP_VERSION = '1.13.0';
+    const APP_VERSION = '1.14.0';
     const API = 'https://api.jolpi.ca/ergast/f1/2026';
     const $ = id => document.getElementById(id);
     const safe = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
