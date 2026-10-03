@@ -1,24 +1,34 @@
-# Paddock Pulse V1.14.2.2 — Results Auto Advance
+# Paddock Pulse V1.14.2.3 — Results Auto Advance Hotfix
 
-正式 repo 基準：V1.14.2.1。
+## Root cause
+V1.14.2.2 的 Results Auto Advance 邏輯本身已在 `ui-refresh.js`，
+但 Service Worker 用來注入外部 JS 的 closing tag 寫成了 escaped 形式，
+導致瀏覽器不一定會正確執行 `ui-refresh.js`。
 
-「賽果」現在會自動跳到本季最新已完成的 Session，而不是等正賽結束才換分站。
+因此你實機上仍然使用 index.html 原本的：
+`resultRoundDefault()`
+它只看「正賽日期是否已過」，所以目前週末尚未跑正賽時仍停在上一站。
 
-例：
-- FP1 結束 → 本站 FP1
-- FP2 結束 → 本站 FP2
-- FP3 結束 → 本站 FP3
-- 排位結束 → 本站排位
-- 正賽結束 → 本站正賽
+## 修正
+- Service Worker 改成直接注入合法的：
+  `<script src="./ui-refresh.js?v=1.14.2.3" defer></script>`
+- 保留「最新已完成 Session」邏輯。
+- 一般「賽果」入口會先改：
+  - `state.resultRound`
+  - `state.resultSession`
+  再交給原本 `openResults()`。
+- 如果 PWA restore 時剛好已停在 Results 頁，也會做一次自動校正。
+- 明確點某站的「本站賽果」仍尊重使用者指定，不自動跳站。
 
-保護：
-- 下一個 Session 已開始時，前一個 Session 一定視為完成。
-- 本機已有該 Session 結果 cache 時，視為已確認完成。
-- 否則採保守時間，避免把還在進行中的 Session 誤判結束。
-- 使用者明確點某一站「本站賽果」時，不會被自動跳走。
+## 預期
+目前如果排位已結束：
+一般「賽果」 → 本站 → 排位賽。
 
-上傳只需覆蓋：
-- sw.js
-- ui-refresh.js
+不用等正賽結束。
 
-index.html、ui-refresh.css 不用改。
+## 上傳
+覆蓋：
+- `sw.js`
+- `ui-refresh.js`
+
+`index.html`、`ui-refresh.css` 不用改。
