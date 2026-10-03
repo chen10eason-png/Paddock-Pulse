@@ -1,18 +1,31 @@
-# Paddock Pulse V1.14.1 — Track Reliability
+# Paddock Pulse V1.14.2 — UI Refresh Patch
 
-以線上 V1.13.0 為基準。此版不更動既有賽程、賽果、收藏、輪胎與天氣邏輯，集中改善賽道圖可靠性。
+以正式 GitHub `main` 的 V1.14.1 為基準，這一版只動 UI / UX，不改賽程、賽果、收藏、天氣、配胎、賽道圖與資料 API 邏輯。
 
-- 25 個已核對 layout ID 保留逐站固定對應，不以其他賽道替代。
-- Las Vegas SVG 仍直接隨 PWA 內建。
-- 其他核對 SVG 在首次成功載入後由 Service Worker 存入專用 Track Cache，後續可直接使用快取，降低 CDN / GitHub raw 暫時失敗造成的缺圖。
-- CDN 與 GitHub raw 只作為「同一份 SVG」的雙來源，不做猜測式 fallback。
-- TRACK_AUDIT.json 列出全部 25 個核對 layout。
+## 第一階段
+- 首頁 Hero 視覺層級重整
+- 加入三個快速入口：賽程 / 賽果 / 我的
+- Header 加 Online / Offline cache 狀態
+- 卡片、Chip、Session timeline、Result list、Standings 視覺統一
+- Bottom Dock 精修（仍是 Web CSS，不宣稱原生 Liquid Glass）
+- 頁面切換加入非常輕微的進場動畫；Reduce Motion 會自動停用
+- 關於版本顯示 V1.14.2
 
-資料來源：ROY Jules / f1-circuits-svg，CC BY 4.0。
+## 為什麼是 patch
+目前 GitHub 連接權限為 read-only，無法直接替你 commit。為了不重寫 13 萬字元的單檔 `index.html`，這版採「Service Worker 注入 UI overlay」：
+- `ui-refresh.css`
+- `ui-refresh.js`
+- 更新版 `sw.js`
 
-> 注意：除 Las Vegas 外，其他 SVG 仍需至少成功連線一次才會進入裝置快取；這與把 25 個 SVG 全部實體打包進 ZIP 不同。本版不會把這件事誤標成完全離線內建。
+原本 `index.html` 完全保留，因此 V1.14.1 的資料與功能程式不會被改動。
 
+## 上傳
+把這 4 個檔案加入/覆蓋到 repo 根目錄：
+- `sw.js`
+- `ui-refresh.css`
+- `ui-refresh.js`
+- `README.md`
 
-## V1.14.1 hotfix
-- Bundle Las Vegas and Lusail/Qatar SVGs as real local assets.
-- Prefer same-origin assets before verified CDN/raw fallbacks.
+**不要刪除既有 index.html、manifest、icons、assets。**
+
+GitHub Pages 部署後，關閉 PWA 再重新開啟一次；若仍看到舊畫面，再重新整理一次，讓新 Service Worker 接管。

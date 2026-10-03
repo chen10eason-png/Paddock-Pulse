@@ -1,0 +1,248 @@
+/* Paddock Pulse V1.14.2 — UI Refresh overlay
+   Non-destructive visual pass over V1.14.1. */
+:root{
+  --pp-surface:rgba(20,25,35,.78);
+  --pp-surface-strong:rgba(24,30,42,.94);
+  --pp-line:rgba(255,255,255,.10);
+  --pp-line-strong:rgba(255,255,255,.16);
+  --pp-text:#f7f9fc;
+  --pp-muted:#9da8ba;
+  --pp-accent:#ff5965;
+  --pp-accent-2:#ff7a82;
+  --pp-shadow:0 22px 70px rgba(0,0,0,.34);
+}
+html{background:#080a0f}
+body{
+  background:
+    radial-gradient(900px 520px at 88% -8%,rgba(104,58,115,.18),transparent 56%),
+    radial-gradient(700px 420px at -10% 16%,rgba(255,63,81,.10),transparent 58%),
+    linear-gradient(180deg,#080a10 0%,#090c13 45%,#07090e 100%) !important;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.015),transparent 38%);
+}
+.app{padding-top:calc(env(safe-area-inset-top) + 15px) !important}
+.top{
+  position:sticky;top:0;z-index:40;
+  margin:0 -7px 16px !important;padding:8px 8px 10px;
+  background:linear-gradient(180deg,rgba(8,10,15,.92),rgba(8,10,15,.66),transparent);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  backdrop-filter:blur(16px) saturate(150%);
+}
+.brand{font-size:22px !important;letter-spacing:-1.15px !important}
+.top .tiny{font-size:9px !important;letter-spacing:1.8px !important;color:#7f899b !important}
+.avatar{
+  width:40px !important;height:40px !important;border-radius:14px !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.045)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 8px 25px rgba(0,0,0,.18);
+  color:#fff !important;
+}
+#ppNetwork{
+  display:inline-flex;align-items:center;gap:6px;margin-top:6px;
+  color:#7f8998;font-size:9px;font-weight:800;letter-spacing:.9px;text-transform:uppercase
+}
+#ppNetwork:before{content:"";width:6px;height:6px;border-radius:50%;background:#4cd78a;box-shadow:0 0 0 4px rgba(76,215,138,.10)}
+#ppNetwork.offline:before{background:#ff6b73;box-shadow:0 0 0 4px rgba(255,107,115,.10)}
+.page-title{
+  font-size:clamp(38px,8vw,58px) !important;
+  line-height:.96 !important;letter-spacing:-2.7px !important;
+  margin-top:10px !important;
+}
+.view>.eyebrow{font-size:10px !important;letter-spacing:2.3px !important;color:#ff7780 !important}
+.view>.muted{font-size:12px !important;color:#929daf !important;line-height:1.55}
+.section-head{margin:28px 0 12px !important}
+.section-head h2{font-size:17px !important;letter-spacing:-.4px !important}
+.section-head button{color:#ff8087 !important}
+
+/* Home hero */
+#home .hero{
+  min-height:300px !important;margin:22px 0 12px !important;padding:24px !important;
+  border-radius:29px !important;border:1px solid rgba(255,255,255,.14) !important;
+  background:
+    radial-gradient(ellipse at 92% 5%,rgba(255,97,111,.32),transparent 44%),
+    linear-gradient(135deg,#442431 0%,#251924 44%,#111720 100%) !important;
+  box-shadow:var(--pp-shadow),inset 0 1px 0 rgba(255,255,255,.08);
+}
+#home .hero:before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(125deg,rgba(255,255,255,.065),transparent 34%),
+             repeating-linear-gradient(130deg,rgba(255,255,255,.018) 0 1px,transparent 1px 28px)
+}
+#home .hero:after{opacity:.72}
+#home .hero .tag{
+  border-radius:999px !important;padding:7px 10px !important;
+  background:rgba(255,93,103,.18) !important;border:1px solid rgba(255,105,116,.34);
+  color:#ffd6d9 !important;
+}
+#home .hero h2{font-size:clamp(31px,8vw,47px) !important;max-width:480px !important;margin-top:18px !important}
+#home .hero small{color:#d5c7d0 !important}
+.countdown{gap:8px !important;margin-top:27px !important}
+.count-unit{
+  min-width:60px !important;padding:11px 11px !important;
+  border-radius:15px !important;border:1px solid rgba(255,255,255,.14) !important;
+  background:rgba(8,12,18,.28) !important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)
+}
+.count-unit strong{font-size:25px !important;letter-spacing:-.7px}
+.count-unit span{color:#d7aeb7 !important}
+.hero-foot{color:#d9c4cb !important}
+
+/* Quick shortcut rail injected by ui-refresh.js */
+.home-shortcuts{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 21px;
+}
+.home-shortcut{
+  min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:16px;
+  background:linear-gradient(180deg,rgba(27,33,45,.86),rgba(16,21,30,.88));
+  color:#eef2f8;padding:12px 10px;text-align:left;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)
+}
+.home-shortcut strong{display:block;font-size:12px}
+.home-shortcut small{display:block;margin-top:4px;font-size:9px;color:#8793a5}
+.home-shortcut:active{transform:scale(.97)}
+
+/* Cards */
+.tile,.panel,.home-weekend,.home-track-card,.favorite-shell,.profile-panel,
+.circuit-facts,.circuit-story,.guide-card,.extra-card,.result-list{
+  border-color:var(--pp-line) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.tile,.panel{
+  background:linear-gradient(180deg,rgba(23,29,40,.94),rgba(15,20,29,.94)) !important;
+  border-radius:20px !important
+}
+.tile{transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.tile:active{transform:scale(.985);border-color:rgba(255,255,255,.19) !important}
+.grid2{gap:9px !important}
+.tile .tile-icon{
+  display:grid;place-items:center;width:36px;height:36px;border-radius:12px;
+  background:rgba(255,255,255,.055);font-size:18px !important
+}
+.tile h3{font-size:13px !important}
+.tile p{color:#929eaf !important;line-height:1.45}
+.accent-line{height:2px !important;border-radius:99px !important;background:linear-gradient(90deg,#ff5965,#ff8c93) !important}
+
+/* Home weekend */
+.home-weekend{
+  padding:19px !important;border-radius:22px !important;
+  background:
+    radial-gradient(ellipse at 100% 0,rgba(255,80,95,.11),transparent 54%),
+    linear-gradient(145deg,#1b2130,#121822) !important
+}
+.home-weekend .micro{color:#ff8f97 !important}
+.home-session{border-top-color:rgba(255,255,255,.08) !important}
+.home-session .arrow{
+  background:#eef1f5 !important;color:#11151d !important;border-radius:13px !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.16)
+}
+.home-session .home-dot{background:#ff5965 !important;box-shadow:0 0 0 5px rgba(255,89,101,.12) !important}
+
+/* Schedule + ranking */
+.rowitem{border-bottom-color:rgba(255,255,255,.07) !important}
+.round{
+  border:1px solid rgba(255,100,111,.18);border-radius:12px !important;
+  background:rgba(255,79,92,.10) !important;color:#ff8c94 !important
+}
+.mainline{letter-spacing:-.15px}
+.subline{color:#8e99a9 !important}
+.ranking{border-bottom-color:rgba(255,255,255,.07) !important}
+.position{font-size:16px !important;color:#c1c9d4 !important}
+.stripe{width:3px !important;flex-basis:3px !important;height:34px !important}
+.rank-details{
+  border-color:rgba(255,255,255,.11) !important;
+  background:rgba(255,255,255,.045) !important;
+  color:#cbd2dc !important
+}
+.points{font-size:18px !important}
+
+/* Chips */
+.chipbar{gap:8px !important;scrollbar-width:none}
+.chipbar::-webkit-scrollbar{display:none}
+.chip{
+  border-color:rgba(255,255,255,.09) !important;
+  background:rgba(22,28,38,.88) !important;color:#99a4b5 !important;
+  padding:9px 14px !important
+}
+.chip.active{
+  background:linear-gradient(135deg,#d74450,#942e3c) !important;
+  border-color:#ec6470 !important;color:#fff !important;
+  box-shadow:0 8px 20px rgba(190,47,62,.20)
+}
+
+/* Results */
+.result-banner{
+  border-radius:25px !important;border-color:rgba(255,255,255,.13) !important;
+  background:
+    radial-gradient(ellipse at 93% 0,rgba(255,75,91,.18),transparent 52%),
+    linear-gradient(145deg,#1d2330,#121822) !important
+}
+.result-tab{border-color:rgba(255,255,255,.09) !important;background:#141a24 !important}
+.result-tab.active{
+  border-color:#ff6b74 !important;
+  background:linear-gradient(135deg,#692c3a,#2a1c29) !important
+}
+.session-card{
+  border-color:rgba(255,255,255,.10) !important;
+  background:linear-gradient(155deg,#1c2330,#111721) !important
+}
+.session-card.active{
+  border-color:#ff727c !important;
+  background:linear-gradient(145deg,#4c2733,#181b27) !important
+}
+.result-row{border-bottom-color:rgba(255,255,255,.07) !important}
+
+/* Favorites */
+.garage-intro{
+  border-color:rgba(255,255,255,.13) !important;
+  background:
+    radial-gradient(ellipse at 92% 20%,rgba(255,73,93,.20),transparent 43%),
+    linear-gradient(135deg,#202633,#121722 68%) !important
+}
+.showcase-card{border-color:rgba(255,255,255,.14) !important}
+.mini-pick{border-color:rgba(255,255,255,.12) !important}
+
+/* Status & error */
+.notice{
+  border-radius:14px !important;border-color:rgba(255,201,100,.20) !important;
+  background:rgba(78,60,24,.42) !important;color:#f2d593 !important
+}
+.empty,.result-status,.weekend-empty{
+  border-color:rgba(255,255,255,.08) !important;
+  background:rgba(16,21,30,.74) !important
+}
+
+/* Dock refinement — still web CSS, not native iOS material */
+.bottom{
+  width:min(94vw,510px) !important;height:72px !important;
+  bottom:calc(12px + env(safe-area-inset-bottom)) !important;
+  border-color:rgba(255,255,255,.36) !important;
+  background:linear-gradient(150deg,rgba(212,226,244,.24),rgba(118,143,174,.12) 55%,rgba(219,231,244,.18)) !important;
+  box-shadow:0 18px 44px rgba(0,0,0,.40),inset 0 1px 1px rgba(255,255,255,.55) !important;
+  -webkit-backdrop-filter:blur(34px) saturate(180%) brightness(1.08) !important;
+  backdrop-filter:blur(34px) saturate(180%) brightness(1.08) !important
+}
+.bottom .nav{min-height:58px !important;font-size:9.5px !important;color:rgba(226,235,246,.72) !important}
+.bottom .nav.active{color:#fff !important}
+.bottom .glass-lens{top:5px !important;bottom:5px !important;border-color:rgba(255,255,255,.35) !important}
+.bottom .nav svg{width:22px !important;height:22px !important}
+
+/* Page transition added by ui-refresh.js */
+.view.pp-enter{animation:ppViewIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes ppViewIn{from{opacity:.25;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .view.pp-enter{animation:none}.tile,.home-shortcut{transition:none}
+}
+@media(max-width:390px){
+  .app{padding-left:15px !important;padding-right:15px !important}
+  .page-title{font-size:39px !important}
+  #home .hero{padding:20px !important;min-height:288px !important}
+  .count-unit{min-width:54px !important;padding:9px !important}
+  .count-unit strong{font-size:22px !important}
+  .home-shortcuts{gap:6px}
+  .home-shortcut{padding:11px 8px}
+}
+@media(min-width:700px){
+  .home-shortcuts{max-width:620px}
+}
