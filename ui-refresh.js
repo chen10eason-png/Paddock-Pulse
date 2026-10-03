@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const UI_VERSION='1.14.2';
+  const UI_VERSION='1.14.2.1';
 
   function networkBadge(){
     let el=document.getElementById('ppNetwork');
@@ -17,9 +17,8 @@
   }
 
   function installShortcuts(){
-    const home=document.getElementById('home');
     const hero=document.getElementById('hero');
-    if(!home||!hero||document.querySelector('.home-shortcuts'))return;
+    if(!hero||document.querySelector('.home-shortcuts'))return;
     const rail=document.createElement('div');
     rail.className='home-shortcuts';
     rail.setAttribute('aria-label','快速功能');
@@ -33,8 +32,8 @@
   function updateVersion(){
     document.documentElement.dataset.ppUi=UI_VERSION;
     document.querySelectorAll('.panel.info').forEach(el=>{
-      if(/Paddock Pulse V1\.14\.1/.test(el.textContent)){
-        el.innerHTML=el.innerHTML.replace('Paddock Pulse V1.14.1','Paddock Pulse V1.14.2');
+      if(/Paddock Pulse V1\.14\.(?:1|2)/.test(el.textContent)){
+        el.innerHTML=el.innerHTML.replace(/Paddock Pulse V1\.14\.(?:1|2)(?:\.1)?/,'Paddock Pulse V1.14.2.1');
       }
     });
   }
@@ -46,20 +45,11 @@
     }
   }
 
-  function animateVisibleView(){
+  function animateInitialViewOnce(){
     const view=document.querySelector('.view:not(.hidden)');
-    if(!view)return;
-    view.classList.remove('pp-enter');
-    requestAnimationFrame(()=>view.classList.add('pp-enter'));
+    if(!view || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    view.classList.add('pp-enter');
     setTimeout(()=>view.classList.remove('pp-enter'),360);
-  }
-
-  function watchViews(){
-    const views=[...document.querySelectorAll('.view')];
-    const observer=new MutationObserver(records=>{
-      if(records.some(r=>r.attributeName==='class'))animateVisibleView();
-    });
-    views.forEach(v=>observer.observe(v,{attributes:true,attributeFilter:['class']}));
   }
 
   function init(){
@@ -67,10 +57,11 @@
     installShortcuts();
     updateVersion();
     refineCopy();
-    watchViews();
+    animateInitialViewOnce();
     window.addEventListener('online',networkBadge);
     window.addEventListener('offline',networkBadge);
   }
+
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
 })();
