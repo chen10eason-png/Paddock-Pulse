@@ -1,22 +1,24 @@
-# Paddock Pulse V1.14.2.1 — UI Refresh Hotfix
+# Paddock Pulse V1.14.2.2 — Results Auto Advance
 
-修正 V1.14.2 會讓 Safari / PWA 卡住的問題。
+正式 repo 基準：V1.14.2.1。
 
-## 問題原因
-V1.14.2 的 `ui-refresh.js` 用 `MutationObserver` 監聽 `.view` 的 `class`，
-動畫函式又修改同一個 `.view` 的 `class`，observer 因而反覆觸發自己，
-形成無限循環，造成網站卡死或看起來壞掉。
+「賽果」現在會自動跳到本季最新已完成的 Session，而不是等正賽結束才換分站。
 
-## 修正
-- 移除自我觸發的 MutationObserver
-- 保留 UI Refresh 其他功能
-- 頁面動畫只在初始載入執行一次
-- Service Worker cache 升級
-- UI 資源 query 升級為 1.14.2.1
+例：
+- FP1 結束 → 本站 FP1
+- FP2 結束 → 本站 FP2
+- FP3 結束 → 本站 FP3
+- 排位結束 → 本站排位
+- 正賽結束 → 本站正賽
 
-## 上傳
-只要覆蓋：
+保護：
+- 下一個 Session 已開始時，前一個 Session 一定視為完成。
+- 本機已有該 Session 結果 cache 時，視為已確認完成。
+- 否則採保守時間，避免把還在進行中的 Session 誤判結束。
+- 使用者明確點某一站「本站賽果」時，不會被自動跳走。
+
+上傳只需覆蓋：
 - sw.js
 - ui-refresh.js
 
-ui-refresh.css 不用改。
+index.html、ui-refresh.css 不用改。
