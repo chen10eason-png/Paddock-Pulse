@@ -1,34 +1,39 @@
-# Paddock Pulse V1.14.2.3 — Results Auto Advance Hotfix
+# Paddock Pulse V1.15.0 — Dashboard & UX Refresh
 
-## Root cause
-V1.14.2.2 的 Results Auto Advance 邏輯本身已在 `ui-refresh.js`，
-但 Service Worker 用來注入外部 JS 的 closing tag 寫成了 escaped 形式，
-導致瀏覽器不一定會正確執行 `ui-refresh.js`。
+基準：正式 repo V1.14.2.3。
 
-因此你實機上仍然使用 index.html 原本的：
-`resultRoundDefault()`
-它只看「正賽日期是否已過」，所以目前週末尚未跑正賽時仍停在上一站。
+## 本版
+- 首頁新增 Race Weekend Hub
+- 同時顯示「最新完成 Session」與「下一個 Session」
+- 最新完成 Session 可直接進賽果
+- Track / Tyres / Weather 入口集中
+- Tyres 只顯示既有 `officialTyreFor()` 已核實資料，未核實就明確顯示「尚未核實」
+- Results 頁新增 Latest Completed / Next Up context
+- 保留 V1.14.2.3 的 Results Auto Advance
+- 不修改 Live Race PoC
+- 不新增新的 sports-data API
 
-## 修正
-- Service Worker 改成直接注入合法的：
-  `<script src="./ui-refresh.js?v=1.14.2.3" defer></script>`
-- 保留「最新已完成 Session」邏輯。
-- 一般「賽果」入口會先改：
-  - `state.resultRound`
-  - `state.resultSession`
-  再交給原本 `openResults()`。
-- 如果 PWA restore 時剛好已停在 Results 頁，也會做一次自動校正。
-- 明確點某站的「本站賽果」仍尊重使用者指定，不自動跳站。
+## 穩定性
+- observer 只監看既有 app 會重新 render 的 `homeWeekend` / `resultRaceBanner`
+- observer 本身不修改被監看的節點，避免 V1.14.2 的自觸發循環
+- 所有 Hub 功能失敗時都不影響原本賽程/賽果頁
+- iPhone 小螢幕使用單欄 Session 卡片
 
-## 預期
-目前如果排位已結束：
-一般「賽果」 → 本站 → 排位賽。
-
-不用等正賽結束。
-
-## 上傳
+## 檔案
 覆蓋：
 - `sw.js`
 - `ui-refresh.js`
 
-`index.html`、`ui-refresh.css` 不用改。
+新增：
+- `v115.css`
+
+保留原本：
+- `ui-refresh.css`
+- `index.html`
+- manifest / icons / assets
+
+## 備註
+這版先完成使用者可見的 Dashboard/UX 升級。
+因目前 ChatGPT 的 GitHub 連線是 read-only，無法直接把大型 `index.html`
+在 repository 內做 source consolidation；後續 source cleanup 再把 UI layer
+正式併回 `index.html`，Service Worker 回歸純 cache。

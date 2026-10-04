@@ -1,0 +1,113 @@
+/* Paddock Pulse V1.15.0 — Dashboard & UX Refresh
+   Additive layer over the existing V1.14.2 visual system. */
+
+.pp-race-hub{
+  margin:12px 0 24px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:25px;
+  background:
+    radial-gradient(ellipse at 100% 0,rgba(255,83,97,.14),transparent 50%),
+    linear-gradient(155deg,rgba(26,32,44,.97),rgba(13,18,27,.97));
+  box-shadow:0 18px 54px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04)
+}
+.pp-race-hub-head{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:14px
+}
+.pp-race-hub-head h2{
+  margin:6px 0 5px;font-size:22px;line-height:1.08;letter-spacing:-.7px
+}
+.pp-race-hub-head p{
+  margin:0;color:#929dae;font-size:11px
+}
+.pp-hub-kicker{
+  display:block;color:#ff8189;font-size:8.5px;font-weight:950;letter-spacing:1.6px
+}
+.pp-round-badge{
+  flex:0 0 auto;border:1px solid rgba(255,255,255,.12);border-radius:999px;
+  padding:8px 10px;background:rgba(255,255,255,.045);font-size:10px;font-weight:900;color:#dce2ea
+}
+
+.pp-hub-sessions{
+  display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px
+}
+.pp-hub-session{
+  min-width:0;border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:14px;
+  text-align:left;color:#f7f9fc;background:linear-gradient(155deg,#1d2430,#121822)
+}
+button.pp-hub-session{font:inherit}
+.pp-hub-result{
+  background:
+    radial-gradient(ellipse at 100% 0,rgba(255,82,96,.15),transparent 56%),
+    linear-gradient(150deg,#292431,#151a24)
+}
+.pp-hub-session strong{
+  display:block;margin-top:10px;font-size:15px;line-height:1.18;letter-spacing:-.25px
+}
+.pp-hub-session small{
+  display:block;margin-top:6px;color:#929daf;font-size:10px;line-height:1.4
+}
+.pp-hub-session b{
+  display:block;margin-top:11px;color:#ff8b92;font-size:9.5px
+}
+.pp-hub-session:active{transform:scale(.985)}
+
+.pp-hub-tools{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:9px
+}
+.pp-hub-tools button{
+  display:flex;align-items:center;gap:9px;min-width:0;
+  border:1px solid rgba(255,255,255,.08);border-radius:15px;
+  padding:11px;background:rgba(255,255,255,.027);color:#eef2f7;text-align:left
+}
+.pp-hub-tools button>span{
+  display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;
+  border-radius:9px;background:rgba(255,255,255,.055);font-size:13px
+}
+.pp-hub-tools button>div{min-width:0}
+.pp-hub-tools small{
+  display:block;color:#7f8b9d;font-size:7.5px;font-weight:900;letter-spacing:1px
+}
+.pp-hub-tools strong{
+  display:block;margin-top:4px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.pp-hub-tools button:active{transform:scale(.98)}
+
+.pp-race-hub-empty{
+  padding:18px;text-align:center;color:#919cad;font-size:11px
+}
+
+.pp-results-context{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 15px
+}
+.pp-results-context>div{
+  border:1px solid rgba(255,255,255,.08);border-radius:14px;
+  padding:11px 12px;background:rgba(255,255,255,.025)
+}
+.pp-results-context span{
+  display:block;color:#7f899a;font-size:7.5px;font-weight:900;letter-spacing:1.1px
+}
+.pp-results-context strong{
+  display:block;margin-top:5px;font-size:10px;line-height:1.35;color:#dce2eb
+}
+
+/* Slightly calmer hierarchy for long-form pages. */
+#schedule .page-title,#results .page-title,#standings .page-title,#favorites .page-title{
+  margin-bottom:6px!important
+}
+#results .result-banner{margin-top:14px}
+#results .result-tab{min-width:88px}
+
+@media(max-width:560px){
+  .pp-race-hub{padding:15px;border-radius:22px}
+  .pp-hub-sessions{grid-template-columns:1fr}
+  .pp-hub-tools{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pp-hub-tools button{display:block;padding:10px 8px}
+  .pp-hub-tools button>span{margin-bottom:8px}
+  .pp-hub-tools strong{font-size:9.5px}
+}
+@media(max-width:350px){
+  .pp-hub-tools{grid-template-columns:1fr}
+  .pp-hub-tools button{display:flex}
+  .pp-hub-tools button>span{margin-bottom:0}
+}
