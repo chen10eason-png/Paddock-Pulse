@@ -1,23 +1,45 @@
-# Paddock Pulse V1.16.1 — Native Live Integration
+# Paddock Pulse V1.16.2 — Live History + 6 Dock + Track Map Fix
 
-V1.16.0 iframe 方案移除。正式站直接向 Paddock-Pulse-Live Render relay 取得 JSON，再用正式 Paddock Pulse 的 UI 原生渲染。
+## 1. Live 最新狀態 / 歷史結果
+正式版 Live 頁現在與獨立 Paddock Pulse Live 一樣，提供：
+- 最新狀態
+- 歷史結果
+- 歷史賽事選單
+- Session 選單
 
-## 架構
-F1 Live Timing → Paddock-Pulse-Live / Render relay → `/api/live` → Paddock Pulse 正式站
+歷史資料直接讀：
+- `/api/archive/meetings`
+- `/api/archive/session?path=...`
 
-兩個 repo 仍分開，但使用者只看到正式站的一個 Live 分頁。
+切到歷史結果時停止 Live polling；切回最新狀態才恢復。
 
-## 保留
-- Race/Sprint ~3 秒更新
-- FP/Q ~5 秒更新
-- LAP / Session Clock / Track Status / Weather
-- Timing Tower / GAP / INTERVAL
-- 輪胎 badge / IN PIT
-- DNF / DNS / DSQ / NC
-- 個人方格旗
-- Q1/Q2/Q3、SQ1/SQ2/SQ3
-- Race Control
-- Live 不可用時 fallback `/api/archive/latest`
+## 2. 底部導覽 6 格
+根因是舊版 `.bottom` 仍固定：
+`grid-template-columns: repeat(5, ...)`
+
+所以第六個「我的」被排到第二列，再被 dock 的 `overflow:hidden` 裁掉。
+
+V1.16.2 強制改為 6 欄：
+首頁 / 賽程 / 賽果 / Live / 排名 / 我的
+
+glass lens 也同步改為 1/6 寬度。
+
+## 3. 賽道圖
+舊版優先讀 `circuits/detailed/white-outline/`。
+來源 repo 說明指出 detailed 圖目前主要針對 2026 layout；為提高 Safari/iPhone 成功率，V1.16.2 改成：
+
+1. 已存在的本機 asset（Las Vegas / Lusail）
+2. `minimal/white-outline` CDN
+3. `minimal/white-outline` raw GitHub
+4. `detailed/white-outline` CDN
+5. `detailed/white-outline` raw GitHub
+
+並補上常見 circuitId alias：
+- `monte_carlo` → `monaco`
+- `losail` → `lusail`
+- `vegas` → `las_vegas`
+
+沒有核實 layout 的賽道仍不亂猜。
 
 ## 上傳
 覆蓋：

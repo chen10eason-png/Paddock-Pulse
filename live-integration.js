@@ -1,11 +1,12 @@
 (() => {
 'use strict';
-const VERSION='1.16.1', RELAY='https://paddock-pulse-live.onrender.com';
+const VERSION='1.16.2', RELAY='https://paddock-pulse-live.onrender.com';
 const LIVE_POLL_MS=5000,RACE_POLL_MS=3000,STALE_POLL_MS=8000,IDLE_POLL_MS=20000,REQUEST_TIMEOUT_MS=12000;
-let latest=null,gapMode='gap',pollTimer=null,requestInFlight=false,requestSeq=0,active=false,clockAnchor=null,lastClockFingerprint='',lastClockSessionKey='',lastQualPhase=1,lastQualSessionKey='';
+let latest=null,gapMode='gap',pollTimer=null,requestInFlight=false,requestSeq=0,active=false,liveMode='latest',meetings=[],clockAnchor=null,lastClockFingerprint='',lastClockSessionKey='',lastQualPhase=1,lastQualSessionKey='';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function injectStyles(){if(document.getElementById('ppNativeLiveStyle'))return;const s=document.createElement('style');s.id='ppNativeLiveStyle';s.textContent=`
-.bottom .glass-lens{left:calc(6px + (100% - 12px) * var(--active-index) / 6)!important;width:calc((100% - 12px) / 6)!important}
+.bottom{grid-template-columns:repeat(6,minmax(0,1fr))!important}.bottom .glass-lens{left:calc(6px + (100% - 12px) * var(--active-index) / 6)!important;width:calc((100% - 12px) / 6)!important}
+.pp-live-mode{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:13px 0 15px;padding:4px;border:1px solid #ffffff14;border-radius:15px;background:#11151d}.pp-live-mode button{border:0;border-radius:11px;padding:10px;color:#8f99aa;background:transparent;font-size:11px;font-weight:850}.pp-live-mode button.active{background:linear-gradient(135deg,#582832,#251923);color:#fff;box-shadow:inset 0 0 0 1px #ffffff10}.pp-live-history{display:none;margin:-5px 0 15px}.pp-live-history.show{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pp-live-history select{width:100%;min-width:0;border:1px solid #ffffff18;border-radius:12px;background:#151b25;color:#eef2f7;padding:10px;font:inherit;font-size:11px}
 .pp-live-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.pp-live-status{border:1px solid #ffffff1c;border-radius:99px;padding:7px 10px;font-size:9px;font-weight:900;background:#202631}.pp-live-status.live{background:#421518;color:#ff817a}.pp-live-status.final,.pp-live-status.result{background:#172737;color:#a7d8ff}.pp-live-status.stale,.pp-live-status.connecting{background:#31281a;color:#e3c486}
 .pp-live-hero{margin-top:18px;padding:18px;border:1px solid #ffffff1c;border-radius:23px;background:radial-gradient(ellipse at 100% 0,#ff53611f,transparent 50%),linear-gradient(155deg,#1a202c,#0d121b)}.pp-live-event{font-size:22px;font-weight:950;margin-top:5px}.pp-live-meta{margin-top:5px;color:#929dae;font-size:11px}
 .pp-live-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.pp-live-metric,.pp-live-weather{border:1px solid #ffffff14;border-radius:15px;padding:11px;background:#ffffff08}.pp-live-metric small,.pp-live-weather small{display:block;color:#7f899a;font-size:7.5px;font-weight:900;letter-spacing:1px}.pp-live-metric strong{display:block;margin-top:5px;font-size:19px}.pp-live-metric.warning{background:#211d0e;border-color:#6c5b1f}.pp-live-metric.red{background:#241114;border-color:#74282d}.pp-live-weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.pp-live-weather strong{display:block;margin-top:5px;font-size:12px}
@@ -16,7 +17,7 @@ function injectStyles(){if(document.getElementById('ppNativeLiveStyle'))return;c
 @media(max-width:560px){.pp-live-metrics{grid-template-columns:1fr 1fr}.pp-live-metric.clock{grid-column:1/-1}.pp-live-weather-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:390px){.bottom .glass-lens{left:calc(5px + (100% - 10px) * var(--active-index) / 6)!important;width:calc((100% - 10px) / 6)!important}.bottom .nav{font-size:9px!important}.pp-live-driver{grid-template-columns:30px minmax(0,1fr) auto}.pp-live-right{min-width:92px}}`;document.head.appendChild(s)}
 function icon(){return `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/></svg>`}
 function installNav(){const d=document.querySelector('.bottom');if(!d||d.querySelector('[data-go="live"]'))return;const b=document.createElement('button');b.className='nav';b.dataset.go='live';b.innerHTML=`<i>${icon()}</i><span>Live</span>`;const s=d.querySelector('[data-go="standings"]');s?d.insertBefore(b,s):d.appendChild(b)}
-function installView(){document.getElementById('live')?.remove();const m=document.querySelector('main.app');if(!m)return;const s=document.createElement('section');s.id='live';s.className='view hidden';s.innerHTML=`<div class="pp-live-head"><div><div class="eyebrow">LIVE TIMING</div><h1 class="page-title">Race live<span style="color:#ff535b">.</span></h1><p class="muted">Paddock Pulse Live relay · 原生介面</p></div><span id="ppLiveStatus" class="pp-live-status">LOADING</span></div><section class="pp-live-hero"><div class="pp-hub-kicker" id="ppLiveEyebrow">WAITING FOR RELAY</div><div id="ppLiveEvent" class="pp-live-event">等待資料…</div><div id="ppLiveMeta" class="pp-live-meta">正在連線</div><div class="pp-live-metrics"><div class="pp-live-metric"><small>LAP</small><strong id="ppLiveLap">—</strong></div><div id="ppLiveTrackMetric" class="pp-live-metric"><small>TRACK</small><strong id="ppLiveTrack">—</strong></div><div class="pp-live-metric clock"><small>SESSION CLOCK</small><strong id="ppLiveClock">—</strong></div></div><div class="pp-live-weather-grid"><div class="pp-live-weather"><small>AIR</small><strong id="ppLiveAir">—</strong></div><div class="pp-live-weather"><small>TRACK TEMP</small><strong id="ppLiveTrackTemp">—</strong></div><div class="pp-live-weather"><small>HUMIDITY</small><strong id="ppLiveHumidity">—</strong></div><div class="pp-live-weather"><small>WIND</small><strong id="ppLiveWind">—</strong></div></div></section><div class="pp-live-toolbar"><h2 id="ppLiveTowerTitle">Timing Tower</h2><div id="ppLiveGapToggle" class="pp-live-seg"><button class="active" data-pp-live-mode="gap">GAP</button><button data-pp-live-mode="interval">INTERVAL</button></div></div><div id="ppLiveDrivers" class="pp-live-drivers"><div class="pp-live-empty">等待 Live Timing…</div></div><div class="pp-live-toolbar"><h2>Race Control</h2></div><div id="ppLiveRaceControl" class="pp-live-rc"><div class="pp-live-empty">目前沒有訊息</div></div><div id="ppLiveUpdated" class="pp-live-footer">—</div>`;m.appendChild(s)}
+function installView(){document.getElementById('live')?.remove();const m=document.querySelector('main.app');if(!m)return;const s=document.createElement('section');s.id='live';s.className='view hidden';s.innerHTML=`<div class="pp-live-head"><div><div class="eyebrow">LIVE TIMING</div><h1 class="page-title">Race live<span style="color:#ff535b">.</span></h1><p class="muted">Paddock Pulse Live relay · 原生介面</p></div><span id="ppLiveStatus" class="pp-live-status">LOADING</span></div><div class="pp-live-mode"><button class="active" data-pp-live-tab="latest">最新狀態</button><button data-pp-live-tab="history">歷史結果</button></div><div id="ppLiveHistory" class="pp-live-history"><select id="ppLiveMeeting"><option>載入賽事…</option></select><select id="ppLiveSession"><option>選擇 Session</option></select></div><section class="pp-live-hero"><div class="pp-hub-kicker" id="ppLiveEyebrow">WAITING FOR RELAY</div><div id="ppLiveEvent" class="pp-live-event">等待資料…</div><div id="ppLiveMeta" class="pp-live-meta">正在連線</div><div class="pp-live-metrics"><div class="pp-live-metric"><small>LAP</small><strong id="ppLiveLap">—</strong></div><div id="ppLiveTrackMetric" class="pp-live-metric"><small>TRACK</small><strong id="ppLiveTrack">—</strong></div><div class="pp-live-metric clock"><small>SESSION CLOCK</small><strong id="ppLiveClock">—</strong></div></div><div class="pp-live-weather-grid"><div class="pp-live-weather"><small>AIR</small><strong id="ppLiveAir">—</strong></div><div class="pp-live-weather"><small>TRACK TEMP</small><strong id="ppLiveTrackTemp">—</strong></div><div class="pp-live-weather"><small>HUMIDITY</small><strong id="ppLiveHumidity">—</strong></div><div class="pp-live-weather"><small>WIND</small><strong id="ppLiveWind">—</strong></div></div></section><div class="pp-live-toolbar"><h2 id="ppLiveTowerTitle">Timing Tower</h2><div id="ppLiveGapToggle" class="pp-live-seg"><button class="active" data-pp-live-mode="gap">GAP</button><button data-pp-live-mode="interval">INTERVAL</button></div></div><div id="ppLiveDrivers" class="pp-live-drivers"><div class="pp-live-empty">等待 Live Timing…</div></div><div class="pp-live-toolbar"><h2>Race Control</h2></div><div id="ppLiveRaceControl" class="pp-live-rc"><div class="pp-live-empty">目前沒有訊息</div></div><div id="ppLiveUpdated" class="pp-live-footer">—</div>`;m.appendChild(s)}
 const e=id=>document.getElementById(id);
 function status(v){const n=e('ppLiveStatus');if(!n)return;const s=String(v||'WAITING').toUpperCase();n.textContent=s;n.className='pp-live-status '+s.toLowerCase()}
 function kind(d){const s=((d?.session?.Name||'')+' '+(d?.session?.Type||'')).toLowerCase();if(s.includes('qualifying'))return'qualifying';if(s.includes('practice'))return'practice';if(s.includes('race')||s.includes('sprint'))return'race';return'other'}
@@ -35,11 +36,88 @@ function render(d){latest=d;status(d.status);const m=d.session?.Meeting||{},ph=q
 async function get(path){const c=new AbortController(),t=setTimeout(()=>c.abort(),REQUEST_TIMEOUT_MS);try{const r=await fetch(RELAY+path,{cache:'no-store',signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
 function usable(d){if(d?.status==='LIVE')return true;if(!d?.drivers?.length)return false;if(['practice','qualifying'].includes(kind(d))){const a=Date.now()-Date.parse(d.lastMessageAt||d.lastTimingAt||0);if(Number.isFinite(a)&&a<1800000)return true}return d?.status==='STALE'||d?.status==='CONNECTING'}
 function delay(d,f){if(f)return STALE_POLL_MS;if(d?.source==='live'&&d.status==='LIVE')return kind(d)==='race'?RACE_POLL_MS:LIVE_POLL_MS;if(d?.source==='live'&&['STALE','CONNECTING'].includes(d.status))return STALE_POLL_MS;return IDLE_POLL_MS}
-function schedule(ms){clearTimeout(pollTimer);if(active&&!document.hidden)pollTimer=setTimeout(()=>load(true),ms)}
-async function load(fromPoll=false){if(!active)return;if(requestInFlight){if(fromPoll)schedule(1500);return}requestInFlight=true;const seq=++requestSeq;let out=null,failed=false;try{const l=await get('/api/live');if(seq!==requestSeq||!active)return;if(usable(l)){render(l);out=l}else{const a=await get('/api/archive/latest');if(seq!==requestSeq||!active)return;render(a);out=a}}catch(err){failed=true;if(seq===requestSeq&&active){status(latest?'STALE':'OFFLINE');if(!latest)e('ppLiveDrivers').innerHTML='<div class="pp-live-empty">目前無法連線 Live relay，系統會自動重試。</div>'}}finally{if(seq===requestSeq){requestInFlight=false;schedule(delay(out,failed))}}}
+function schedule(ms){clearTimeout(pollTimer);if(active&&liveMode==='latest'&&!document.hidden)pollTimer=setTimeout(()=>load(true),ms)}
+async function load(fromPoll=false){if(!active||liveMode!=='latest')return;if(requestInFlight){if(fromPoll)schedule(1500);return}requestInFlight=true;const seq=++requestSeq;let out=null,failed=false;try{const l=await get('/api/live');if(seq!==requestSeq||!active)return;if(usable(l)){render(l);out=l}else{const a=await get('/api/archive/latest');if(seq!==requestSeq||!active)return;render(a);out=a}}catch(err){failed=true;if(seq===requestSeq&&active){status(latest?'STALE':'OFFLINE');if(!latest)e('ppLiveDrivers').innerHTML='<div class="pp-live-empty">目前無法連線 Live relay，系統會自動重試。</div>'}}finally{if(seq===requestSeq){requestInFlight=false;schedule(delay(out,failed))}}}
+
+async function loadMeetings(){
+  const data=await get('/api/archive/meetings');
+  meetings=data.meetings||[];
+  const sel=e('ppLiveMeeting');
+  if(!sel)return;
+  sel.innerHTML=meetings.map((m,i)=>`<option value="${i}">${esc(m.Name||('Meeting '+(i+1)))}</option>`).join('');
+  if(meetings.length){sel.value=String(meetings.length-1);fillHistorySessions()}
+}
+function fillHistorySessions(){
+  const m=meetings[Number(e('ppLiveMeeting')?.value)];
+  const sel=e('ppLiveSession');
+  if(!sel)return;
+  const sessions=m?.Sessions||[];
+  sel.innerHTML=sessions.map((s,i)=>`<option value="${i}">${esc(s.Name||s.Type||('Session '+(i+1)))}</option>`).join('');
+  if(sessions.length){sel.value=String(sessions.length-1);loadSelectedHistory()}
+}
+async function loadSelectedHistory(){
+  const m=meetings[Number(e('ppLiveMeeting')?.value)];
+  const s=m?.Sessions?.[Number(e('ppLiveSession')?.value)];
+  if(!s?.Path)return;
+  status('LOADING');
+  try{render(await get('/api/archive/session?path='+encodeURIComponent(s.Path)))}catch{status('OFFLINE')}
+}
+async function setLiveTab(mode){
+  liveMode=mode==='history'?'history':'latest';
+  document.querySelectorAll('[data-pp-live-tab]').forEach(b=>b.classList.toggle('active',b.dataset.ppLiveTab===liveMode));
+  e('ppLiveHistory')?.classList.toggle('show',liveMode==='history');
+  clearTimeout(pollTimer);
+  requestSeq++;
+  requestInFlight=false;
+  if(liveMode==='latest'){load(false)}
+  else if(!meetings.length){await loadMeetings()}
+  else{fillHistorySessions()}
+}
+
 function start(){if(active)return;active=true;load(false)}function stop(){active=false;clearTimeout(pollTimer);requestSeq++;requestInFlight=false}
-function updateVersion(){document.documentElement.dataset.ppUi=VERSION;document.querySelectorAll('.panel.info').forEach(n=>n.innerHTML=n.innerHTML.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/,'Paddock Pulse V1.16.1'))}
-function wire(){document.addEventListener('click',ev=>{const md=ev.target.closest('[data-pp-live-mode]');if(md){gapMode=md.dataset.ppLiveMode;document.querySelectorAll('[data-pp-live-mode]').forEach(x=>x.classList.toggle('active',x===md));if(latest)render(latest);return}const n=ev.target.closest('.bottom [data-go]');if(!n)return;if(n.dataset.go==='live')setTimeout(start,0);else if(active)stop()},true);document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(!document.getElementById('live')?.classList.contains('hidden'))start()});setInterval(tick,1000)}
-function init(){injectStyles();installNav();installView();updateVersion();wire()}
+function updateVersion(){document.documentElement.dataset.ppUi=VERSION;document.querySelectorAll('.panel.info').forEach(n=>n.innerHTML=n.innerHTML.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/,'Paddock Pulse V1.16.2'))}
+function wire(){document.addEventListener('click',ev=>{const tab=ev.target.closest('[data-pp-live-tab]');if(tab){setLiveTab(tab.dataset.ppLiveTab);return}const md=ev.target.closest('[data-pp-live-mode]');if(md){gapMode=md.dataset.ppLiveMode;document.querySelectorAll('[data-pp-live-mode]').forEach(x=>x.classList.toggle('active',x===md));if(latest)render(latest);return}const n=ev.target.closest('.bottom [data-go]');if(!n)return;if(n.dataset.go==='live')setTimeout(start,0);else if(active)stop()},true);e('ppLiveMeeting')?.addEventListener('change',fillHistorySessions);e('ppLiveSession')?.addEventListener('change',loadSelectedHistory);document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(!document.getElementById('live')?.classList.contains('hidden'))start()});setInterval(tick,1000)}
+
+function installTrackMapFix(){
+  const oldNormalize=window.normalizeCircuitKey;
+  const oldStatus=window.trackMapStatus;
+  if(typeof oldNormalize!=='function'||typeof oldStatus!=='function')return;
+
+  const alias={monte_carlo:'monaco',losail:'lusail',vegas:'las_vegas'};
+  window.normalizeCircuitKey=function(race){
+    const raw=String(race?.Circuit?.circuitId||'').toLowerCase();
+    if(alias[raw])return alias[raw];
+    return oldNormalize(race);
+  };
+
+  window.trackMapStatus=function(race){
+    const raw=String(race?.Circuit?.circuitId||'').toLowerCase();
+    const fixed=alias[raw]||window.normalizeCircuitKey(race);
+    let target=race;
+    if(fixed&&fixed!==raw){
+      target={...race,Circuit:{...(race?.Circuit||{}),circuitId:fixed}};
+    }
+    const base=oldStatus(target);
+    if(!base?.slug)return base;
+
+    const minimal='circuits/minimal/white-outline/'+base.slug+'.svg';
+    const detailed='circuits/detailed/white-outline/'+base.slug+'.svg';
+    const local=['las-vegas-1','lusail-1'].includes(base.slug)?['./assets/'+base.slug+'.svg']:[];
+    const urls=[
+      ...local,
+      'https://cdn.jsdelivr.net/gh/julesr0y/f1-circuits-svg@main/'+minimal,
+      'https://raw.githubusercontent.com/julesr0y/f1-circuits-svg/main/'+minimal,
+      'https://cdn.jsdelivr.net/gh/julesr0y/f1-circuits-svg@main/'+detailed,
+      'https://raw.githubusercontent.com/julesr0y/f1-circuits-svg/main/'+detailed
+    ];
+    return {...base,key:fixed||base.key,url:urls[0],candidates:urls};
+  };
+
+  setTimeout(()=>{
+    try{if(typeof window.render==='function')window.render()}catch{}
+  },120);
+}
+
+function init(){injectStyles();installNav();installView();installTrackMapFix();updateVersion();wire()}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init();
 })();
