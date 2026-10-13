@@ -1,49 +1,27 @@
-# Paddock Pulse V1.16.0 — Live Integration
+# Paddock Pulse V1.16.1 — Native Live Integration
 
-## Baseline check
-- Public site URL was checked first, but the browsing tool could not directly fetch GitHub Pages.
-- GitHub `main` was then checked and is the source baseline.
-- Current repo UI is V1.15.0 (Dashboard & UX Refresh).
-- Current latest commit observed: `217effbfb23d32bfc14677f142f52505256686eb`.
-- GitHub connector is read-only (`push:false`), so this package is for manual upload.
-- No workflow/status check was attached to that commit; GitHub Pages appears to be branch/static deployment rather than a visible PR workflow from the available connector.
+V1.16.0 iframe 方案移除。正式站直接向 Paddock-Pulse-Live Render relay 取得 JSON，再用正式 Paddock Pulse 的 UI 原生渲染。
 
-## V1.16.0
-Adds Paddock Pulse Live to the production PWA without replacing existing pages.
+## 架構
+F1 Live Timing → Paddock-Pulse-Live / Render relay → `/api/live` → Paddock Pulse 正式站
 
-### Navigation
-Bottom dock becomes:
-- 首頁
-- 賽程
-- 賽果
-- Live
-- 排名
-- 我的
+兩個 repo 仍分開，但使用者只看到正式站的一個 Live 分頁。
 
-The existing `go(page)` function continues to control page visibility and active nav state.
+## 保留
+- Race/Sprint ~3 秒更新
+- FP/Q ~5 秒更新
+- LAP / Session Clock / Track Status / Weather
+- Timing Tower / GAP / INTERVAL
+- 輪胎 badge / IN PIT
+- DNF / DNS / DSQ / NC
+- 個人方格旗
+- Q1/Q2/Q3、SQ1/SQ2/SQ3
+- Race Control
+- Live 不可用時 fallback `/api/archive/latest`
 
-### Live view
-- Adds a new `#live.view`.
-- Loads the already-tested Paddock Pulse Live app from:
-  `https://paddock-pulse-live.onrender.com/`
-- Live iframe is lazy: it only starts when the user opens Live.
-- Leaving Live stops the iframe so the relay does not keep polling in the background.
-- Returning to Live reconnects.
-- Includes “重新連線” and “獨立開啟” controls.
-
-### Stability
-- Does not modify core `index.html`.
-- Does not replace Home / Schedule / Results / Standings / Favorites.
-- Does not duplicate the Live timing engine inside production.
-- Keeps Paddock Pulse Live as the single tested live-timing implementation.
-- Existing localStorage data and favorites are untouched.
-- Six-item glass dock geometry is adjusted only by the additive integration layer.
-
-## Files
-Upload/overwrite:
+## 上傳
+覆蓋：
+- `live-integration.js`
 - `sw.js`
 
-Add:
-- `live-integration.js`
-
-README in this ZIP is documentation only; uploading it is optional.
+README 可不必上傳。
