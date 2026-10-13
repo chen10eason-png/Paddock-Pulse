@@ -1,29 +1,32 @@
-const NAME='paddock-pulse-v1-15-0-dashboard-ux';
+const NAME='paddock-pulse-v1-16-0-live-integration';
 const TRACK_CACHE='paddock-pulse-track-svg-v1';
 const CORE=[
   './','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png',
   './assets/las-vegas-1.svg','./assets/lusail-1.svg',
-  './ui-refresh.css','./ui-refresh.js','./v115.css'
+  './ui-refresh.css','./ui-refresh.js','./v115.css','./live-integration.js'
 ];
 const TRACK_HOSTS=new Set(['cdn.jsdelivr.net','raw.githubusercontent.com']);
 const INJECT_HEAD=
-  '<link rel="stylesheet" href="./ui-refresh.css?v=1.15.0">'+
-  '<link rel="stylesheet" href="./v115.css?v=1.15.0">';
-const INJECT_BODY='<script src="./ui-refresh.js?v=1.15.0" defer></script>';
+  '<link rel="stylesheet" href="./ui-refresh.css?v=1.16.0">'+
+  '<link rel="stylesheet" href="./v115.css?v=1.16.0">';
+const INJECT_UI='<script src="./ui-refresh.js?v=1.16.0" defer></script>';
+const INJECT_LIVE='<script src="./live-integration.js?v=1.16.0" defer></script>';
 
 function decorateHtml(text){
   let out=text;
   if(!out.includes('ui-refresh.css'))out=out.replace('</head>',INJECT_HEAD+'</head>');
-  else if(!out.includes('v115.css'))out=out.replace('</head>','<link rel="stylesheet" href="./v115.css?v=1.15.0"></head>');
-  if(!out.includes('ui-refresh.js'))out=out.replace('</body>',INJECT_BODY+'</body>');
+  else if(!out.includes('v115.css'))out=out.replace('</head>','<link rel="stylesheet" href="./v115.css?v=1.16.0"></head>');
+
+  if(!out.includes('ui-refresh.js'))out=out.replace('</body>',INJECT_UI+'</body>');
+  if(!out.includes('live-integration.js'))out=out.replace('</body>',INJECT_LIVE+'</body>');
 
   out=out.replace(
     /Paddock Pulse V1\.\d+(?:\.\d+){1,2}/g,
-    'Paddock Pulse V1.15.0'
+    'Paddock Pulse V1.16.0'
   );
   out=out.replace(
     /const APP_VERSION = '[^']+';/,
-    "const APP_VERSION = '1.15.0';"
+    "const APP_VERSION = '1.16.0';"
   );
   return out;
 }

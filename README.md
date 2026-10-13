@@ -1,39 +1,49 @@
-# Paddock Pulse V1.15.0 — Dashboard & UX Refresh
+# Paddock Pulse V1.16.0 — Live Integration
 
-基準：正式 repo V1.14.2.3。
+## Baseline check
+- Public site URL was checked first, but the browsing tool could not directly fetch GitHub Pages.
+- GitHub `main` was then checked and is the source baseline.
+- Current repo UI is V1.15.0 (Dashboard & UX Refresh).
+- Current latest commit observed: `217effbfb23d32bfc14677f142f52505256686eb`.
+- GitHub connector is read-only (`push:false`), so this package is for manual upload.
+- No workflow/status check was attached to that commit; GitHub Pages appears to be branch/static deployment rather than a visible PR workflow from the available connector.
 
-## 本版
-- 首頁新增 Race Weekend Hub
-- 同時顯示「最新完成 Session」與「下一個 Session」
-- 最新完成 Session 可直接進賽果
-- Track / Tyres / Weather 入口集中
-- Tyres 只顯示既有 `officialTyreFor()` 已核實資料，未核實就明確顯示「尚未核實」
-- Results 頁新增 Latest Completed / Next Up context
-- 保留 V1.14.2.3 的 Results Auto Advance
-- 不修改 Live Race PoC
-- 不新增新的 sports-data API
+## V1.16.0
+Adds Paddock Pulse Live to the production PWA without replacing existing pages.
 
-## 穩定性
-- observer 只監看既有 app 會重新 render 的 `homeWeekend` / `resultRaceBanner`
-- observer 本身不修改被監看的節點，避免 V1.14.2 的自觸發循環
-- 所有 Hub 功能失敗時都不影響原本賽程/賽果頁
-- iPhone 小螢幕使用單欄 Session 卡片
+### Navigation
+Bottom dock becomes:
+- 首頁
+- 賽程
+- 賽果
+- Live
+- 排名
+- 我的
 
-## 檔案
-覆蓋：
+The existing `go(page)` function continues to control page visibility and active nav state.
+
+### Live view
+- Adds a new `#live.view`.
+- Loads the already-tested Paddock Pulse Live app from:
+  `https://paddock-pulse-live.onrender.com/`
+- Live iframe is lazy: it only starts when the user opens Live.
+- Leaving Live stops the iframe so the relay does not keep polling in the background.
+- Returning to Live reconnects.
+- Includes “重新連線” and “獨立開啟” controls.
+
+### Stability
+- Does not modify core `index.html`.
+- Does not replace Home / Schedule / Results / Standings / Favorites.
+- Does not duplicate the Live timing engine inside production.
+- Keeps Paddock Pulse Live as the single tested live-timing implementation.
+- Existing localStorage data and favorites are untouched.
+- Six-item glass dock geometry is adjusted only by the additive integration layer.
+
+## Files
+Upload/overwrite:
 - `sw.js`
-- `ui-refresh.js`
 
-新增：
-- `v115.css`
+Add:
+- `live-integration.js`
 
-保留原本：
-- `ui-refresh.css`
-- `index.html`
-- manifest / icons / assets
-
-## 備註
-這版先完成使用者可見的 Dashboard/UX 升級。
-因目前 ChatGPT 的 GitHub 連線是 read-only，無法直接把大型 `index.html`
-在 repository 內做 source consolidation；後續 source cleanup 再把 UI layer
-正式併回 `index.html`，Service Worker 回歸純 cache。
+README in this ZIP is documentation only; uploading it is optional.
