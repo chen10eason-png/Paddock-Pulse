@@ -1,11 +1,12 @@
-const NAME='paddock-pulse-v1-16-2-live-history-mapfix';
+const NAME='paddock-pulse-v1-16-3-track-visuals';
 const TRACK_CACHE='paddock-pulse-track-svg-v1';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./assets/las-vegas-1.svg','./assets/lusail-1.svg','./ui-refresh.css','./ui-refresh.js','./v115.css','./live-integration.js'];
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./assets/las-vegas-1.svg','./assets/lusail-1.svg','./ui-refresh.css','./ui-refresh.js','./v115.css','./live-integration.js','./visual-enhancement.js'];
 const TRACK_HOSTS=new Set(['cdn.jsdelivr.net','raw.githubusercontent.com']);
-const INJECT_HEAD='<link rel="stylesheet" href="./ui-refresh.css?v=1.16.2"><link rel="stylesheet" href="./v115.css?v=1.16.2">';
-const INJECT_UI='<script src="./ui-refresh.js?v=1.16.2" defer></script>';
-const INJECT_LIVE='<script src="./live-integration.js?v=1.16.2" defer></script>';
-function decorateHtml(text){let out=text;if(!out.includes('ui-refresh.css'))out=out.replace('</head>',INJECT_HEAD+'</head>');else if(!out.includes('v115.css'))out=out.replace('</head>','<link rel="stylesheet" href="./v115.css?v=1.16.2"></head>');if(!out.includes('ui-refresh.js'))out=out.replace('</body>',INJECT_UI+'</body>');if(!out.includes('live-integration.js'))out=out.replace('</body>',INJECT_LIVE+'</body>');out=out.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/g,'Paddock Pulse V1.16.2');out=out.replace(/const APP_VERSION = '[^']+';/,"const APP_VERSION = '1.16.2';");return out}
+const INJECT_HEAD='<link rel="stylesheet" href="./ui-refresh.css?v=1.16.3"><link rel="stylesheet" href="./v115.css?v=1.16.3">';
+const INJECT_UI='<script src="./ui-refresh.js?v=1.16.3" defer></script>';
+const INJECT_LIVE='<script src="./live-integration.js?v=1.16.3" defer></script>';
+const INJECT_VISUAL='<script src="./visual-enhancement.js?v=1.16.3" defer></script>';
+function decorateHtml(text){let out=text;if(!out.includes('ui-refresh.css'))out=out.replace('</head>',INJECT_HEAD+'</head>');else if(!out.includes('v115.css'))out=out.replace('</head>','<link rel="stylesheet" href="./v115.css?v=1.16.3"></head>');if(!out.includes('ui-refresh.js'))out=out.replace('</body>',INJECT_UI+'</body>');if(!out.includes('live-integration.js'))out=out.replace('</body>',INJECT_LIVE+'</body>');if(!out.includes('visual-enhancement.js'))out=out.replace('</body>',INJECT_VISUAL+'</body>');out=out.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/g,'Paddock Pulse V1.16.3');out=out.replace(/const APP_VERSION = '[^']+';/,"const APP_VERSION = '1.16.3';");return out}
 async function htmlResponse(request){try{const net=await fetch(request,{cache:'no-store'});if(!net.ok)throw Error('HTTP '+net.status);const response=new Response(decorateHtml(await net.text()),{status:net.status,statusText:net.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});const cache=await caches.open(NAME);await cache.put('./index.html',response.clone());return response}catch(err){const cache=await caches.open(NAME);const hit=await cache.match('./index.html')||await caches.match('./index.html');if(hit)return new Response(decorateHtml(await hit.text()),{headers:{'Content-Type':'text/html; charset=utf-8'}});return Response.error()}}
 self.addEventListener('install',e=>{e.waitUntil(caches.open(NAME).then(c=>c.addAll(CORE)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('paddock-pulse-')&&k!==NAME&&k!==TRACK_CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

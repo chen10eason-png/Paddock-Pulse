@@ -1,49 +1,39 @@
-# Paddock Pulse V1.16.2 — Live History + 6 Dock + Track Map Fix
+# Paddock Pulse V1.16.3 — Track Reliability + Helmet/Car Visuals
 
-## 1. Live 最新狀態 / 歷史結果
-正式版 Live 頁現在與獨立 Paddock Pulse Live 一樣，提供：
-- 最新狀態
-- 歷史結果
-- 歷史賽事選單
-- Session 選單
+## 賽道圖
+保留既有已核實 slug，不更動賽道身份。
 
-歷史資料直接讀：
-- `/api/archive/meetings`
-- `/api/archive/session?path=...`
+每一張已核實賽道圖，現在先嘗試 F1DB 的 CC BY 4.0 white-outline SVG：
+1. GitHub raw
+2. jsDelivr
+3. 再回到 V1.16.2 既有來源與 fallback
 
-切到歷史結果時停止 Live polling；切回最新狀態才恢復。
+F1DB 的 circuit SVG assets 同樣源自 Jules Roy，授權 CC BY 4.0。
+未知或未核實的 layout 仍不猜。
 
-## 2. 底部導覽 6 格
-根因是舊版 `.bottom` 仍固定：
-`grid-template-columns: repeat(5, ...)`
+## 車手視覺
+依使用者要求，不畫真人臉。
+車手卡改成較寫實的原創頭盔 SVG：
+- 更接近完整賽車頭盔比例
+- visor / 下巴 / 通風結構更立體
+- 使用車隊色與車號
+- 不複製官方頭盔塗裝
 
-所以第六個「我的」被排到第二列，再被 dock 的 `overflow:hidden` 裁掉。
-
-V1.16.2 強制改為 6 欄：
-首頁 / 賽程 / 賽果 / Live / 排名 / 我的
-
-glass lens 也同步改為 1/6 寬度。
-
-## 3. 賽道圖
-舊版優先讀 `circuits/detailed/white-outline/`。
-來源 repo 說明指出 detailed 圖目前主要針對 2026 layout；為提高 Safari/iPhone 成功率，V1.16.2 改成：
-
-1. 已存在的本機 asset（Las Vegas / Lusail）
-2. `minimal/white-outline` CDN
-3. `minimal/white-outline` raw GitHub
-4. `detailed/white-outline` CDN
-5. `detailed/white-outline` raw GitHub
-
-並補上常見 circuitId alias：
-- `monte_carlo` → `monaco`
-- `losail` → `lusail`
-- `vegas` → `las_vegas`
-
-沒有核實 layout 的賽道仍不亂猜。
+## 車隊 / 車子視覺
+車隊卡的原創賽車 SVG 改成更接近現代 F1 單座車比例：
+- 寬前翼 / 後翼
+- 暴露輪胎
+- 窄鼻
+- 側箱
+- Halo / cockpit
+- 車隊主色
 
 ## 上傳
 覆蓋：
 - `live-integration.js`
 - `sw.js`
+
+新增：
+- `visual-enhancement.js`
 
 README 可不必上傳。
