@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const VERSION='1.16.3', RELAY='https://paddock-pulse-live.onrender.com';
+const VERSION='1.16.4', RELAY='https://paddock-pulse-live.onrender.com';
 const LIVE_POLL_MS=5000,RACE_POLL_MS=3000,STALE_POLL_MS=8000,IDLE_POLL_MS=20000,REQUEST_TIMEOUT_MS=12000;
 let latest=null,gapMode='gap',pollTimer=null,requestInFlight=false,requestSeq=0,active=false,liveMode='latest',meetings=[],clockAnchor=null,lastClockFingerprint='',lastClockSessionKey='',lastQualPhase=1,lastQualSessionKey='';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -75,7 +75,7 @@ async function setLiveTab(mode){
 }
 
 function start(){if(active)return;active=true;load(false)}function stop(){active=false;clearTimeout(pollTimer);requestSeq++;requestInFlight=false}
-function updateVersion(){document.documentElement.dataset.ppUi=VERSION;document.querySelectorAll('.panel.info').forEach(n=>n.innerHTML=n.innerHTML.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/,'Paddock Pulse V1.16.3'))}
+function updateVersion(){document.documentElement.dataset.ppUi=VERSION;document.querySelectorAll('.panel.info').forEach(n=>n.innerHTML=n.innerHTML.replace(/Paddock Pulse V1\.\d+(?:\.\d+){1,2}/,'Paddock Pulse V1.16.4'))}
 function wire(){document.addEventListener('click',ev=>{const tab=ev.target.closest('[data-pp-live-tab]');if(tab){setLiveTab(tab.dataset.ppLiveTab);return}const md=ev.target.closest('[data-pp-live-mode]');if(md){gapMode=md.dataset.ppLiveMode;document.querySelectorAll('[data-pp-live-mode]').forEach(x=>x.classList.toggle('active',x===md));if(latest)render(latest);return}const n=ev.target.closest('.bottom [data-go]');if(!n)return;if(n.dataset.go==='live')setTimeout(start,0);else if(active)stop()},true);e('ppLiveMeeting')?.addEventListener('change',fillHistorySessions);e('ppLiveSession')?.addEventListener('change',loadSelectedHistory);document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(!document.getElementById('live')?.classList.contains('hidden'))start()});setInterval(tick,1000)}
 
 function installTrackMapFix(){
